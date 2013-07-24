@@ -10,6 +10,11 @@
 #import "UnderplanGroupViewController.h"
 #import "UnderplanAppDelegate.h"
 
+#import "UIColor+FlatUI.h"
+#import "UIFont+FlatUI.h"
+#import "UINavigationBar+FlatUI.h"
+#import "UIBarButtonItem+FlatUI.h"
+
 #import "MeteorClient.h"
 
 @interface UnderplanMasterViewController ()
@@ -65,6 +70,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+ 
+    [UIBarButtonItem configureFlatButtonsWithColor:[UIColor colorFromHexCode:@"1f4100"]
+                                  highlightedColor:[UIColor colorFromHexCode:@"373737"]
+                                      cornerRadius:3
+                                   whenContainedIn:[UINavigationBar class], nil];
+    
+    self.navigationController.navigationBar.titleTextAttributes = @{UITextAttributeFont: [UIFont boldFlatFontOfSize:18],
+                                                                    UITextAttributeTextColor: [UIColor whiteColor]};
+    
+    [self.navigationController.navigationBar configureFlatNavigationBarWithColor:[UIColor colorFromHexCode:@"008000"]];
+
     
     UnderplanAppDelegate *appDelegate = (UnderplanAppDelegate*)[[UIApplication sharedApplication] delegate];
     self.meteor = appDelegate.meteorClient;

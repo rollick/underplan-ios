@@ -38,6 +38,7 @@
 		266590B9179FEC8E001EFABF /* ActivityFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590B8179FEC8E001EFABF /* ActivityFeedCell.m */; };
 		266590BB179FECE8001EFABF /* ActivityFeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 266590BA179FECE8001EFABF /* ActivityFeedCell.xib */; };
 		266590BE17A01447001EFABF /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590BD17A01447001EFABF /* ActivityViewController.m */; };
+		26A1D5C917A05B9E00526060 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A1D5C817A05B9E00526060 /* CoreText.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		266590BA179FECE8001EFABF /* ActivityFeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityFeedCell.xib; sourceTree = "<group>"; };
 		266590BC17A01447001EFABF /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
 		266590BD17A01447001EFABF /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
+		26A1D5C817A05B9E00526060 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		F923E2DB94994B0ABF43E5B3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -100,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26A1D5C917A05B9E00526060 /* CoreText.framework in Frameworks */,
 				266590B3179FBD77001EFABF /* MapKit.framework in Frameworks */,
 				266590A9179EE827001EFABF /* CFNetwork.framework in Frameworks */,
 				266590A7179EE81B001EFABF /* Security.framework in Frameworks */,
@@ -147,6 +150,7 @@
 		26659051179EE51E001EFABF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				26A1D5C817A05B9E00526060 /* CoreText.framework */,
 				266590A4179EE816001EFABF /* libicucore.dylib */,
 				266590B2179FBD77001EFABF /* MapKit.framework */,
 				266590A8179EE827001EFABF /* CFNetwork.framework */,
