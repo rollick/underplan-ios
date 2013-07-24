@@ -89,6 +89,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationItem.title = @"Activities";
     
+    MKCoordinateRegion worldRegion = MKCoordinateRegionForMapRect(MKMapRectWorld);
+    _feedMapView.region = worldRegion;
+    
     [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -164,7 +167,7 @@
         
         [self.feedMapView addAnnotations:activityLocations];
         
-        [self zoomMapViewToFitAnnotations:_feedMapView animated:TRUE];
+        [self zoomMapViewToFitAnnotations:_feedMapView animated:FALSE];
     }
 }
 
@@ -256,14 +259,33 @@
     NSDictionary *activity = self.computedList[indexPath.row];
     
     UILabel *title = (UILabel *)[cell viewWithTag:200];
-    if([activity[@"title"] isKindOfClass:[NSString class]])
+    if([activity[@"owner"] isKindOfClass:[NSString class]])
     {
-        title.text = activity[@"title"];
+        // Fetch owner name
+        // We should have a subscription to basic details for all users
+        NSMutableArray *users = self.meteor.collections[@"users"];
+        NSUInteger count = 0;
+        for (NSDictionary *dict in users) { // iterate through the array
+            NSString *mod = dict[@"_id"];      // get the value for MOD
+            if ([mod isEqualToString:activity[@"owner"]]) {  // compare the two strings
+                break;                         // they match so exit the loop
+            }
+            count++;
+        }
+        title.text = users[count][@"profile"][@"name"];
     }
     else
     {
         title.text = @"No title :-(";
     }
+//    if([activity[@"title"] isKindOfClass:[NSString class]])
+//    {
+//        title.text = activity[@"title"];
+//    }
+//    else
+//    {
+//        title.text = @"No title :-(";
+//    }
     
     UILabel *info = (UILabel *)[cell viewWithTag:300];
     NSString *created;

@@ -15,6 +15,6 @@
 }
 
 @property (strong, nonatomic) UIWindow *window;
-@property (retain, nonatomic) MeteorClient *meteorClient;
+@property (retain, nonatomic) MeteorClient *meteor;
 
 @end

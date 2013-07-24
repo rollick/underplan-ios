@@ -58,12 +58,15 @@
 
 - (void)didReceiveUpdate:(NSNotification *)notification
 {
-    if([[notification name] isEqualToString:@"ready"]) {
+    if([[notification name] isEqualToString:@"ready"])
+    {
         self.connectionStatusText.text = @"Connected to Underplan!";
         self.connectedToMeteor = YES;
         
         self._groups = self.meteor.collections[@"groups"];
         [self.tableView reloadData];
+    } else if([[notification name] isEqualToString:@"added"]) {
+        
     }
 }
 
@@ -83,13 +86,16 @@
 
     
     UnderplanAppDelegate *appDelegate = (UnderplanAppDelegate*)[[UIApplication sharedApplication] delegate];
-    self.meteor = appDelegate.meteorClient;
+    self.meteor = appDelegate.meteor;
     
     self._groups = self.meteor.collections[@"groups"];
     [self.tableView reloadData];
 
 	// Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    UIBarButtonItem *reconnectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reconnectSocket)];
+    self.navigationItem.rightBarButtonItem = reconnectButton;
 }
 
 - (void)didReceiveMemoryWarning
@@ -98,12 +104,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)didConnectToMeteorServer
+- (void)reconnectSocket
 {
-    self.connectionStatusText.text = @"Connected to Todo Server";
-    self.connectedToMeteor = YES;
-//    UIImage *image = [UIImage imageNamed: @"green_light.png"];
-//    [self.connectionStatusLight setImage:image];
+    // Only reconnect if the connection is closed
+    if(self.meteor.ddp.webSocket.readyState == 3) {
+        // FIXME:   Do we need to invalidate the collections
+        //          before reconnecting?? Seems to duplicate the entries
+        //          if we don't.
+        [self.meteor resetCollections];
+        [self.meteor.ddp connectWebSocket];
+    }
 }
 
 #pragma mark - Table View
