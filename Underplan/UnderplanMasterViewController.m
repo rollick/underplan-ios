@@ -90,24 +90,12 @@
 
 	// Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-    self.groupViewController = (UnderplanGroupViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)insertNewObject:(id)sender
-{
-    self._groups = self.meteor.collections[@"groups"];
-    self._groups = self.meteor.collections[@"directory"];
-    
-    [self.tableView reloadData];
 }
 
 - (void)didConnectToMeteorServer
@@ -137,13 +125,13 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    NSDictionary *list = self._groups[indexPath.row];
+    NSDictionary *group = self._groups[indexPath.row];
     
     UILabel *name = (UILabel *)[cell viewWithTag:100];
-    name.text = list[@"name"];
+    name.text = group[@"name"];
 
-    UILabel *description = (UILabel *)[cell viewWithTag:200];
-    description.text = list[@"description"];
+    UILabel *description = (UILabel *)[cell viewWithTag:101];
+    description.text = group[@"description"];
     
     return cell;
 }

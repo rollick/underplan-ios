@@ -39,6 +39,7 @@
 		266590BB179FECE8001EFABF /* ActivityFeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 266590BA179FECE8001EFABF /* ActivityFeedCell.xib */; };
 		266590BE17A01447001EFABF /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590BD17A01447001EFABF /* ActivityViewController.m */; };
 		26A1D5C917A05B9E00526060 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A1D5C817A05B9E00526060 /* CoreText.framework */; };
+		26A1D5CB17A060B300526060 /* dash_bg_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 26A1D5CA17A060B300526060 /* dash_bg_3.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		266590BC17A01447001EFABF /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
 		266590BD17A01447001EFABF /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
 		26A1D5C817A05B9E00526060 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		26A1D5CA17A060B300526060 /* dash_bg_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dash_bg_3.jpg; sourceTree = "<group>"; };
 		F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		F923E2DB94994B0ABF43E5B3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -224,6 +226,7 @@
 		26659093179EE7A5001EFABF /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				26A1D5CA17A060B300526060 /* dash_bg_3.jpg */,
 				266590B0179EE8D3001EFABF /* logo-144.png */,
 				266590AE179EE8CF001EFABF /* logo-72.png */,
 				266590AC179EE8C6001EFABF /* logo-114.png */,
@@ -317,6 +320,7 @@
 				266590AF179EE8CF001EFABF /* logo-72.png in Resources */,
 				266590B1179EE8D3001EFABF /* logo-144.png in Resources */,
 				266590BB179FECE8001EFABF /* ActivityFeedCell.xib in Resources */,
+				26A1D5CB17A060B300526060 /* dash_bg_3.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
