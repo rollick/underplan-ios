@@ -26,6 +26,9 @@
 @implementation UnderplanGroupViewController
 
 #define THE_SPAN 0.10f;
+#define MINIMUM_ZOOM_ARC 0.014
+#define ANNOTATION_REGION_PAD_FACTOR 2.15
+#define MAX_DEGREES_ARC 360
 
 #pragma mark - Managing the activity details
 
@@ -66,10 +69,10 @@
     
 	// Do any additional setup after loading the view, typically from a nib.
     
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(refreshFeed:)];
-    self.navigationItem.rightBarButtonItem = refreshButton;
+//    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(refreshFeed:)];
+//    self.navigationItem.rightBarButtonItem = refreshButton;
     
-    [self reloadFeedMap];
+    //[self reloadFeedMap];
 }
 
 - (void)viewDidUnload
@@ -80,12 +83,7 @@
 
 - (NSArray *)computedList {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", self.group[@"_id"]];
-    return [self.meteor.collections[@"activities"] filteredArrayUsingPredicate:pred];
-}
-
-- (void)refreshFeed:(id)sender
-{
-    [self.tableView reloadData];
+    return [[[self.meteor.collections[@"activities"] filteredArrayUsingPredicate:pred] reverseObjectEnumerator] allObjects];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -101,6 +99,10 @@
                                              selector:@selector(didReceiveUpdate:)
                                                  name:@"removed"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveUpdate:)
+                                                 name:@"ready"
+                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -110,9 +112,10 @@
 
 - (void)didReceiveUpdate:(NSNotification *)notification
 {
-    
-    [self reloadFeedMap];
-    [self.tableView reloadData];
+    if([[notification name] isEqualToString:@"ready"]) {
+        [self reloadFeedMap];
+        [self.tableView reloadData];
+    }
 }
 
 -(void)reloadFeedMap
@@ -161,54 +164,66 @@
         
         [self.feedMapView addAnnotations:activityLocations];
         
-        [self zoomToFitMapAnnotations:_feedMapView];
+        [self zoomMapViewToFitAnnotations:_feedMapView animated:TRUE];
     }
 }
 
--(void)zoomToFitMapAnnotations:(MKMapView*)mapView
+//size the mapView region to fit its annotations
+- (void)zoomMapViewToFitAnnotations:(MKMapView *)mapView animated:(BOOL)animated
 {
-    if([mapView.annotations count] == 0)
-        return;
+    NSArray *annotations = mapView.annotations;
+    int count = [mapView.annotations count];
+    if ( count == 0) { return; } //bail if no annotations
     
-    MKMapRect zoomRect = MKMapRectNull;
-    for (id <MKAnnotation> annotation in mapView.annotations) {
-        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
-        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
-        if (MKMapRectIsNull(zoomRect)) {
-            zoomRect = pointRect;
-        } else {
-            zoomRect = MKMapRectUnion(zoomRect, pointRect);
-        }
+    //convert NSArray of id <MKAnnotation> into an MKCoordinateRegion that can be used to set the map size
+    //can't use NSArray with MKMapPoint because MKMapPoint is not an id
+    MKMapPoint points[count]; //C array of MKMapPoint struct
+    for( int i=0; i<count; i++ ) //load points C array by converting coordinates to points
+    {
+        CLLocationCoordinate2D coordinate = [(id <MKAnnotation>)[annotations objectAtIndex:i] coordinate];
+        points[i] = MKMapPointForCoordinate(coordinate);
     }
-    [mapView setVisibleMapRect:zoomRect edgePadding:UIEdgeInsetsMake(30, 10, 10, 10) animated:YES];
+    //create MKMapRect from array of MKMapPoint
+    MKMapRect mapRect = [[MKPolygon polygonWithPoints:points count:count] boundingMapRect];
+    //convert MKCoordinateRegion from MKMapRect
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(mapRect);
     
+    //add padding so pins aren't scrunched on the edges
+    region.span.latitudeDelta  *= ANNOTATION_REGION_PAD_FACTOR;
+    region.span.longitudeDelta *= ANNOTATION_REGION_PAD_FACTOR;
+    //but padding can't be bigger than the world
+    if( region.span.latitudeDelta > MAX_DEGREES_ARC ) { region.span.latitudeDelta  = MAX_DEGREES_ARC; }
+    if( region.span.longitudeDelta > MAX_DEGREES_ARC ){ region.span.longitudeDelta = MAX_DEGREES_ARC; }
     
-//    CLLocationCoordinate2D topLeftCoord;
-//    topLeftCoord.latitude = -90;
-//    topLeftCoord.longitude = 180;
-//    
-//    CLLocationCoordinate2D bottomRightCoord;
-//    bottomRightCoord.latitude = 90;
-//    bottomRightCoord.longitude = -180;
-//    
-//    for(ActivityFeedAnnotation* annotation in mapView.annotations)
-//    {
-//        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotation.coordinate.longitude);
-//        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotation.coordinate.latitude);
-//        
-//        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotation.coordinate.longitude);
-//        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotation.coordinate.latitude);
-//    }
-//    
-//    MKCoordinateRegion region;
-//    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
-//    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
-//    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.1; // Add a little extra space on the sides
-//    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.1; // Add a little extra space on the sides
-//    
-//    region = [mapView regionThatFits:region];
-//    [mapView setRegion:region animated:YES];
+    //and don't zoom in stupid-close on small samples
+    if( region.span.latitudeDelta  < MINIMUM_ZOOM_ARC ) { region.span.latitudeDelta  = MINIMUM_ZOOM_ARC; }
+    if( region.span.longitudeDelta < MINIMUM_ZOOM_ARC ) { region.span.longitudeDelta = MINIMUM_ZOOM_ARC; }
+    //and if there is a sample of 1 we want the max zoom-in instead of max zoom-out
+    if( count == 1 )
+    {
+        region.span.latitudeDelta = MINIMUM_ZOOM_ARC;
+        region.span.longitudeDelta = MINIMUM_ZOOM_ARC;
+    }
+    [mapView setRegion:region animated:animated];
 }
+
+//-(void)zoomToFitMapAnnotations:(MKMapView*)mapView
+//{
+//    if([mapView.annotations count] == 0)
+//        return;
+//    
+//    MKMapRect zoomRect = MKMapRectNull;
+//    for (id <MKAnnotation> annotation in mapView.annotations) {
+//        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
+//        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
+//        if (MKMapRectIsNull(zoomRect)) {
+//            zoomRect = pointRect;
+//        } else {
+//            zoomRect = MKMapRectUnion(zoomRect, pointRect);
+//        }
+//    }
+//    [mapView setVisibleMapRect:zoomRect edgePadding:UIEdgeInsetsMake(10, 10, 10, 10) animated:YES];
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -235,6 +250,9 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
+//    NSUInteger row = [indexPath row];
+//    NSUInteger count = [self.computedList count]; // here listData is your data source
+    
     NSDictionary *activity = self.computedList[indexPath.row];
     
     UILabel *title = (UILabel *)[cell viewWithTag:200];
@@ -247,14 +265,54 @@
         title.text = @"No title :-(";
     }
     
-    UITextView *description = (UITextView *)[cell viewWithTag:300];
-    if([activity[@"city"] isKindOfClass:[NSString class]])
+    UILabel *info = (UILabel *)[cell viewWithTag:300];
+    NSString *created;
+    NSString *city;
+    NSString *country;
+    if([activity[@"created"] isKindOfClass:[NSMutableDictionary class]])
     {
-        description.text = activity[@"city"];
+        double dateDouble = [activity[@"created"][@"$date"] doubleValue];
+        dateDouble = dateDouble/1000;
+        NSDate *dateCreated = [NSDate dateWithTimeIntervalSince1970:dateDouble];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"dd MMM yyyy 'at' HH:mm"];
+        NSString *formattedDateString = [dateFormatter stringFromDate:dateCreated];
+
+        created = formattedDateString;
     }
     else
     {
-        description.text = @"Sub Testing";
+        created = @"1st Jan 2013";
+    }
+
+    if([activity[@"city"] isKindOfClass:[NSString class]])
+    {
+        city = activity[@"city"];
+    }
+    else
+    {
+        city = @"Perth";
+    }
+    
+    if([activity[@"country"] isKindOfClass:[NSString class]])
+    {
+        country = activity[@"country"];
+    }
+    else
+    {
+        country = @"Australia";
+    }
+    
+    info.text = [NSString stringWithFormat: @"%@ - %@, %@", created, city, country];
+    
+    UITextView *description = (UITextView *)[cell viewWithTag:400];
+    if([activity[@"text"] isKindOfClass:[NSString class]])
+    {
+        description.text = activity[@"text"];
+    }
+    else
+    {
+        description.text = @"-";
     }
     
     return cell;

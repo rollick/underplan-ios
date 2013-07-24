@@ -31,7 +31,8 @@
     [super awakeFromNib];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     self.navigationItem.title = @"Underplan";
 
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
@@ -44,14 +45,21 @@
                                              selector:@selector(didReceiveUpdate:)
                                                  name:@"removed"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveUpdate:)
+                                                 name:@"ready"
+                                               object:nil];
 }
 
-- (void)didReceiveUpdate:(NSNotification *)notification {
-    self.connectionStatusText.text = @"Connected to Underplan!";
-    self.connectedToMeteor = YES;
-    
-    self._groups = self.meteor.collections[@"groups"];
-    [self.tableView reloadData];
+- (void)didReceiveUpdate:(NSNotification *)notification
+{
+    if([[notification name] isEqualToString:@"ready"]) {
+        self.connectionStatusText.text = @"Connected to Underplan!";
+        self.connectedToMeteor = YES;
+        
+        self._groups = self.meteor.collections[@"groups"];
+        [self.tableView reloadData];
+    }
 }
 
 - (void)viewDidLoad

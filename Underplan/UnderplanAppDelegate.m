@@ -56,10 +56,12 @@
         
     self.meteorClient = [[MeteorClient alloc] init];
     
-    [self.meteorClient addSubscription:@"groups"
-                            parameters:nil];
-    
+    [self.meteorClient addSubscription:@"groups" parameters:nil];
+    [self.meteorClient addSubscription:@"directory" parameters:nil];
+
     ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://underplan.it/websocket" delegate:self.meteorClient];
+    
+//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.meteorClient];
     
     self.meteorClient.ddp = ddp;
     
