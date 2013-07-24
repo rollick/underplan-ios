@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Underplan/UnderplanMasterViewController.m"
-         timestampString = "396383635.213126"
+         timestampString = "396385578.584528"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "122"
-         endingLineNumber = "122"
+         startingLineNumber = "138"
+         endingLineNumber = "138"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -86,11 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Underplan/UnderplanMasterViewController.m"
-         timestampString = "396383635.213126"
+         timestampString = "396385578.584528"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "114"
-         endingLineNumber = "114"
+         startingLineNumber = "130"
+         endingLineNumber = "130"
          landmarkName = "-tableView:numberOfRowsInSection:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -216,11 +216,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Underplan/UnderplanMasterViewController.m"
-         timestampString = "396383635.213126"
+         timestampString = "396385578.584528"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "92"
-         endingLineNumber = "92"
+         startingLineNumber = "108"
+         endingLineNumber = "108"
          landmarkName = "-insertNewObject:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -383,11 +383,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Underplan/UnderplanMasterViewController.m"
-         timestampString = "396383635.213126"
+         timestampString = "396385578.584528"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "176"
-         endingLineNumber = "176"
+         startingLineNumber = "192"
+         endingLineNumber = "192"
          landmarkName = "-prepareForSegue:sender:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -396,11 +396,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Underplan/UnderplanMasterViewController.m"
-         timestampString = "396383635.213126"
+         timestampString = "396385578.584528"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "177"
-         endingLineNumber = "177"
+         startingLineNumber = "193"
+         endingLineNumber = "193"
          landmarkName = "-prepareForSegue:sender:"
          landmarkType = "5">
       </FileBreakpoint>

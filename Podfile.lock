@@ -1,8 +1,10 @@
 PODS:
+  - FlatUIKit (1.2)
   - ObjectiveDDP (0.0.20)
   - SocketRocket (HEAD based on 0.3.1-beta2)
 
 DEPENDENCIES:
+  - FlatUIKit
   - ObjectiveDDP (from `git@github.com:boundsj/ObjectiveDDP.git`, branch `master`)
   - SocketRocket (HEAD)
 
@@ -12,6 +14,7 @@ EXTERNAL SOURCES:
     :git: git@github.com:boundsj/ObjectiveDDP.git
 
 SPEC CHECKSUMS:
+  FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
   ObjectiveDDP: b5e625861a1d5b777b7617d3035465eb017d4cb9
   SocketRocket: 7ac946bcce46287a791dfff3c1f8daa692821dae
 
