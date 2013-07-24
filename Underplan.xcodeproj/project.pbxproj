@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20A272A5EC7E48D3AC3D25C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F923E2DB94994B0ABF43E5B3 /* libPods.a */; };
 		26659053179EE51E001EFABF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659052179EE51E001EFABF /* UIKit.framework */; };
 		26659055179EE51E001EFABF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659054179EE51E001EFABF /* Foundation.framework */; };
 		26659057179EE51E001EFABF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659056179EE51E001EFABF /* CoreGraphics.framework */; };
@@ -19,12 +20,24 @@
 		2665906C179EE51E001EFABF /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2665906A179EE51E001EFABF /* MainStoryboard_iPhone.storyboard */; };
 		2665906F179EE51E001EFABF /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2665906D179EE51E001EFABF /* MainStoryboard_iPad.storyboard */; };
 		26659072179EE51E001EFABF /* UnderplanMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659071179EE51E001EFABF /* UnderplanMasterViewController.m */; };
-		26659075179EE51E001EFABF /* UnderplanDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659074179EE51E001EFABF /* UnderplanDetailViewController.m */; };
+		26659075179EE51E001EFABF /* UnderplanGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659074179EE51E001EFABF /* UnderplanGroupViewController.m */; };
 		2665907D179EE51E001EFABF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2665907C179EE51E001EFABF /* SenTestingKit.framework */; };
 		2665907E179EE51E001EFABF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659052179EE51E001EFABF /* UIKit.framework */; };
 		2665907F179EE51E001EFABF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659054179EE51E001EFABF /* Foundation.framework */; };
 		26659087179EE51E001EFABF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 26659085179EE51E001EFABF /* InfoPlist.strings */; };
 		2665908A179EE51E001EFABF /* UnderplanTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659089179EE51E001EFABF /* UnderplanTests.m */; };
+		266590A5179EE816001EFABF /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 266590A4179EE816001EFABF /* libicucore.dylib */; };
+		266590A7179EE81B001EFABF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 266590A6179EE81B001EFABF /* Security.framework */; };
+		266590A9179EE827001EFABF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 266590A8179EE827001EFABF /* CFNetwork.framework */; };
+		266590AB179EE8B6001EFABF /* logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = 266590AA179EE8B6001EFABF /* logo-57.png */; };
+		266590AD179EE8C6001EFABF /* logo-114.png in Resources */ = {isa = PBXBuildFile; fileRef = 266590AC179EE8C6001EFABF /* logo-114.png */; };
+		266590AF179EE8CF001EFABF /* logo-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 266590AE179EE8CF001EFABF /* logo-72.png */; };
+		266590B1179EE8D3001EFABF /* logo-144.png in Resources */ = {isa = PBXBuildFile; fileRef = 266590B0179EE8D3001EFABF /* logo-144.png */; };
+		266590B3179FBD77001EFABF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 266590B2179FBD77001EFABF /* MapKit.framework */; };
+		266590B6179FC5BC001EFABF /* ActivityFeedAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590B5179FC5BC001EFABF /* ActivityFeedAnnotation.m */; };
+		266590B9179FEC8E001EFABF /* ActivityFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590B8179FEC8E001EFABF /* ActivityFeedCell.m */; };
+		266590BB179FECE8001EFABF /* ActivityFeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 266590BA179FECE8001EFABF /* ActivityFeedCell.xib */; };
+		266590BE17A01447001EFABF /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590BD17A01447001EFABF /* ActivityViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,14 +68,31 @@
 		2665906E179EE51E001EFABF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		26659070179EE51E001EFABF /* UnderplanMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnderplanMasterViewController.h; sourceTree = "<group>"; };
 		26659071179EE51E001EFABF /* UnderplanMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnderplanMasterViewController.m; sourceTree = "<group>"; };
-		26659073179EE51E001EFABF /* UnderplanDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnderplanDetailViewController.h; sourceTree = "<group>"; };
-		26659074179EE51E001EFABF /* UnderplanDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnderplanDetailViewController.m; sourceTree = "<group>"; };
+		26659073179EE51E001EFABF /* UnderplanGroupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnderplanGroupViewController.h; sourceTree = "<group>"; };
+		26659074179EE51E001EFABF /* UnderplanGroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UnderplanGroupViewController.m; path = Underplan/UnderplanGroupViewController.m; sourceTree = SOURCE_ROOT; };
 		2665907B179EE51E001EFABF /* UnderplanTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnderplanTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2665907C179EE51E001EFABF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		26659084179EE51E001EFABF /* UnderplanTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnderplanTests-Info.plist"; sourceTree = "<group>"; };
 		26659086179EE51E001EFABF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		26659088179EE51E001EFABF /* UnderplanTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnderplanTests.h; sourceTree = "<group>"; };
 		26659089179EE51E001EFABF /* UnderplanTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnderplanTests.m; sourceTree = "<group>"; };
+		266590A4179EE816001EFABF /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		266590A6179EE81B001EFABF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		266590A8179EE827001EFABF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		266590AA179EE8B6001EFABF /* logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-57.png"; path = "../../logo-57.png"; sourceTree = "<group>"; };
+		266590AC179EE8C6001EFABF /* logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-114.png"; path = "../../logo-114.png"; sourceTree = "<group>"; };
+		266590AE179EE8CF001EFABF /* logo-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-72.png"; path = "../../logo-72.png"; sourceTree = "<group>"; };
+		266590B0179EE8D3001EFABF /* logo-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-144.png"; path = "../../logo-144.png"; sourceTree = "<group>"; };
+		266590B2179FBD77001EFABF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		266590B4179FC5BC001EFABF /* ActivityFeedAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityFeedAnnotation.h; sourceTree = "<group>"; };
+		266590B5179FC5BC001EFABF /* ActivityFeedAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityFeedAnnotation.m; sourceTree = "<group>"; };
+		266590B7179FEC8E001EFABF /* ActivityFeedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityFeedCell.h; sourceTree = "<group>"; };
+		266590B8179FEC8E001EFABF /* ActivityFeedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityFeedCell.m; sourceTree = "<group>"; };
+		266590BA179FECE8001EFABF /* ActivityFeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityFeedCell.xib; sourceTree = "<group>"; };
+		266590BC17A01447001EFABF /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
+		266590BD17A01447001EFABF /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
+		F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		F923E2DB94994B0ABF43E5B3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,9 +100,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				266590B3179FBD77001EFABF /* MapKit.framework in Frameworks */,
+				266590A9179EE827001EFABF /* CFNetwork.framework in Frameworks */,
+				266590A7179EE81B001EFABF /* Security.framework in Frameworks */,
+				266590A5179EE816001EFABF /* libicucore.dylib in Frameworks */,
 				26659053179EE51E001EFABF /* UIKit.framework in Frameworks */,
 				26659055179EE51E001EFABF /* Foundation.framework in Frameworks */,
 				26659057179EE51E001EFABF /* CoreGraphics.framework in Frameworks */,
+				20A272A5EC7E48D3AC3D25C4 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +131,7 @@
 				26659082179EE51E001EFABF /* UnderplanTests */,
 				26659051179EE51E001EFABF /* Frameworks */,
 				26659050179EE51E001EFABF /* Products */,
+				F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,10 +147,15 @@
 		26659051179EE51E001EFABF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				266590A4179EE816001EFABF /* libicucore.dylib */,
+				266590B2179FBD77001EFABF /* MapKit.framework */,
+				266590A8179EE827001EFABF /* CFNetwork.framework */,
+				266590A6179EE81B001EFABF /* Security.framework */,
 				26659052179EE51E001EFABF /* UIKit.framework */,
 				26659054179EE51E001EFABF /* Foundation.framework */,
 				26659056179EE51E001EFABF /* CoreGraphics.framework */,
 				2665907C179EE51E001EFABF /* SenTestingKit.framework */,
+				F923E2DB94994B0ABF43E5B3 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -128,8 +169,15 @@
 				2665906D179EE51E001EFABF /* MainStoryboard_iPad.storyboard */,
 				26659070179EE51E001EFABF /* UnderplanMasterViewController.h */,
 				26659071179EE51E001EFABF /* UnderplanMasterViewController.m */,
-				26659073179EE51E001EFABF /* UnderplanDetailViewController.h */,
-				26659074179EE51E001EFABF /* UnderplanDetailViewController.m */,
+				26659073179EE51E001EFABF /* UnderplanGroupViewController.h */,
+				26659074179EE51E001EFABF /* UnderplanGroupViewController.m */,
+				266590BC17A01447001EFABF /* ActivityViewController.h */,
+				266590BD17A01447001EFABF /* ActivityViewController.m */,
+				266590B4179FC5BC001EFABF /* ActivityFeedAnnotation.h */,
+				266590B5179FC5BC001EFABF /* ActivityFeedAnnotation.m */,
+				266590B7179FEC8E001EFABF /* ActivityFeedCell.h */,
+				266590B8179FEC8E001EFABF /* ActivityFeedCell.m */,
+				266590BA179FECE8001EFABF /* ActivityFeedCell.xib */,
 				26659059179EE51E001EFABF /* Supporting Files */,
 			);
 			path = Underplan;
@@ -138,6 +186,7 @@
 		26659059179EE51E001EFABF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				26659093179EE7A5001EFABF /* assets */,
 				2665905A179EE51E001EFABF /* Underplan-Info.plist */,
 				2665905B179EE51E001EFABF /* InfoPlist.strings */,
 				2665905E179EE51E001EFABF /* main.m */,
@@ -168,6 +217,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		26659093179EE7A5001EFABF /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				266590B0179EE8D3001EFABF /* logo-144.png */,
+				266590AE179EE8CF001EFABF /* logo-72.png */,
+				266590AC179EE8C6001EFABF /* logo-114.png */,
+				266590AA179EE8B6001EFABF /* logo-57.png */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -175,9 +235,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2665908D179EE51E001EFABF /* Build configuration list for PBXNativeTarget "Underplan" */;
 			buildPhases = (
+				400527E1FED841B8B9784F8D /* Check Pods Manifest.lock */,
 				2665904B179EE51D001EFABF /* Sources */,
 				2665904C179EE51D001EFABF /* Frameworks */,
 				2665904D179EE51D001EFABF /* Resources */,
+				F29EA80DBC6D4A1F98236EEA /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -246,6 +308,11 @@
 				26659069179EE51E001EFABF /* Default-568h@2x.png in Resources */,
 				2665906C179EE51E001EFABF /* MainStoryboard_iPhone.storyboard in Resources */,
 				2665906F179EE51E001EFABF /* MainStoryboard_iPad.storyboard in Resources */,
+				266590AB179EE8B6001EFABF /* logo-57.png in Resources */,
+				266590AD179EE8C6001EFABF /* logo-114.png in Resources */,
+				266590AF179EE8CF001EFABF /* logo-72.png in Resources */,
+				266590B1179EE8D3001EFABF /* logo-144.png in Resources */,
+				266590BB179FECE8001EFABF /* ActivityFeedCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +340,36 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		400527E1FED841B8B9784F8D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F29EA80DBC6D4A1F98236EEA /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -283,7 +380,10 @@
 				2665905F179EE51E001EFABF /* main.m in Sources */,
 				26659063179EE51E001EFABF /* UnderplanAppDelegate.m in Sources */,
 				26659072179EE51E001EFABF /* UnderplanMasterViewController.m in Sources */,
-				26659075179EE51E001EFABF /* UnderplanDetailViewController.m in Sources */,
+				26659075179EE51E001EFABF /* UnderplanGroupViewController.m in Sources */,
+				266590B6179FC5BC001EFABF /* ActivityFeedAnnotation.m in Sources */,
+				266590B9179FEC8E001EFABF /* ActivityFeedCell.m in Sources */,
+				266590BE17A01447001EFABF /* ActivityViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +501,7 @@
 		};
 		2665908E179EE51E001EFABF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Underplan/Underplan-Prefix.pch";
@@ -412,6 +513,7 @@
 		};
 		2665908F179EE51E001EFABF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Underplan/Underplan-Prefix.pch";
@@ -474,6 +576,7 @@
 				2665908F179EE51E001EFABF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		26659090179EE51E001EFABF /* Build configuration list for PBXNativeTarget "UnderplanTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +585,7 @@
 				26659092179EE51E001EFABF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

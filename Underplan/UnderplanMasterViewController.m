@@ -7,12 +7,17 @@
 //
 
 #import "UnderplanMasterViewController.h"
+#import "UnderplanGroupViewController.h"
+#import "UnderplanAppDelegate.h"
 
-#import "UnderplanDetailViewController.h"
+#import "MeteorClient.h"
 
-@interface UnderplanMasterViewController () {
-    NSMutableArray *_objects;
-}
+@interface UnderplanMasterViewController ()
+
+@property (assign, nonatomic) BOOL connectedToMeteor;
+@property (strong, nonatomic) NSMutableArray *_groups;
+@property (assign, nonatomic) UnderplanAppDelegate *appDelegate;
+
 @end
 
 @implementation UnderplanMasterViewController
@@ -26,15 +31,43 @@
     [super awakeFromNib];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationItem.title = @"Groups";
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveUpdate:)
+                                                 name:@"added"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveUpdate:)
+                                                 name:@"removed"
+                                               object:nil];
+}
+
+- (void)didReceiveUpdate:(NSNotification *)notification {
+    self.connectionStatusText.text = @"Connected to Underplan!";
+    self.connectedToMeteor = YES;
+    
+    self._groups = self.meteor.collections[@"groups"];
+    [self.tableView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UnderplanAppDelegate *appDelegate = (UnderplanAppDelegate*)[[UIApplication sharedApplication] delegate];
+    self.meteor = appDelegate.meteorClient;
+    
+    self._groups = self.meteor.collections[@"groups"];
+    [self.tableView reloadData];
+
 	// Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
-    self.detailViewController = (UnderplanDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    self.groupViewController = (UnderplanGroupViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,12 +78,18 @@
 
 - (void)insertNewObject:(id)sender
 {
-    if (!_objects) {
-        _objects = [[NSMutableArray alloc] init];
-    }
-    [_objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    self._groups = self.meteor.collections[@"groups"];
+    self._groups = self.meteor.collections[@"directory"];
+    
+    [self.tableView reloadData];
+}
+
+- (void)didConnectToMeteorServer
+{
+    self.connectionStatusText.text = @"Connected to Todo Server";
+    self.connectedToMeteor = YES;
+//    UIImage *image = [UIImage imageNamed: @"green_light.png"];
+//    [self.connectionStatusLight setImage:image];
 }
 
 #pragma mark - Table View
@@ -62,15 +101,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    return self._groups.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-
-    NSDate *object = _objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    
+    static NSString *cellIdentifier = @"Group";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    NSDictionary *list = self._groups[indexPath.row];
+    cell.textLabel.text = list[@"name"];
+    
     return cell;
 }
 
@@ -83,7 +126,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_objects removeObjectAtIndex:indexPath.row];
+        [self._groups removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
@@ -109,17 +152,18 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        NSDate *object = _objects[indexPath.row];
-        self.detailViewController.detailItem = object;
+        NSDictionary *group = self._groups[indexPath.row];
+        self.groupViewController.group = group;
     }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+    if ([[segue identifier] isEqualToString:@"showGroup"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
+        NSDictionary *object = self._groups[indexPath.row];
+        [[segue destinationViewController] setGroup:object];
+        [[segue destinationViewController] setMeteor:self.meteor];
     }
 }
 

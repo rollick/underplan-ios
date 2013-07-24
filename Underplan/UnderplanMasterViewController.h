@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ObjectiveDDP/MeteorClient.h>
 
-@class UnderplanDetailViewController;
+@class UnderplanGroupViewController;
 
 @interface UnderplanMasterViewController : UITableViewController
 
-@property (strong, nonatomic) UnderplanDetailViewController *detailViewController;
+@property (strong, nonatomic) UnderplanGroupViewController *groupViewController;
+@property (weak, nonatomic) IBOutlet UILabel *connectionStatusText;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) MeteorClient *meteor;
 
 @end

@@ -7,8 +7,13 @@
 //
 
 #import "UnderplanAppDelegate.h"
+#import "UnderplanMasterViewController.h"
+#import "MeteorClient.h"
+#import "ObjectiveDDP.h"
+#import <ObjectiveDDP/MeteorClient.h>
 
 @implementation UnderplanAppDelegate
+@synthesize meteorClient;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -18,6 +23,21 @@
         UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
         splitViewController.delegate = (id)navigationController.topViewController;
     }
+        
+    self.meteorClient = [[MeteorClient alloc] init];
+    
+    [self.meteorClient addSubscription:@"groups"
+                            parameters:nil];
+
+//    UnderplanMasterViewController *masterController = [[UnderplanMasterViewController alloc] initWithNibName:@"UnderplanMasterViewController" bundle:nil];
+    
+//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"wss://underplan.it/websocket" delegate:self.meteorClient];
+    
+    // useful for local testing
+    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.meteorClient];
+    
+    self.meteorClient.ddp = ddp;
+    
     return YES;
 }
 							
@@ -41,6 +61,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self.meteorClient resetCollections];
+    [self.meteorClient.ddp connectWebSocket];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
