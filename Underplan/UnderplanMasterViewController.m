@@ -32,7 +32,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationItem.title = @"Groups";
+    self.navigationItem.title = @"Underplan";
+
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveUpdate:)
@@ -112,7 +114,12 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     NSDictionary *list = self._groups[indexPath.row];
-    cell.textLabel.text = list[@"name"];
+    
+    UILabel *name = (UILabel *)[cell viewWithTag:100];
+    name.text = list[@"name"];
+
+    UILabel *description = (UILabel *)[cell viewWithTag:200];
+    description.text = list[@"description"];
     
     return cell;
 }

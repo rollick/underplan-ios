@@ -68,6 +68,8 @@
     
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(refreshFeed:)];
     self.navigationItem.rightBarButtonItem = refreshButton;
+    
+    [self reloadFeedMap];
 }
 
 - (void)viewDidUnload
@@ -89,6 +91,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationItem.title = @"Activities";
     
+    [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:YES];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveUpdate:)
                                                  name:@"added"
@@ -107,7 +111,12 @@
 - (void)didReceiveUpdate:(NSNotification *)notification
 {
     
-    // Use first activity to center map.
+    [self reloadFeedMap];
+    [self.tableView reloadData];
+}
+
+-(void)reloadFeedMap
+{
     // TODO: do this once loading subscription has completed
     if([self.computedList count] != 0) {
         
@@ -126,7 +135,7 @@
             activityLocation.longitude = [activity[@"lng"] floatValue];
             
             activityAnnotation.coordinate = activityLocation;
-
+            
             if([activity[@"title"] isKindOfClass:[NSString class]])
             {
                 title = activity[@"title"];
@@ -154,8 +163,6 @@
         
         [self zoomToFitMapAnnotations:_feedMapView];
     }
-        
-    [self.tableView reloadData];
 }
 
 -(void)zoomToFitMapAnnotations:(MKMapView*)mapView
@@ -163,31 +170,44 @@
     if([mapView.annotations count] == 0)
         return;
     
-    CLLocationCoordinate2D topLeftCoord;
-    topLeftCoord.latitude = -90;
-    topLeftCoord.longitude = 180;
-    
-    CLLocationCoordinate2D bottomRightCoord;
-    bottomRightCoord.latitude = 90;
-    bottomRightCoord.longitude = -180;
-    
-    for(ActivityFeedAnnotation* annotation in mapView.annotations)
-    {
-        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotation.coordinate.longitude);
-        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotation.coordinate.latitude);
-        
-        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotation.coordinate.longitude);
-        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotation.coordinate.latitude);
+    MKMapRect zoomRect = MKMapRectNull;
+    for (id <MKAnnotation> annotation in mapView.annotations) {
+        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
+        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
+        if (MKMapRectIsNull(zoomRect)) {
+            zoomRect = pointRect;
+        } else {
+            zoomRect = MKMapRectUnion(zoomRect, pointRect);
+        }
     }
+    [mapView setVisibleMapRect:zoomRect edgePadding:UIEdgeInsetsMake(30, 10, 10, 10) animated:YES];
     
-    MKCoordinateRegion region;
-    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
-    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
-    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 2; // Add a little extra space on the sides
-    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 2; // Add a little extra space on the sides
     
-    region = [mapView regionThatFits:region];
-    [mapView setRegion:region animated:YES];
+//    CLLocationCoordinate2D topLeftCoord;
+//    topLeftCoord.latitude = -90;
+//    topLeftCoord.longitude = 180;
+//    
+//    CLLocationCoordinate2D bottomRightCoord;
+//    bottomRightCoord.latitude = 90;
+//    bottomRightCoord.longitude = -180;
+//    
+//    for(ActivityFeedAnnotation* annotation in mapView.annotations)
+//    {
+//        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotation.coordinate.longitude);
+//        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotation.coordinate.latitude);
+//        
+//        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotation.coordinate.longitude);
+//        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotation.coordinate.latitude);
+//    }
+//    
+//    MKCoordinateRegion region;
+//    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
+//    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
+//    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.1; // Add a little extra space on the sides
+//    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.1; // Add a little extra space on the sides
+//    
+//    region = [mapView regionThatFits:region];
+//    [mapView setRegion:region animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

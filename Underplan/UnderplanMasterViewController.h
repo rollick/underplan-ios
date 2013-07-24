@@ -15,7 +15,7 @@
 
 @property (strong, nonatomic) UnderplanGroupViewController *groupViewController;
 @property (weak, nonatomic) IBOutlet UILabel *connectionStatusText;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) MeteorClient *meteor;
 
 @end
