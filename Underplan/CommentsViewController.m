@@ -43,7 +43,7 @@
 - (void)configureMeteor
 {
     NSArray *params = @[@{@"activityId":_activity[@"_id"]}];
-    [_meteor addSubscription:@"feedComments"
+    [_meteor addSubscription:@"activityComments"
                   parameters:params];
     
     // Update the user interface for the group
