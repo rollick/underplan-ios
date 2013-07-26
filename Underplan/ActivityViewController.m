@@ -7,6 +7,11 @@
 //
 
 #import "ActivityViewController.h"
+#import "CommentsViewController.h"
+
+#import "User.h"
+
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ActivityViewController ()
 
@@ -37,6 +42,7 @@
 
 - (void)configureMeteor
 {
+    // Get the full activity data
     NSArray *params = @[_activity[@"_id"]];
     [_meteor addSubscription:@"activityShow" parameters:params];
 }
@@ -55,11 +61,26 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    CGRect frame = _activityText.frame;
+    frame.size.height = _activityText.contentSize.height;
+    _activityText.frame = frame;
+    
     [self setActivityDetails];
 }
 
 - (void)setActivityDetails
 {
+    // Set the profile image
+    User *owner = [[User alloc] initWithCollectionAndId:self.meteor.collections[@"users"]
+                                                     id:_activity[@"owner"]];
+    
+    UIImageView *profileImage = (UIImageView *)[self.view viewWithTag:100];
+    [profileImage setImageWithURL:[NSURL URLWithString:[owner profileImageUrl:@75]]
+                 placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    
+    _activityText.contentInset = UIEdgeInsetsMake(-4,-8,-8,-8);
+    
+    // Set the text fields
     _activityText.text = _activity[@"text"];
     
     if([_activity[@"title"] isKindOfClass:[NSString class]])
@@ -84,6 +105,10 @@
                                              selector:@selector(didReceiveUpdate:)
                                                  name:@"removed"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveUpdate:)
+                                                 name:@"removed"
+                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -100,6 +125,14 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showComments"]) {
+        [[segue destinationViewController] setActivity:_activity];
+        [[segue destinationViewController] setMeteor:_meteor];
+    }
 }
 
 @end

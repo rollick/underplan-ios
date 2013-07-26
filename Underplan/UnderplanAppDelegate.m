@@ -7,7 +7,7 @@
 //
 
 #import "UnderplanAppDelegate.h"
-#import "UnderplanMasterViewController.h"
+#import "MasterViewController.h"
 #import "MeteorClient.h"
 #import "ObjectiveDDP.h"
 #import <ObjectiveDDP/MeteorClient.h>
@@ -61,11 +61,9 @@
 
     ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://underplan.it/websocket" delegate:self.meteor];
     
-//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.meteorClient];
+//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.meteor];
     
     self.meteor.ddp = ddp;
-    
-    
     
     return YES;
 }

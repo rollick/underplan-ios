@@ -19,8 +19,8 @@
 		26659069179EE51E001EFABF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26659068179EE51E001EFABF /* Default-568h@2x.png */; };
 		2665906C179EE51E001EFABF /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2665906A179EE51E001EFABF /* MainStoryboard_iPhone.storyboard */; };
 		2665906F179EE51E001EFABF /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2665906D179EE51E001EFABF /* MainStoryboard_iPad.storyboard */; };
-		26659072179EE51E001EFABF /* UnderplanMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659071179EE51E001EFABF /* UnderplanMasterViewController.m */; };
-		26659075179EE51E001EFABF /* UnderplanGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659074179EE51E001EFABF /* UnderplanGroupViewController.m */; };
+		26659072179EE51E001EFABF /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659071179EE51E001EFABF /* MasterViewController.m */; };
+		26659075179EE51E001EFABF /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659074179EE51E001EFABF /* GroupViewController.m */; };
 		2665907D179EE51E001EFABF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2665907C179EE51E001EFABF /* SenTestingKit.framework */; };
 		2665907E179EE51E001EFABF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659052179EE51E001EFABF /* UIKit.framework */; };
 		2665907F179EE51E001EFABF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659054179EE51E001EFABF /* Foundation.framework */; };
@@ -40,6 +40,11 @@
 		266590BE17A01447001EFABF /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590BD17A01447001EFABF /* ActivityViewController.m */; };
 		26A1D5C917A05B9E00526060 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A1D5C817A05B9E00526060 /* CoreText.framework */; };
 		26A1D5CB17A060B300526060 /* dash_bg_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 26A1D5CA17A060B300526060 /* dash_bg_3.jpg */; };
+		26A1D5CD17A1225500526060 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A1D5CC17A1225500526060 /* ImageIO.framework */; };
+		26A1D5D417A12F3C00526060 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A1D5D317A12F3C00526060 /* User.m */; };
+		26A1D5D817A1B5E300526060 /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A1D5D717A1B5E300526060 /* CommentsViewController.m */; };
+		26A1D5DB17A1BDCA00526060 /* glyphicons_309_comments.png in Resources */ = {isa = PBXBuildFile; fileRef = 26A1D5D917A1BDCA00526060 /* glyphicons_309_comments.png */; };
+		26A1D5DC17A1BDCA00526060 /* glyphicons_309_comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26A1D5DA17A1BDCA00526060 /* glyphicons_309_comments@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,10 +73,10 @@
 		26659068179EE51E001EFABF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2665906B179EE51E001EFABF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		2665906E179EE51E001EFABF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		26659070179EE51E001EFABF /* UnderplanMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnderplanMasterViewController.h; sourceTree = "<group>"; };
-		26659071179EE51E001EFABF /* UnderplanMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnderplanMasterViewController.m; sourceTree = "<group>"; };
-		26659073179EE51E001EFABF /* UnderplanGroupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnderplanGroupViewController.h; sourceTree = "<group>"; };
-		26659074179EE51E001EFABF /* UnderplanGroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UnderplanGroupViewController.m; path = Underplan/UnderplanGroupViewController.m; sourceTree = SOURCE_ROOT; };
+		26659070179EE51E001EFABF /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		26659071179EE51E001EFABF /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		26659073179EE51E001EFABF /* GroupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
+		26659074179EE51E001EFABF /* GroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GroupViewController.m; path = Underplan/GroupViewController.m; sourceTree = SOURCE_ROOT; };
 		2665907B179EE51E001EFABF /* UnderplanTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnderplanTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2665907C179EE51E001EFABF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		26659084179EE51E001EFABF /* UnderplanTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnderplanTests-Info.plist"; sourceTree = "<group>"; };
@@ -95,6 +100,13 @@
 		266590BD17A01447001EFABF /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
 		26A1D5C817A05B9E00526060 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		26A1D5CA17A060B300526060 /* dash_bg_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dash_bg_3.jpg; sourceTree = "<group>"; };
+		26A1D5CC17A1225500526060 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		26A1D5D217A12F3C00526060 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		26A1D5D317A12F3C00526060 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		26A1D5D617A1B5E300526060 /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsViewController.h; sourceTree = "<group>"; };
+		26A1D5D717A1B5E300526060 /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsViewController.m; sourceTree = "<group>"; };
+		26A1D5D917A1BDCA00526060 /* glyphicons_309_comments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glyphicons_309_comments.png; sourceTree = "<group>"; };
+		26A1D5DA17A1BDCA00526060 /* glyphicons_309_comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glyphicons_309_comments@2x.png"; sourceTree = "<group>"; };
 		F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		F923E2DB94994B0ABF43E5B3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -104,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26A1D5CD17A1225500526060 /* ImageIO.framework in Frameworks */,
 				26A1D5C917A05B9E00526060 /* CoreText.framework in Frameworks */,
 				266590B3179FBD77001EFABF /* MapKit.framework in Frameworks */,
 				266590A9179EE827001EFABF /* CFNetwork.framework in Frameworks */,
@@ -132,6 +145,7 @@
 		26659046179EE51D001EFABF = {
 			isa = PBXGroup;
 			children = (
+				26A1D5CC17A1225500526060 /* ImageIO.framework */,
 				26659058179EE51E001EFABF /* Underplan */,
 				26659082179EE51E001EFABF /* UnderplanTests */,
 				26659051179EE51E001EFABF /* Frameworks */,
@@ -169,16 +183,19 @@
 		26659058179EE51E001EFABF /* Underplan */ = {
 			isa = PBXGroup;
 			children = (
+				26A1D5D517A16EE500526060 /* models */,
 				26659061179EE51E001EFABF /* UnderplanAppDelegate.h */,
 				26659062179EE51E001EFABF /* UnderplanAppDelegate.m */,
 				2665906A179EE51E001EFABF /* MainStoryboard_iPhone.storyboard */,
 				2665906D179EE51E001EFABF /* MainStoryboard_iPad.storyboard */,
-				26659070179EE51E001EFABF /* UnderplanMasterViewController.h */,
-				26659071179EE51E001EFABF /* UnderplanMasterViewController.m */,
-				26659073179EE51E001EFABF /* UnderplanGroupViewController.h */,
-				26659074179EE51E001EFABF /* UnderplanGroupViewController.m */,
+				26659070179EE51E001EFABF /* MasterViewController.h */,
+				26659071179EE51E001EFABF /* MasterViewController.m */,
+				26659073179EE51E001EFABF /* GroupViewController.h */,
+				26659074179EE51E001EFABF /* GroupViewController.m */,
 				266590BC17A01447001EFABF /* ActivityViewController.h */,
 				266590BD17A01447001EFABF /* ActivityViewController.m */,
+				26A1D5D617A1B5E300526060 /* CommentsViewController.h */,
+				26A1D5D717A1B5E300526060 /* CommentsViewController.m */,
 				266590B4179FC5BC001EFABF /* ActivityFeedAnnotation.h */,
 				266590B5179FC5BC001EFABF /* ActivityFeedAnnotation.m */,
 				266590B7179FEC8E001EFABF /* ActivityFeedCell.h */,
@@ -226,6 +243,8 @@
 		26659093179EE7A5001EFABF /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				26A1D5D917A1BDCA00526060 /* glyphicons_309_comments.png */,
+				26A1D5DA17A1BDCA00526060 /* glyphicons_309_comments@2x.png */,
 				26A1D5CA17A060B300526060 /* dash_bg_3.jpg */,
 				266590B0179EE8D3001EFABF /* logo-144.png */,
 				266590AE179EE8CF001EFABF /* logo-72.png */,
@@ -233,6 +252,15 @@
 				266590AA179EE8B6001EFABF /* logo-57.png */,
 			);
 			path = assets;
+			sourceTree = "<group>";
+		};
+		26A1D5D517A16EE500526060 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				26A1D5D217A12F3C00526060 /* User.h */,
+				26A1D5D317A12F3C00526060 /* User.m */,
+			);
+			name = models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,6 +349,8 @@
 				266590B1179EE8D3001EFABF /* logo-144.png in Resources */,
 				266590BB179FECE8001EFABF /* ActivityFeedCell.xib in Resources */,
 				26A1D5CB17A060B300526060 /* dash_bg_3.jpg in Resources */,
+				26A1D5DB17A1BDCA00526060 /* glyphicons_309_comments.png in Resources */,
+				26A1D5DC17A1BDCA00526060 /* glyphicons_309_comments@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,11 +417,13 @@
 			files = (
 				2665905F179EE51E001EFABF /* main.m in Sources */,
 				26659063179EE51E001EFABF /* UnderplanAppDelegate.m in Sources */,
-				26659072179EE51E001EFABF /* UnderplanMasterViewController.m in Sources */,
-				26659075179EE51E001EFABF /* UnderplanGroupViewController.m in Sources */,
+				26659072179EE51E001EFABF /* MasterViewController.m in Sources */,
+				26659075179EE51E001EFABF /* GroupViewController.m in Sources */,
 				266590B6179FC5BC001EFABF /* ActivityFeedAnnotation.m in Sources */,
 				266590B9179FEC8E001EFABF /* ActivityFeedCell.m in Sources */,
 				266590BE17A01447001EFABF /* ActivityViewController.m in Sources */,
+				26A1D5D417A12F3C00526060 /* User.m in Sources */,
+				26A1D5D817A1B5E300526060 /* CommentsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

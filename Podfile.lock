@@ -1,11 +1,26 @@
 PODS:
   - FlatUIKit (1.2)
+  - libwebp (0.3.0-rc7):
+    - libwebp/dec
+    - libwebp/dsp
+    - libwebp/utils
+    - libwebp/webp
+  - libwebp/dec (0.3.0-rc7)
+  - libwebp/dsp (0.3.0-rc7)
+  - libwebp/utils (0.3.0-rc7)
+  - libwebp/webp (0.3.0-rc7)
   - ObjectiveDDP (0.0.20)
+  - SDWebImage (3.3):
+    - libwebp
+    - SDWebImage/MapKit
+  - SDWebImage/MapKit (3.3):
+    - libwebp
   - SocketRocket (HEAD based on 0.3.1-beta2)
 
 DEPENDENCIES:
   - FlatUIKit
   - ObjectiveDDP (from `git@github.com:boundsj/ObjectiveDDP.git`, branch `master`)
+  - SDWebImage
   - SocketRocket (HEAD)
 
 EXTERNAL SOURCES:
@@ -15,7 +30,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
+  libwebp: 40517fa1fd3716eded73b4696c45fc0b66e4b414
   ObjectiveDDP: b5e625861a1d5b777b7617d3035465eb017d4cb9
+  SDWebImage: 79a8bac9ccf85b269100b294f7b43684dab8bf8a
   SocketRocket: 7ac946bcce46287a791dfff3c1f8daa692821dae
 
 COCOAPODS: 0.22.2
