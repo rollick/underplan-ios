@@ -99,7 +99,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveUpdate:)
-                                                 name:@"added"
+                                                 name:@"changed"
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveUpdate:)
@@ -107,18 +107,21 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveUpdate:)
-                                                 name:@"removed"
+                                                 name:@"ready"
                                                object:nil];
+}
+
+- (void)didReceiveUpdate:(NSNotification *)notification
+{
+    // Refresh view if this activity was updated
+    if (notification.userInfo[@"_id"] == self.activity[@"_id"]) {
+        [self setActivityDetails];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)didReceiveUpdate:(NSNotification *)notification
-{
-    [self setActivityDetails];
 }
 
 - (void)didReceiveMemoryWarning

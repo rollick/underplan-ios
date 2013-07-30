@@ -15,5 +15,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) MeteorClient *meteor;
+@property (strong, nonatomic) NSMutableArray *comments;
 
 @end

@@ -59,9 +59,9 @@
     [self.meteor addSubscription:@"groups" parameters:nil];
     [self.meteor addSubscription:@"directory" parameters:nil];
 
-    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://underplan.it/websocket" delegate:self.meteor];
+//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://underplan.it/websocket" delegate:self.meteor];
     
-//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.meteor];
+    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.meteor];
     
     self.meteor.ddp = ddp;
     

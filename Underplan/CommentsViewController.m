@@ -8,6 +8,8 @@
 
 #import "CommentsViewController.h"
 
+#import "UserItemView.h"
+
 #import "User.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -15,7 +17,6 @@
 @interface CommentsViewController ()
 
 @property (strong, nonatomic) NSDictionary *activity;
-@property (strong, nonatomic) NSMutableArray *comments;
 
 - (void)configureMeteor;
 
@@ -42,18 +43,18 @@
 
 - (void)configureMeteor
 {
-    NSArray *params = @[@{@"activityId":_activity[@"_id"]}];
+    NSArray *params = @[_activity[@"_id"]];
     [_meteor addSubscription:@"activityComments"
                   parameters:params];
-    
-    // Update the user interface for the group
-    _comments = _meteor.collections[@"comments"];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    UINib *cellNib = [UINib nibWithNibName:@"UserItemView" bundle:nil];
+    [self.tableView registerNib:cellNib forCellReuseIdentifier:@"item"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,17 +107,24 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _comments.count;
+    return [_meteor.collections[@"comments"] count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UserItemView *cell = [tableView dequeueReusableCellWithIdentifier:@"item"];
+    NSDictionary *comment = _meteor.collections[@"comments"][indexPath.row];
+    NSString *text = comment[@"comment"];
+    
+    return [cell cellHeight:text];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    static NSString *cellIdentifier = @"item";
+    UserItemView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    static NSString *cellIdentifier = @"Comment";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    
-    NSDictionary *comment = _comments[indexPath.row];
+    NSDictionary *comment = _meteor.collections[@"comments"][indexPath.row];
     
     // Fetch owner
     User *owner = [[User alloc] initWithCollectionAndId:self.meteor.collections[@"users"]
@@ -127,40 +135,23 @@
     //       be notified when the owner details are available....
     
     // Set the owners name as the title
-    UILabel *title = (UILabel *)[cell viewWithTag:200];
     if([comment[@"owner"] isKindOfClass:[NSString class]])
     {
-        title.text = owner.profile[@"name"];
+        cell.title.text = owner.profile[@"name"];
     }
     else
     {
-        title.text = @"No title :-(";
+        cell.title.text = @"No title :-(";
     }
     
     // Set the owners profile picture
     NSString *profileImageUrl = [owner profileImageUrl:@75];
     
-    //        // The image url needs to be tweaked based on the login service used
-    //        if (owner.services[@"google"])
-    //        {
-    //            // Add sz=75 etc to url
-    //            // NOTE: the size should very based on the device...
-    //            profileImageUrl = [profileImageUrl stringByAppendingString:@"?sz=144"];
-    //        } else if (owner.services[@"facebook"])
-    //        {
-    //            // Add ?width=75 to url
-    //            profileImageUrl = [profileImageUrl stringByAppendingString:@"?width=144"];
-    //        }
-    
-    UIImageView *profileImage = (UIImageView *)[cell viewWithTag:100];
-    [profileImage setImageWithURL:[NSURL URLWithString:profileImageUrl]
+    [cell.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
                  placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
     // Set the info field - date and location
-    UILabel *info = (UILabel *)[cell viewWithTag:300];
     NSString *created;
-    NSString *city;
-    NSString *country;
     if([comment[@"created"] isKindOfClass:[NSMutableDictionary class]])
     {
         double dateDouble = [comment[@"created"][@"$date"] doubleValue];
@@ -177,39 +168,17 @@
         created = @"1st Jan 2013";
     }
     
-    if([comment[@"city"] isKindOfClass:[NSString class]])
-    {
-        city = comment[@"city"];
-    }
-    else
-    {
-        city = @"Perth";
-    }
+    cell.subTitle.text = created;
     
-    if([comment[@"country"] isKindOfClass:[NSString class]])
-    {
-        country = comment[@"country"];
-    }
-    else
-    {
-        country = @"Australia";
-    }
-    
-    info.text = [NSString stringWithFormat: @"%@ - %@, %@", created, city, country];
-    
-    UILabel *description = (UILabel *)[cell viewWithTag:400];
     if([comment[@"comment"] isKindOfClass:[NSString class]])
     {
-        description.text = comment[@"comment"];
+        cell.mainText.text = comment[@"comment"];
     }
     else
     {
-        description.text = @"-";
+        cell.mainText.text = @"-";
     }
-    //    [description setNumberOfLines:0];
-    //    CGSize textSize = [description.text sizeWithFont:description.font constrainedToSize:CGSizeMake(description.frame.size.width, MAXFLOAT) lineBreakMode:description.lineBreakMode];
-    //    description.frame = CGRectMake(20.0f, 20.0f, textSize.width, textSize.height);
-    //    
+
     return cell;
 }
 
