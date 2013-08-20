@@ -44,7 +44,8 @@
 {
     // Get the full activity data
     NSArray *params = @[_activity[@"_id"]];
-    [_meteor addSubscription:@"activityShow" parameters:params];
+    [_meteor addSubscriptionWithParameters:@"activityShow" paramaters:params];
+    [_meteor addSubscriptionWithParameters:@"activityCommentsCount" paramaters:params];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -65,18 +66,25 @@
     frame.size.height = _activityText.contentSize.height;
     _activityText.frame = frame;
     
+    [self.navigationController setNavigationBarHidden:NO
+                                             animated:YES];
+    
     [self setActivityDetails];
 }
 
 - (void)setActivityDetails
 {
     // Set the profile image
-    User *owner = [[User alloc] initWithCollectionAndId:self.meteor.collections[@"users"]
-                                                     id:_activity[@"owner"]];
+    User *owner = [[User alloc] initWithIdAndCollection:_activity[@"owner"]
+                                             collection:self.meteor.collections[@"users"]];
     
     UIImageView *profileImage = (UIImageView *)[self.view viewWithTag:100];
-    [profileImage setImageWithURL:[NSURL URLWithString:[owner profileImageUrl:@75]]
-                 placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    NSString *profileImageUrl = [owner profileImageUrl:@75];
+    
+    if ([profileImageUrl length]) {
+        [profileImage setImageWithURL:[NSURL URLWithString:profileImageUrl]
+                     placeholderImage:[UIImage imageNamed:@"placeholder.png"]];        
+    }
     
     _activityText.contentInset = UIEdgeInsetsMake(-4,-8,-8,-8);
     

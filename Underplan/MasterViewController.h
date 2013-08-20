@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <ObjectiveDDP/MeteorClient.h>
 
+#import "UnderplanTableViewController.h"
+
 @class GroupViewController;
 
-@interface MasterViewController : UITableViewController
+@interface MasterViewController : UnderplanTableViewController
 
 @property (strong, nonatomic) GroupViewController *groupViewController;
 @property (weak, nonatomic) IBOutlet UILabel *connectionStatusText;

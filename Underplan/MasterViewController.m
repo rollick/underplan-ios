@@ -10,11 +10,6 @@
 #import "GroupViewController.h"
 #import "UnderplanAppDelegate.h"
 
-#import "UIColor+FlatUI.h"
-#import "UIFont+FlatUI.h"
-#import "UINavigationBar+FlatUI.h"
-#import "UIBarButtonItem+FlatUI.h"
-
 #import "MeteorClient.h"
 
 @interface MasterViewController ()
@@ -30,7 +25,7 @@
 - (void)awakeFromNib
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        self.clearsSelectionOnViewWillAppear = NO;
+//        self.clearsSelectionOnViewWillAppear = NO;
         self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
     }
     [super awakeFromNib];
@@ -80,16 +75,11 @@
 {
     [super viewDidLoad];
  
-    [UIBarButtonItem configureFlatButtonsWithColor:[UIColor colorFromHexCode:@"1f4100"]
-                                  highlightedColor:[UIColor colorFromHexCode:@"373737"]
-                                      cornerRadius:3
-                                   whenContainedIn:[UINavigationBar class], nil];
+    [[UITabBar appearance] setTintColor:[UIColor colorWithRed:(17/255.0) green:(17/255.0) blue:(17/255.0) alpha:1.0]]; //#111111
+//    [[UITabBar appearance] setBackgroundImage:[[UIImage alloc] init]];
+//    [[UITabBar appearance] setShadowImage:[[UIImage alloc] init]];
     
-    self.navigationController.navigationBar.titleTextAttributes = @{UITextAttributeFont: [UIFont boldFlatFontOfSize:18],
-                                                                    UITextAttributeTextColor: [UIColor whiteColor]};
-    
-    [self.navigationController.navigationBar configureFlatNavigationBarWithColor:[UIColor colorFromHexCode:@"008000"]];
-
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.0 green:(128/255.0) blue:0.0 alpha:1.0]; //#008000
     
     UnderplanAppDelegate *appDelegate = (UnderplanAppDelegate*)[[UIApplication sharedApplication] delegate];
     self.meteor = appDelegate.meteor;

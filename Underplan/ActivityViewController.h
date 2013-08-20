@@ -6,15 +6,19 @@
 //  Copyright (c) 2013 Mark Gallop. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <ObjectiveDDP/MeteorClient.h>
+#import "UnderplanViewController.h"
 
-@interface ActivityViewController : UIViewController
+#import <UIKit/UIKit.h>
+#import "MeteorClient.h"
+#import "MeteorClient+Extras.h"
+
+@interface ActivityViewController : UnderplanViewController
 
 @property (weak, nonatomic) IBOutlet UILabel *activityTitle;
 @property (weak, nonatomic) IBOutlet UITextView *activityText;
 
 @property (copy, nonatomic) NSDictionary *activity;
 @property (strong, nonatomic) MeteorClient *meteor;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *commentsButton;
 
 @end

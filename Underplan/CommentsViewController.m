@@ -44,8 +44,7 @@
 - (void)configureMeteor
 {
     NSArray *params = @[_activity[@"_id"]];
-    [_meteor addSubscription:@"activityComments"
-                  parameters:params];
+    [_meteor addSubscriptionWithParameters:@"activityComments" paramaters:params];
 }
 
 - (void)viewDidLoad
@@ -88,6 +87,11 @@
 
 #pragma mark - Table View
 
+- (NSArray *)computedList {
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", self.activity[@"_id"]];
+    return [self.meteor.collections[@"comments"] filteredArrayUsingPredicate:pred];
+}
+
 - (void)didReceiveUpdate:(NSNotification *)notification
 {
     // TODO: look into the correct use of the ready, added, removed notifcations
@@ -107,13 +111,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_meteor.collections[@"comments"] count];
+    return [self.computedList count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UserItemView *cell = [tableView dequeueReusableCellWithIdentifier:@"item"];
-    NSDictionary *comment = _meteor.collections[@"comments"][indexPath.row];
+    NSDictionary *comment = self.computedList[indexPath.row];
     NSString *text = comment[@"comment"];
     
     return [cell cellHeight:text];
@@ -124,11 +128,10 @@
     static NSString *cellIdentifier = @"item";
     UserItemView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    NSDictionary *comment = _meteor.collections[@"comments"][indexPath.row];
+    NSDictionary *comment = self.computedList[indexPath.row];
     
     // Fetch owner
-    User *owner = [[User alloc] initWithCollectionAndId:self.meteor.collections[@"users"]
-                                                     id:comment[@"owner"]];
+    User *owner = [[User alloc] initWithIdAndCollection:comment[@"owner"] collection:self.meteor.collections[@"users"]];
     
     // Set the profile image
     // TODO: Maybe the activity cell needs to have a custom view which can

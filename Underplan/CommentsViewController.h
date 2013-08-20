@@ -6,11 +6,13 @@
 //  Copyright (c) 2013 Mark Gallop. All rights reserved.
 //
 
+#import "UnderplanViewController.h"
+
 #import <UIKit/UIKit.h>
-
 #import "MeteorClient.h"
+#import "MeteorClient+Extras.h"
 
-@interface CommentsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface CommentsViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

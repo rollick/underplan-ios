@@ -9,6 +9,7 @@
 #import "UnderplanAppDelegate.h"
 #import "MasterViewController.h"
 #import "MeteorClient.h"
+#import "MeteorClient+Extras.h"
 #import "ObjectiveDDP.h"
 #import <ObjectiveDDP/MeteorClient.h>
 
@@ -17,18 +18,6 @@
 
 - (void)customizeAppearance
 {
-//    // Create resizable images
-//    UIImage *gradientImage44 = [[UIImage imageNamed:@"surf_gradient_textured_44"]
-//                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-//    UIImage *gradientImage32 = [[UIImage imageNamed:@"surf_gradient_textured_32"]
-//                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-//    
-//    // Set the background image for *all* UINavigationBars
-//    [[UINavigationBar appearance] setBackgroundImage:gradientImage44
-//                                       forBarMetrics:UIBarMetricsDefault];
-//    [[UINavigationBar appearance] setBackgroundImage:gradientImage32
-//                                       forBarMetrics:UIBarMetricsLandscapePhone];
-//    
     // Customize the title text for *all* UINavigationBars
     [[UINavigationBar appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
@@ -45,7 +34,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [self customizeAppearance];
+//    [self customizeAppearance];
     
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -56,12 +45,13 @@
         
     self.meteor = [[MeteorClient alloc] init];
     
-    [self.meteor addSubscription:@"groups" parameters:nil];
-    [self.meteor addSubscription:@"directory" parameters:nil];
+    NSArray *params = @[@{@"limit":@10}];
+    [self.meteor addSubscriptionWithParameters:@"groups" paramaters:params];
+    [self.meteor addSubscription:@"directory"];
 
-//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://underplan.it/websocket" delegate:self.meteor];
+//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"wss://underplan.it/websocket" delegate:self.meteor];
     
-    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.meteor];
+    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"wss://localhost:3000/websocket" delegate:self.meteor];
     
     self.meteor.ddp = ddp;
     

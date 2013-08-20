@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface User : NSDictionary
+#import "MeteorModel.h"
 
-@property (assign) NSNumber *_id;
-@property (assign) NSNumber *admin;
-@property (assign) NSDictionary *profile;
-@property (assign) NSDictionary *services;
+@interface User : MeteorModel
 
-- (id)initWithData:(NSDictionary *)data_;
-- (id)initWithCollectionAndId: (NSMutableArray *)collection_ id:(NSString *)id_;
+@property (assign, nonatomic) NSString *_id;
+@property (strong, nonatomic) NSNumber *admin;
+@property (strong, nonatomic) NSDictionary *profile;
+@property (strong, nonatomic) NSDictionary *services;
+
 - (NSString *)profileImageUrl:(NSNumber *)size;
 
 @end

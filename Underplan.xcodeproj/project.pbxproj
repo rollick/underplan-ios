@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		20A272A5EC7E48D3AC3D25C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F923E2DB94994B0ABF43E5B3 /* libPods.a */; };
+		260CFC8117B1543800FC7787 /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = 260CFC8017B1543800FC7787 /* Activity.m */; };
+		260CFC8417B16CC400FC7787 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 260CFC8317B16CC400FC7787 /* Group.m */; };
+		260CFC8717B2803F00FC7787 /* MeteorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 260CFC8617B2803F00FC7787 /* MeteorModel.m */; };
+		260CFC8A17B294C400FC7787 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 260CFC8917B294C400FC7787 /* Photo.m */; };
+		260CFC8C17B29F7100FC7787 /* pano_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 260CFC8B17B29F7100FC7787 /* pano_image.jpg */; };
 		26659053179EE51E001EFABF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659052179EE51E001EFABF /* UIKit.framework */; };
 		26659055179EE51E001EFABF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659054179EE51E001EFABF /* Foundation.framework */; };
 		26659057179EE51E001EFABF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659056179EE51E001EFABF /* CoreGraphics.framework */; };
@@ -20,7 +25,7 @@
 		2665906C179EE51E001EFABF /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2665906A179EE51E001EFABF /* MainStoryboard_iPhone.storyboard */; };
 		2665906F179EE51E001EFABF /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2665906D179EE51E001EFABF /* MainStoryboard_iPad.storyboard */; };
 		26659072179EE51E001EFABF /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659071179EE51E001EFABF /* MasterViewController.m */; };
-		26659075179EE51E001EFABF /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659074179EE51E001EFABF /* GroupViewController.m */; };
+		26659075179EE51E001EFABF /* ActivityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659074179EE51E001EFABF /* ActivityListViewController.m */; };
 		2665907D179EE51E001EFABF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2665907C179EE51E001EFABF /* SenTestingKit.framework */; };
 		2665907E179EE51E001EFABF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659052179EE51E001EFABF /* UIKit.framework */; };
 		2665907F179EE51E001EFABF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659054179EE51E001EFABF /* Foundation.framework */; };
@@ -38,13 +43,27 @@
 		266590B9179FEC8E001EFABF /* UserItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590B8179FEC8E001EFABF /* UserItemView.m */; };
 		266590BB179FECE8001EFABF /* UserItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 266590BA179FECE8001EFABF /* UserItemView.xib */; };
 		266590BE17A01447001EFABF /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590BD17A01447001EFABF /* ActivityViewController.m */; };
+		26848EF917B871B90021E247 /* UITabBarController+hidable.m in Sources */ = {isa = PBXBuildFile; fileRef = 26848EF717B871B90021E247 /* UITabBarController+hidable.m */; };
 		26A1D5C917A05B9E00526060 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A1D5C817A05B9E00526060 /* CoreText.framework */; };
 		26A1D5CB17A060B300526060 /* dash_bg_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 26A1D5CA17A060B300526060 /* dash_bg_3.jpg */; };
 		26A1D5CD17A1225500526060 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A1D5CC17A1225500526060 /* ImageIO.framework */; };
 		26A1D5D417A12F3C00526060 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A1D5D317A12F3C00526060 /* User.m */; };
 		26A1D5D817A1B5E300526060 /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A1D5D717A1B5E300526060 /* CommentsViewController.m */; };
-		26A1D5DB17A1BDCA00526060 /* glyphicons_309_comments.png in Resources */ = {isa = PBXBuildFile; fileRef = 26A1D5D917A1BDCA00526060 /* glyphicons_309_comments.png */; };
-		26A1D5DC17A1BDCA00526060 /* glyphicons_309_comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26A1D5DA17A1BDCA00526060 /* glyphicons_309_comments@2x.png */; };
+		26A1D5DB17A1BDCA00526060 /* comments.png in Resources */ = {isa = PBXBuildFile; fileRef = 26A1D5D917A1BDCA00526060 /* comments.png */; };
+		26A1D5DC17A1BDCA00526060 /* comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26A1D5DA17A1BDCA00526060 /* comments@2x.png */; };
+		26BE35EE17C3512700EE76C2 /* MeteorClient+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 26BE35ED17C3512700EE76C2 /* MeteorClient+Extras.m */; };
+		26EA950217B39D53003E31CA /* map_pin_fill_10x16.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EA950117B39D53003E31CA /* map_pin_fill_10x16.png */; };
+		26EA950417B39D6D003E31CA /* map_pin_fill_20x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EA950317B39D6D003E31CA /* map_pin_fill_20x32.png */; };
+		26EA950717B5121F003E31CA /* ActivityMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EA950617B5121E003E31CA /* ActivityMapViewController.m */; };
+		26EA950F17B52014003E31CA /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EA950E17B52013003E31CA /* GroupViewController.m */; };
+		26EA951217B54220003E31CA /* transparent-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EA951117B54220003E31CA /* transparent-bg.png */; };
+		26EA951417B559E4003E31CA /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EA951317B559E4003E31CA /* map@2x.png */; };
+		26EA951617B55AB8003E31CA /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EA951517B55AB8003E31CA /* map.png */; };
+		26EA951917B55B45003E31CA /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EA951717B55B44003E31CA /* list.png */; };
+		26EA951A17B55B45003E31CA /* list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EA951817B55B44003E31CA /* list@2x.png */; };
+		26EA951D17B64E6D003E31CA /* UnderplanTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EA951C17B64E6D003E31CA /* UnderplanTableViewController.m */; };
+		26EA952017B65429003E31CA /* UnderplanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EA951F17B65429003E31CA /* UnderplanViewController.m */; };
+		26F9A91417AA8A81007B0CBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26F9A91317AA8A81007B0CBB /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +77,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		260CFC7F17B1543800FC7787 /* Activity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Activity.h; sourceTree = "<group>"; };
+		260CFC8017B1543800FC7787 /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Activity.m; sourceTree = "<group>"; };
+		260CFC8217B16CC400FC7787 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
+		260CFC8317B16CC400FC7787 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
+		260CFC8517B2803F00FC7787 /* MeteorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeteorModel.h; sourceTree = "<group>"; };
+		260CFC8617B2803F00FC7787 /* MeteorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeteorModel.m; sourceTree = "<group>"; };
+		260CFC8817B294C400FC7787 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		260CFC8917B294C400FC7787 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		260CFC8B17B29F7100FC7787 /* pano_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pano_image.jpg; sourceTree = "<group>"; };
 		2665904F179EE51E001EFABF /* Underplan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Underplan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26659052179EE51E001EFABF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		26659054179EE51E001EFABF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -75,8 +103,8 @@
 		2665906E179EE51E001EFABF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		26659070179EE51E001EFABF /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		26659071179EE51E001EFABF /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		26659073179EE51E001EFABF /* GroupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
-		26659074179EE51E001EFABF /* GroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GroupViewController.m; path = Underplan/GroupViewController.m; sourceTree = SOURCE_ROOT; };
+		26659073179EE51E001EFABF /* ActivityListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityListViewController.h; sourceTree = "<group>"; };
+		26659074179EE51E001EFABF /* ActivityListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ActivityListViewController.m; path = Underplan/ActivityListViewController.m; sourceTree = SOURCE_ROOT; };
 		2665907B179EE51E001EFABF /* UnderplanTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnderplanTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2665907C179EE51E001EFABF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		26659084179EE51E001EFABF /* UnderplanTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnderplanTests-Info.plist"; sourceTree = "<group>"; };
@@ -98,6 +126,8 @@
 		266590BA179FECE8001EFABF /* UserItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserItemView.xib; sourceTree = "<group>"; };
 		266590BC17A01447001EFABF /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
 		266590BD17A01447001EFABF /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
+		26848EF717B871B90021E247 /* UITabBarController+hidable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+hidable.m"; sourceTree = "<group>"; };
+		26848EF817B871B90021E247 /* UITabBarController+hidable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+hidable.h"; sourceTree = "<group>"; };
 		26A1D5C817A05B9E00526060 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		26A1D5CA17A060B300526060 /* dash_bg_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dash_bg_3.jpg; sourceTree = "<group>"; };
 		26A1D5CC17A1225500526060 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -105,8 +135,26 @@
 		26A1D5D317A12F3C00526060 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		26A1D5D617A1B5E300526060 /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsViewController.h; sourceTree = "<group>"; };
 		26A1D5D717A1B5E300526060 /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsViewController.m; sourceTree = "<group>"; };
-		26A1D5D917A1BDCA00526060 /* glyphicons_309_comments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glyphicons_309_comments.png; sourceTree = "<group>"; };
-		26A1D5DA17A1BDCA00526060 /* glyphicons_309_comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glyphicons_309_comments@2x.png"; sourceTree = "<group>"; };
+		26A1D5D917A1BDCA00526060 /* comments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comments.png; sourceTree = "<group>"; };
+		26A1D5DA17A1BDCA00526060 /* comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comments@2x.png"; sourceTree = "<group>"; };
+		26BE35EC17C3512700EE76C2 /* MeteorClient+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MeteorClient+Extras.h"; sourceTree = "<group>"; };
+		26BE35ED17C3512700EE76C2 /* MeteorClient+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MeteorClient+Extras.m"; sourceTree = "<group>"; };
+		26EA950117B39D53003E31CA /* map_pin_fill_10x16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map_pin_fill_10x16.png; path = ../map_pin_fill_10x16.png; sourceTree = "<group>"; };
+		26EA950317B39D6D003E31CA /* map_pin_fill_20x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_pin_fill_20x32.png; sourceTree = "<group>"; };
+		26EA950517B5121E003E31CA /* ActivityMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityMapViewController.h; sourceTree = "<group>"; };
+		26EA950617B5121E003E31CA /* ActivityMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityMapViewController.m; sourceTree = "<group>"; };
+		26EA950D17B52013003E31CA /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
+		26EA950E17B52013003E31CA /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		26EA951117B54220003E31CA /* transparent-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "transparent-bg.png"; sourceTree = "<group>"; };
+		26EA951317B559E4003E31CA /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@2x.png"; sourceTree = "<group>"; };
+		26EA951517B55AB8003E31CA /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
+		26EA951717B55B44003E31CA /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list.png; sourceTree = "<group>"; };
+		26EA951817B55B44003E31CA /* list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list@2x.png"; sourceTree = "<group>"; };
+		26EA951B17B64E6D003E31CA /* UnderplanTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanTableViewController.h; sourceTree = "<group>"; };
+		26EA951C17B64E6D003E31CA /* UnderplanTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanTableViewController.m; sourceTree = "<group>"; };
+		26EA951E17B65429003E31CA /* UnderplanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanViewController.h; sourceTree = "<group>"; };
+		26EA951F17B65429003E31CA /* UnderplanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanViewController.m; sourceTree = "<group>"; };
+		26F9A91317AA8A81007B0CBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		F923E2DB94994B0ABF43E5B3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -116,6 +164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26F9A91417AA8A81007B0CBB /* CoreData.framework in Frameworks */,
 				26A1D5CD17A1225500526060 /* ImageIO.framework in Frameworks */,
 				26A1D5C917A05B9E00526060 /* CoreText.framework in Frameworks */,
 				266590B3179FBD77001EFABF /* MapKit.framework in Frameworks */,
@@ -165,6 +214,7 @@
 		26659051179EE51E001EFABF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				26F9A91317AA8A81007B0CBB /* CoreData.framework */,
 				26A1D5CC17A1225500526060 /* ImageIO.framework */,
 				26A1D5C817A05B9E00526060 /* CoreText.framework */,
 				266590A4179EE816001EFABF /* libicucore.dylib */,
@@ -183,22 +233,14 @@
 		26659058179EE51E001EFABF /* Underplan */ = {
 			isa = PBXGroup;
 			children = (
-				26A1D5DD17A3149100526060 /* Components */,
-				26A1D5D517A16EE500526060 /* Models */,
 				26659061179EE51E001EFABF /* UnderplanAppDelegate.h */,
 				26659062179EE51E001EFABF /* UnderplanAppDelegate.m */,
 				2665906A179EE51E001EFABF /* MainStoryboard_iPhone.storyboard */,
 				2665906D179EE51E001EFABF /* MainStoryboard_iPad.storyboard */,
-				26659070179EE51E001EFABF /* MasterViewController.h */,
-				26659071179EE51E001EFABF /* MasterViewController.m */,
-				26659073179EE51E001EFABF /* GroupViewController.h */,
-				26659074179EE51E001EFABF /* GroupViewController.m */,
-				266590BC17A01447001EFABF /* ActivityViewController.h */,
-				266590BD17A01447001EFABF /* ActivityViewController.m */,
-				26A1D5D617A1B5E300526060 /* CommentsViewController.h */,
-				26A1D5D717A1B5E300526060 /* CommentsViewController.m */,
-				266590B4179FC5BC001EFABF /* ActivityFeedAnnotation.h */,
-				266590B5179FC5BC001EFABF /* ActivityFeedAnnotation.m */,
+				26EA951017B5268B003E31CA /* Controllers */,
+				26A1D5DD17A3149100526060 /* Components */,
+				26A1D5D517A16EE500526060 /* Models */,
+				26F9A8B617A95E7B007B0CBB /* Third Party */,
 				26659059179EE51E001EFABF /* Supporting Files */,
 			);
 			path = Underplan;
@@ -241,8 +283,16 @@
 		26659093179EE7A5001EFABF /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				26A1D5D917A1BDCA00526060 /* glyphicons_309_comments.png */,
-				26A1D5DA17A1BDCA00526060 /* glyphicons_309_comments@2x.png */,
+				26EA951717B55B44003E31CA /* list.png */,
+				26EA951817B55B44003E31CA /* list@2x.png */,
+				26EA951517B55AB8003E31CA /* map.png */,
+				26EA951317B559E4003E31CA /* map@2x.png */,
+				26EA951117B54220003E31CA /* transparent-bg.png */,
+				26EA950317B39D6D003E31CA /* map_pin_fill_20x32.png */,
+				26EA950117B39D53003E31CA /* map_pin_fill_10x16.png */,
+				260CFC8B17B29F7100FC7787 /* pano_image.jpg */,
+				26A1D5D917A1BDCA00526060 /* comments.png */,
+				26A1D5DA17A1BDCA00526060 /* comments@2x.png */,
 				26A1D5CA17A060B300526060 /* dash_bg_3.jpg */,
 				266590B0179EE8D3001EFABF /* logo-144.png */,
 				266590AE179EE8CF001EFABF /* logo-72.png */,
@@ -255,8 +305,16 @@
 		26A1D5D517A16EE500526060 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				260CFC8817B294C400FC7787 /* Photo.h */,
+				260CFC8917B294C400FC7787 /* Photo.m */,
 				26A1D5D217A12F3C00526060 /* User.h */,
 				26A1D5D317A12F3C00526060 /* User.m */,
+				260CFC7F17B1543800FC7787 /* Activity.h */,
+				260CFC8017B1543800FC7787 /* Activity.m */,
+				260CFC8217B16CC400FC7787 /* Group.h */,
+				260CFC8317B16CC400FC7787 /* Group.m */,
+				260CFC8517B2803F00FC7787 /* MeteorModel.h */,
+				260CFC8617B2803F00FC7787 /* MeteorModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -264,11 +322,47 @@
 		26A1D5DD17A3149100526060 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				26848EF817B871B90021E247 /* UITabBarController+hidable.h */,
+				26848EF717B871B90021E247 /* UITabBarController+hidable.m */,
+				266590B4179FC5BC001EFABF /* ActivityFeedAnnotation.h */,
+				266590B5179FC5BC001EFABF /* ActivityFeedAnnotation.m */,
 				266590B7179FEC8E001EFABF /* UserItemView.h */,
 				266590B8179FEC8E001EFABF /* UserItemView.m */,
 				266590BA179FECE8001EFABF /* UserItemView.xib */,
+				26EA951E17B65429003E31CA /* UnderplanViewController.h */,
+				26EA951F17B65429003E31CA /* UnderplanViewController.m */,
+				26EA951B17B64E6D003E31CA /* UnderplanTableViewController.h */,
+				26EA951C17B64E6D003E31CA /* UnderplanTableViewController.m */,
 			);
 			name = Components;
+			sourceTree = "<group>";
+		};
+		26EA951017B5268B003E31CA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				26659070179EE51E001EFABF /* MasterViewController.h */,
+				26659071179EE51E001EFABF /* MasterViewController.m */,
+				26EA950D17B52013003E31CA /* GroupViewController.h */,
+				26EA950E17B52013003E31CA /* GroupViewController.m */,
+				26659073179EE51E001EFABF /* ActivityListViewController.h */,
+				26659074179EE51E001EFABF /* ActivityListViewController.m */,
+				26EA950517B5121E003E31CA /* ActivityMapViewController.h */,
+				26EA950617B5121E003E31CA /* ActivityMapViewController.m */,
+				266590BC17A01447001EFABF /* ActivityViewController.h */,
+				266590BD17A01447001EFABF /* ActivityViewController.m */,
+				26A1D5D617A1B5E300526060 /* CommentsViewController.h */,
+				26A1D5D717A1B5E300526060 /* CommentsViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		26F9A8B617A95E7B007B0CBB /* Third Party */ = {
+			isa = PBXGroup;
+			children = (
+				26BE35EC17C3512700EE76C2 /* MeteorClient+Extras.h */,
+				26BE35ED17C3512700EE76C2 /* MeteorClient+Extras.m */,
+			);
+			name = "Third Party";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,6 +415,11 @@
 				CLASSPREFIX = Underplan;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Mark Gallop";
+				TargetAttributes = {
+					2665904E179EE51D001EFABF = {
+						DevelopmentTeam = Z7LGFPDX6K;
+					};
+				};
 			};
 			buildConfigurationList = 2665904A179EE51D001EFABF /* Build configuration list for PBXProject "Underplan" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -357,8 +456,16 @@
 				266590B1179EE8D3001EFABF /* logo-144.png in Resources */,
 				266590BB179FECE8001EFABF /* UserItemView.xib in Resources */,
 				26A1D5CB17A060B300526060 /* dash_bg_3.jpg in Resources */,
-				26A1D5DB17A1BDCA00526060 /* glyphicons_309_comments.png in Resources */,
-				26A1D5DC17A1BDCA00526060 /* glyphicons_309_comments@2x.png in Resources */,
+				26A1D5DB17A1BDCA00526060 /* comments.png in Resources */,
+				26A1D5DC17A1BDCA00526060 /* comments@2x.png in Resources */,
+				260CFC8C17B29F7100FC7787 /* pano_image.jpg in Resources */,
+				26EA950217B39D53003E31CA /* map_pin_fill_10x16.png in Resources */,
+				26EA950417B39D6D003E31CA /* map_pin_fill_20x32.png in Resources */,
+				26EA951217B54220003E31CA /* transparent-bg.png in Resources */,
+				26EA951417B559E4003E31CA /* map@2x.png in Resources */,
+				26EA951617B55AB8003E31CA /* map.png in Resources */,
+				26EA951917B55B45003E31CA /* list.png in Resources */,
+				26EA951A17B55B45003E31CA /* list@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,12 +533,22 @@
 				2665905F179EE51E001EFABF /* main.m in Sources */,
 				26659063179EE51E001EFABF /* UnderplanAppDelegate.m in Sources */,
 				26659072179EE51E001EFABF /* MasterViewController.m in Sources */,
-				26659075179EE51E001EFABF /* GroupViewController.m in Sources */,
+				26659075179EE51E001EFABF /* ActivityListViewController.m in Sources */,
 				266590B6179FC5BC001EFABF /* ActivityFeedAnnotation.m in Sources */,
 				266590B9179FEC8E001EFABF /* UserItemView.m in Sources */,
 				266590BE17A01447001EFABF /* ActivityViewController.m in Sources */,
 				26A1D5D417A12F3C00526060 /* User.m in Sources */,
 				26A1D5D817A1B5E300526060 /* CommentsViewController.m in Sources */,
+				260CFC8117B1543800FC7787 /* Activity.m in Sources */,
+				260CFC8417B16CC400FC7787 /* Group.m in Sources */,
+				260CFC8717B2803F00FC7787 /* MeteorModel.m in Sources */,
+				26BE35EE17C3512700EE76C2 /* MeteorClient+Extras.m in Sources */,
+				260CFC8A17B294C400FC7787 /* Photo.m in Sources */,
+				26EA950717B5121F003E31CA /* ActivityMapViewController.m in Sources */,
+				26EA950F17B52014003E31CA /* GroupViewController.m in Sources */,
+				26EA951D17B64E6D003E31CA /* UnderplanTableViewController.m in Sources */,
+				26EA952017B65429003E31CA /* UnderplanViewController.m in Sources */,
+				26848EF917B871B90021E247 /* UITabBarController+hidable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,7 +633,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				SDKROOT = iphoneos6.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -541,7 +660,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				SDKROOT = iphoneos;
+				OTHER_LDFLAGS = "";
+				SDKROOT = iphoneos6.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -551,10 +671,36 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Underplan/Underplan-Prefix.pch";
 				INFOPLIST_FILE = "Underplan/Underplan-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lcrypto",
+					"-licucore",
+					"-lxml2.2",
+					"-lz.1",
+					"-framework",
+					CFNetwork,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					CoreText,
+					"-framework",
+					ImageIO,
+					"-framework",
+					MapKit,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos6.1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -563,10 +709,36 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Underplan/Underplan-Prefix.pch";
 				INFOPLIST_FILE = "Underplan/Underplan-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lcrypto",
+					"-licucore",
+					"-lxml2.2",
+					"-lz.1",
+					"-framework",
+					CFNetwork,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					CoreText,
+					"-framework",
+					ImageIO,
+					"-framework",
+					MapKit,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos6.1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

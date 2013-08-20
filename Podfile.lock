@@ -1,4 +1,15 @@
 PODS:
+  - ASIHTTPRequest (1.8.1):
+    - ASIHTTPRequest/ASIWebPageRequest
+    - ASIHTTPRequest/CloudFiles
+    - ASIHTTPRequest/S3
+    - Reachability
+  - ASIHTTPRequest/ASIWebPageRequest (1.8.1):
+    - Reachability
+  - ASIHTTPRequest/CloudFiles (1.8.1):
+    - Reachability
+  - ASIHTTPRequest/S3 (1.8.1):
+    - Reachability
   - FlatUIKit (1.2)
   - libwebp (0.3.0-rc7):
     - libwebp/dec
@@ -9,17 +20,21 @@ PODS:
   - libwebp/dsp (0.3.0-rc7)
   - libwebp/utils (0.3.0-rc7)
   - libwebp/webp (0.3.0-rc7)
-  - ObjectiveDDP (0.0.20)
-  - SDWebImage (3.3):
+  - ObjectiveDDP (0.0.21)
+  - Reachability (3.1.1)
+  - SBJson (3.1)
+  - SDWebImage (3.4):
     - libwebp
     - SDWebImage/MapKit
-  - SDWebImage/MapKit (3.3):
+  - SDWebImage/MapKit (3.4):
     - libwebp
   - SocketRocket (HEAD based on 0.3.1-beta2)
 
 DEPENDENCIES:
+  - ASIHTTPRequest
   - FlatUIKit
   - ObjectiveDDP (from `git@github.com:boundsj/ObjectiveDDP.git`, branch `master`)
+  - SBJson (= 3.1)
   - SDWebImage
   - SocketRocket (HEAD)
 
@@ -29,10 +44,13 @@ EXTERNAL SOURCES:
     :git: git@github.com:boundsj/ObjectiveDDP.git
 
 SPEC CHECKSUMS:
+  ASIHTTPRequest: a411b8d0f006ed8fc24248be6a0c4ad2abc9b101
   FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
   libwebp: 40517fa1fd3716eded73b4696c45fc0b66e4b414
-  ObjectiveDDP: b5e625861a1d5b777b7617d3035465eb017d4cb9
-  SDWebImage: 79a8bac9ccf85b269100b294f7b43684dab8bf8a
+  ObjectiveDDP: 923cf6a62aed54febb2d9c18e37a32087682bd37
+  Reachability: 2be6bc2fd2bd31d97f5db33e75e4b29c79e95883
+  SBJson: 0c76c1e4ec7c4fbf9c9c0d9fa78cb3c5743cbe9a
+  SDWebImage: f13f791e411c632489824aa7f129e230b52bf5c4
   SocketRocket: 7ac946bcce46287a791dfff3c1f8daa692821dae
 
 COCOAPODS: 0.22.2

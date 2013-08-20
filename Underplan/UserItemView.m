@@ -14,7 +14,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+        // init code here...
     }
     return self;
 }
@@ -37,7 +37,26 @@
     
     CGSize textSize = [self.mainText.text sizeWithFont:self.mainText.font constrainedToSize:CGSizeMake(self.mainText.frame.size.width, MAXFLOAT) lineBreakMode:self.mainText.lineBreakMode];
     
-    return textSize.height + self.image.frame.size.height + self.marginTop.constant + self.marginBottom.constant + self.imageTextPadding.constant;
+    return  textSize.height +
+            self.marginTop.constant +
+            self.image.frame.size.height +
+            self.photoContentPadding.constant +
+            self.contentImage.frame.size.height +
+            self.marginBottom.constant + 30; // random 30 added... missing something :-(
+}
+
+- (CGFloat)textHeight:(NSString *)text
+{
+    if ([text length] > 250)
+    {
+        self.mainText.text = [text substringToIndex:250];
+    } else {
+        self.mainText.text = text;
+    }
+    
+    CGSize textSize = [self.mainText.text sizeWithFont:self.mainText.font constrainedToSize:CGSizeMake(self.mainText.frame.size.width, MAXFLOAT) lineBreakMode:self.mainText.lineBreakMode];
+    
+    return  textSize.height;
 }
 
 @end

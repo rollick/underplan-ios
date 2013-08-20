@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F5E2C78D-389F-4E0A-887C-481C5C1BB2AA</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Underplan</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>919AC119-D222-4D33-818B-F011538B43B2</key>
+		<string>ssh://bitbucket.org/rollick/underplan-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Underplan.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>919AC119-D222-4D33-818B-F011538B43B2</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://bitbucket.org/rollick/underplan-ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>919AC119-D222-4D33-818B-F011538B43B2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>919AC119-D222-4D33-818B-F011538B43B2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Underplan-iOS</string>
+		</dict>
+	</array>
+</dict>
+</plist>
