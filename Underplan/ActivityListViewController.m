@@ -10,7 +10,7 @@
 #import "UnderplanAppDelegate.h"
 #import "ActivityViewController.h"
 #import "UserItemView.h"
-#import "UITabBarController+hidable.h"
+#import "UITabBarController+ShowHideBar.h"
 
 #import "User.h"
 #import "Activity.h"
@@ -262,8 +262,7 @@
     
     hidden = YES;
     
-//    [self.tabBarController setTabBarHidden:YES
-//                                  animated:YES];
+    [self.tabBarController setHidden:YES];
     
     [self.navigationController setNavigationBarHidden:YES
                                              animated:YES];
@@ -276,8 +275,7 @@
     
     hidden = NO;
     
-//    [self.tabBarController setTabBarHidden:NO
-//                                  animated:YES];
+    [self.tabBarController setHidden:NO];
     
     [self.navigationController setNavigationBarHidden:NO
                                              animated:YES];

@@ -122,7 +122,7 @@
 - (void)didReceiveUpdate:(NSNotification *)notification
 {
     // Refresh view if this activity was updated
-    if (notification.userInfo[@"_id"] == self.activity[@"_id"]) {
+    if (![[notification name] isEqualToString:@"ready"] && notification.userInfo[@"_id"] == self.activity[@"_id"]) {
         [self setActivityDetails];
     }
 }

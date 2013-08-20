@@ -43,7 +43,7 @@
 		266590B9179FEC8E001EFABF /* UserItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590B8179FEC8E001EFABF /* UserItemView.m */; };
 		266590BB179FECE8001EFABF /* UserItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 266590BA179FECE8001EFABF /* UserItemView.xib */; };
 		266590BE17A01447001EFABF /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590BD17A01447001EFABF /* ActivityViewController.m */; };
-		26848EF917B871B90021E247 /* UITabBarController+hidable.m in Sources */ = {isa = PBXBuildFile; fileRef = 26848EF717B871B90021E247 /* UITabBarController+hidable.m */; };
+		26848EF917B871B90021E247 /* UITabBarController+ShowHideBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 26848EF717B871B90021E247 /* UITabBarController+ShowHideBar.m */; };
 		26A1D5C917A05B9E00526060 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A1D5C817A05B9E00526060 /* CoreText.framework */; };
 		26A1D5CB17A060B300526060 /* dash_bg_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 26A1D5CA17A060B300526060 /* dash_bg_3.jpg */; };
 		26A1D5CD17A1225500526060 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A1D5CC17A1225500526060 /* ImageIO.framework */; };
@@ -126,8 +126,8 @@
 		266590BA179FECE8001EFABF /* UserItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserItemView.xib; sourceTree = "<group>"; };
 		266590BC17A01447001EFABF /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
 		266590BD17A01447001EFABF /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
-		26848EF717B871B90021E247 /* UITabBarController+hidable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+hidable.m"; sourceTree = "<group>"; };
-		26848EF817B871B90021E247 /* UITabBarController+hidable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+hidable.h"; sourceTree = "<group>"; };
+		26848EF717B871B90021E247 /* UITabBarController+ShowHideBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+ShowHideBar.m"; sourceTree = "<group>"; };
+		26848EF817B871B90021E247 /* UITabBarController+ShowHideBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+ShowHideBar.h"; sourceTree = "<group>"; };
 		26A1D5C817A05B9E00526060 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		26A1D5CA17A060B300526060 /* dash_bg_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dash_bg_3.jpg; sourceTree = "<group>"; };
 		26A1D5CC17A1225500526060 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -322,8 +322,8 @@
 		26A1D5DD17A3149100526060 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				26848EF817B871B90021E247 /* UITabBarController+hidable.h */,
-				26848EF717B871B90021E247 /* UITabBarController+hidable.m */,
+				26848EF817B871B90021E247 /* UITabBarController+ShowHideBar.h */,
+				26848EF717B871B90021E247 /* UITabBarController+ShowHideBar.m */,
 				266590B4179FC5BC001EFABF /* ActivityFeedAnnotation.h */,
 				266590B5179FC5BC001EFABF /* ActivityFeedAnnotation.m */,
 				266590B7179FEC8E001EFABF /* UserItemView.h */,
@@ -548,7 +548,7 @@
 				26EA950F17B52014003E31CA /* GroupViewController.m in Sources */,
 				26EA951D17B64E6D003E31CA /* UnderplanTableViewController.m in Sources */,
 				26EA952017B65429003E31CA /* UnderplanViewController.m in Sources */,
-				26848EF917B871B90021E247 /* UITabBarController+hidable.m in Sources */,
+				26848EF917B871B90021E247 /* UITabBarController+ShowHideBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
