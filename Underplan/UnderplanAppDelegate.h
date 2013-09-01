@@ -8,13 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class MeteorClient;
+@class UnderplanApiClient;
 
-@interface UnderplanAppDelegate : UIResponder <UIApplicationDelegate> {
-    MeteorClient *meteorClient;
-}
+@interface UnderplanAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (retain, nonatomic) MeteorClient *meteor;
+@property (retain, nonatomic) UnderplanApiClient *apiClient;
 
 @end

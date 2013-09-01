@@ -9,8 +9,11 @@
 #import "MasterViewController.h"
 #import "GroupViewController.h"
 #import "UnderplanAppDelegate.h"
+#import "UIViewController+UnderplanApiNotifications.h"
+#import "SharedApiClient.h"
+#import "GroupItemViewCell.h"
 
-#import "MeteorClient.h"
+#import "UIColor+Underplan.h"
 
 @interface MasterViewController ()
 
@@ -33,65 +36,59 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.navigationItem.title = @"Underplan";
-
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"added"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"removed"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"ready"
-                                               object:nil];
+    self.navigationItem.title = @"Underplan";
+//    self.navigationController.toolbar.translucent = YES;
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)didReceiveApiUpdate:(NSNotification *)notification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+    self.connectionStatusText.text = @"Connected to Underplan!";
+    self.connectedToMeteor = YES;
 
-- (void)didReceiveUpdate:(NSNotification *)notification
-{
-    if([[notification name] isEqualToString:@"ready"])
-    {
-        self.connectionStatusText.text = @"Connected to Underplan!";
-        self.connectedToMeteor = YES;
-        
-        self._groups = self.meteor.collections[@"groups"];
-    } else //if([[notification name] isEqualToString:@"added"]) {
-    {
+    if ([[notification name] isEqualToString:@"ready"]) {
+        self._groups = [SharedApiClient getClient].collections[@"groups"];
         [self.tableView reloadData];
     }
-    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
- 
-    [[UITabBar appearance] setTintColor:[UIColor colorWithRed:(17/255.0) green:(17/255.0) blue:(17/255.0) alpha:1.0]]; //#111111
-//    [[UITabBar appearance] setBackgroundImage:[[UIImage alloc] init]];
-//    [[UITabBar appearance] setShadowImage:[[UIImage alloc] init]];
     
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.0 green:(128/255.0) blue:0.0 alpha:1.0]; //#008000
-    
-    UnderplanAppDelegate *appDelegate = (UnderplanAppDelegate*)[[UIApplication sharedApplication] delegate];
-    self.meteor = appDelegate.meteor;
-    
-    self._groups = self.meteor.collections[@"groups"];
-    [self.tableView reloadData];
+    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
 
-	// Do any additional setup after loading the view, typically from a nib.
-//    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    [[UITabBar appearance] setTintColor:[UIColor underplanPrimaryColor]];
+    [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
+
+//    self.navigationController.navigationBar.tintColor = [UIColor underplanPrimaryColor];
+    
 
     UIBarButtonItem *reconnectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reconnectSocket)];
     self.navigationItem.rightBarButtonItem = reconnectButton;
+    
+    self.view = [[UIView alloc] init];
+    self.tableView = [[UITableView alloc] init];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    
+    [self.view addSubview:self.tableView];
+    
+    self.view.backgroundColor = [UIColor underplanPanelColor];
+    self.tableView.backgroundColor = [UIColor underplanBgColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+//    self.view.layer.borderColor = [UIColor redColor].CGColor;
+//    self.view.layer.borderWidth = 8.0;
+    
+//    UINib *cellNib = [UINib nibWithNibName:@"GroupItemViewCell" bundle:nil];
+//    [self.tableView registerNib:cellNib forCellReuseIdentifier:@"Cell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -102,16 +99,11 @@
 
 - (void)reconnectSocket
 {
-    // Only reconnect if the connection is closed
-    if(self.meteor.ddp.webSocket.readyState == 3) {
-        // FIXME:   Do we need to invalidate the collections
-        //          before reconnecting?? Seems to duplicate the entries
-        //          if we don't.
-        [self.meteor resetCollections];
-        [self.meteor.ddp connectWebSocket];
-    } else {
-        [self.tableView reloadData];
-    }
+    [[SharedApiClient getClient].ddp connectWebSocket];
+    [[SharedApiClient getClient] resetCollections];
+
+    self._groups = [SharedApiClient getClient].collections[@"groups"];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table View
@@ -126,20 +118,30 @@
     return self._groups.count;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // TODO: calculate this based on cell content...
+    GroupItemViewCell *item = [[GroupItemViewCell alloc] init];
+    
+    return [item cellHeight];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    static NSString *cellIdentifier = @"Group";
+    static NSString *cellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    GroupItemViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (!cell) {
+        cell = [[GroupItemViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    }
     
     NSDictionary *group = self._groups[indexPath.row];
     
-    UILabel *name = (UILabel *)[cell viewWithTag:100];
-    name.text = group[@"name"];
-
-    UILabel *description = (UILabel *)[cell viewWithTag:101];
-    description.text = group[@"description"];
+    cell.title.text = group[@"name"];
+    cell.description.text = group[@"description"];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
@@ -178,10 +180,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        NSDictionary *group = self._groups[indexPath.row];
-        self.groupViewController.group = group;
-    }
+//    NSDictionary *group = self._groups[indexPath.row];
+//    self.groupViewController.group = group;
+
+    [self performSegueWithIdentifier:@"showGroup" sender:self.tableView];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -190,7 +192,6 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSDictionary *object = self._groups[indexPath.row];
         [[segue destinationViewController] setGroup:object];
-        [[segue destinationViewController] setMeteor:self.meteor];
     }
 }
 

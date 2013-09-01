@@ -13,7 +13,9 @@
 @property (copy, nonatomic) NSString *small;
 @property (copy, nonatomic) NSString *medium;
 @property (copy, nonatomic) NSString *large;
+@property (copy, nonatomic) NSString *xlarge;
+@property (copy, nonatomic) NSString *fitWidth;
 
-- (id)intWithFirstMatchByTagAndTrovebox:(NSString *)tags trovebox:(NSDictionary *)trovebox;
+- (id)initWithFirstMatchByTagAndTrovebox:(NSString *)tags trovebox:(NSDictionary *)trovebox;
 
 @end

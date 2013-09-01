@@ -9,5 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface UnderplanViewController : UIViewController
+{
+    @protected __weak UIScrollView *_scroller;
+    CGFloat _scrollViewContentOffsetYThreshold;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView*)aScrollView;
+- (void)resetNavigationBarPosition;
 
 @end

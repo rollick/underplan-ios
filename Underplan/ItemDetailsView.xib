@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4504" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3734.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view autoresizesSubviews="NO" contentMode="scaleToFill" id="1" customClass="ItemDetailsView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-114.png" translatesAutoresizingMaskIntoConstraints="NO" id="LTG-eH-ySj">
+                    <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="52" id="MNf-aC-TZe"/>
+                        <constraint firstAttribute="width" constant="52" id="lAn-rh-Pxx"/>
+                    </constraints>
+                </imageView>
+                <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Brian Brown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZj-Sy-dEV">
+                    <rect key="frame" x="60" y="4" width="260" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="A very long subtitle to test whether it truncates. Success!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRn-1e-qqp">
+                    <rect key="frame" x="60" y="30" width="253" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="dZj-Sy-dEV" firstAttribute="top" secondItem="LTG-eH-ySj" secondAttribute="top" constant="4" id="1NY-kA-bLQ"/>
+                <constraint firstItem="dZj-Sy-dEV" firstAttribute="leading" secondItem="LTG-eH-ySj" secondAttribute="trailing" constant="8" id="6th-rd-ZEU"/>
+                <constraint firstAttribute="bottom" secondItem="LTG-eH-ySj" secondAttribute="bottom" priority="800" id="Dw2-Jw-RXP"/>
+                <constraint firstItem="LTG-eH-ySj" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Jdy-Uu-9ty"/>
+                <constraint firstItem="LTG-eH-ySj" firstAttribute="top" secondItem="1" secondAttribute="top" id="LVz-xp-sQ4"/>
+                <constraint firstItem="cRn-1e-qqp" firstAttribute="leading" secondItem="LTG-eH-ySj" secondAttribute="trailing" constant="8" symbolic="YES" id="VCj-XQ-ssw"/>
+                <constraint firstAttribute="trailing" secondItem="cRn-1e-qqp" secondAttribute="trailing" constant="7" id="eBj-la-23V"/>
+                <constraint firstAttribute="trailing" secondItem="dZj-Sy-dEV" secondAttribute="trailing" id="mMh-Rs-Cqc"/>
+                <constraint firstItem="cRn-1e-qqp" firstAttribute="top" secondItem="dZj-Sy-dEV" secondAttribute="bottom" constant="4" id="yEZ-ce-UIp"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="image" destination="LTG-eH-ySj" id="Wn1-CW-45h"/>
+                <outlet property="subTitle" destination="cRn-1e-qqp" id="EvW-tU-0Ae"/>
+                <outlet property="title" destination="dZj-Sy-dEV" id="XgG-ZS-5ma"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="logo-114.png" width="114" height="114"/>
+    </resources>
+</document>

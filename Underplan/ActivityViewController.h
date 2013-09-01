@@ -9,16 +9,16 @@
 #import "UnderplanViewController.h"
 
 #import <UIKit/UIKit.h>
-#import "MeteorClient.h"
-#import "MeteorClient+Extras.h"
+#import "UnderplanApiClient.h"
+#import "ItemDetailsView.h"
 
-@interface ActivityViewController : UnderplanViewController
+@interface ActivityViewController : UnderplanViewController <UIScrollViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *activityTitle;
-@property (weak, nonatomic) IBOutlet UITextView *activityText;
+@property (retain, nonatomic) ItemDetailsView *detailsView;
+@property (retain, nonatomic) UITextView *mainText;
+@property (retain, nonatomic) UIImageView *contentImage;
+@property (retain, nonatomic) UIView *view;
 
 @property (copy, nonatomic) NSDictionary *activity;
-@property (strong, nonatomic) MeteorClient *meteor;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *commentsButton;
 
 @end

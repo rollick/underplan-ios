@@ -8,6 +8,10 @@
 
 #import "ActivityMapViewController.h"
 #import "ActivityFeedAnnotation.h"
+#import "UIViewController+UnderplanApiNotifications.h"
+#import "SharedApiClient.h"
+
+#import "UIColor+Underplan.h"
 
 @interface ActivityMapViewController ()
 
@@ -20,18 +24,10 @@
 
 @implementation ActivityMapViewController
 
-- (void)setMeteor:(MeteorClient *)newMeteor
+- (void)configureApiSubscriptions
 {
-    if (_meteor != newMeteor) {
-        _meteor = newMeteor;
-    }
-}
-
-- (void)setGroup:(id)newGroup
-{
-    if (_group != newGroup) {
-        _group = newGroup;
-    }
+    NSArray *params = @[_group[@"_id"]];
+    [[SharedApiClient getClient] addSubscription:@"basicActivityData" withParamaters:params];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -44,10 +40,32 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self configureApiSubscriptions];
     self.navigationItem.title = @"Map";
     
     MKCoordinateRegion worldRegion = MKCoordinateRegionForMapRect(MKMapRectWorld);
     _feedMapView.region = worldRegion;
+
+    // FIXME:   This is a hack when the willdisappear of the gallery controller
+    //          wasn't re-setting the tabbar reliably
+    [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
+    [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
+    
+    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
+    [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
+    
+    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
 }
 
 - (void)viewDidLoad
@@ -63,9 +81,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)didReceiveApiUpdate:(NSNotification *)notification
+{
+    // TODO: look into the correct use of the ready, added, removed notifcations
+    //       for table cells and meteor etc.
+    if([[notification name] isEqualToString:@"ready"]) {
+        [self reloadData];
+    }
+    
+//    [self reloadData];
+}
+
 - (NSArray *)computedList {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", self.group[@"_id"]];
-    return [self.meteor.collections[@"activities"] filteredArrayUsingPredicate:pred];
+    return [[SharedApiClient getClient].collections[@"activities"] filteredArrayUsingPredicate:pred];
 }
 
 //size the mapView region to fit its annotations

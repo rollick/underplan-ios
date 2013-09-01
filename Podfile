@@ -1,10 +1,14 @@
 platform :ios, '6.1'
-pod 'ObjectiveDDP', :git => 'git@github.com:boundsj/ObjectiveDDP.git', :branch => 'master'
+pod 'ObjectiveDDP', :git => 'https://github.com/rollick/ObjectiveDDP.git', :branch => 'master'
 pod 'SocketRocket', :head
 pod 'FlatUIKit'
 pod 'SDWebImage'
 pod 'ASIHTTPRequest'
 pod 'SBJson', '3.1'
+pod 'UIColor-HexString'
+pod 'TMQuiltView'
+pod 'ASMediaFocusManager', :git => 'https://github.com/rollick/ASMediaFocusManager.git'
+
 #pod 'MBProgressHUD'
 #pod 'ShareKit/Facebook'
 #pod 'ShareKit/GooglePlus'

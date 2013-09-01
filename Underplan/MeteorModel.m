@@ -30,12 +30,12 @@
     return self;
 }
 
-- (id)initWithIdAndMeteorClient: (NSString *)id_ meteor:(MeteorClient *)meteor
+- (id)initWithIdAndUnderplanApiClient: (NSString *)id_ apiClient:(UnderplanApiClient *)apiClient
 {
     self = [super init];
-    self.meteor = meteor;
+    self.apiClient = apiClient;
     
-    NSArray *collection_ = self.meteor.collections[self.collectionName];
+    NSArray *collection_ = self.apiClient.collections[self.collectionName];
     NSDictionary *data_ = [self findItemInDictionaryById:collection_ id:id_];
     [self processApiData:data_];
     

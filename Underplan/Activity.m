@@ -35,28 +35,69 @@
     return true;
 }
 
-- (NSString *)photoUrl
+- (NSString *)summaryInfo
 {
-    if (![self.meteor isKindOfClass:[MeteorClient class]]) {
-        [NSException raise:@"MeteorClientNotSpecified" format:@"Instance does not have access to MeteorClient with meteor property."];
+    // Set the info field - date and location
+    NSString *created;
+    NSString *city;
+    NSString *country;
+    if([self.created isKindOfClass:[NSMutableDictionary class]])
+    {
+        double dateDouble = [self.created[@"$date"] doubleValue];
+        dateDouble = dateDouble/1000;
+        NSDate *dateCreated = [NSDate dateWithTimeIntervalSince1970:dateDouble];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"dd MMM yyyy 'at' HH:mm"];
+        NSString *formattedDateString = [dateFormatter stringFromDate:dateCreated];
+        
+        created = formattedDateString;
+    }
+    else
+    {
+        created = @"1st Jan 2013";
     }
     
-    Group *group = [[Group alloc] initWithIdAndMeteorClient:self.groupId meteor:self.meteor];
+    if([self.city isKindOfClass:[NSString class]])
+    {
+        city = self.city;
+    }
+    else
+    {
+        city = @"Perth";
+    }
+    
+    if([self.country isKindOfClass:[NSString class]])
+    {
+        country = self.country;
+    }
+    else
+    {
+        country = @"Australia";
+    }
+    
+    return [NSString stringWithFormat: @"%@ - %@, %@", created, city, country];
+}
+
+- (NSString *)photoUrl
+{
+    if (![self.apiClient isKindOfClass:[UnderplanApiClient class]]) {
+        [NSException raise:@"UnderplanApiClientNotSpecified" format:@"Instance does not have access to UnderplanApiClient with apiClient property."];
+    }
+    
+    Group *group = [[Group alloc] initWithIdAndUnderplanApiClient:self.groupId apiClient:self.apiClient];
     
     // If the group has trovebox settings then check the tags for a photo to match this activity
     if ([group hasTrovebox]) {
         // The tag is set based on the activity id
         NSString *photoTag = @"underplan-*";
         photoTag = [photoTag stringByReplacingOccurrencesOfString:@"*" withString:self._id];
-        Photo *photo = [[Photo alloc] intWithFirstMatchByTagAndTrovebox:photoTag trovebox:group.trovebox];
+        Photo *photo = [[Photo alloc] initWithFirstMatchByTagAndTrovebox:photoTag trovebox:group.trovebox];
         
-        // TODO: return image size url based on device screen size
+        // TODO: return image size url based on device screen width
         return photo.medium;
     } else {
         return @"";
     }
-    
-
 }
 
 @end

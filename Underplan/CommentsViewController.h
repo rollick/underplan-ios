@@ -9,14 +9,11 @@
 #import "UnderplanViewController.h"
 
 #import <UIKit/UIKit.h>
-#import "MeteorClient.h"
-#import "MeteorClient+Extras.h"
+#import "UnderplanApiClient.h"
 
 @interface CommentsViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
-@property (strong, nonatomic) MeteorClient *meteor;
 @property (strong, nonatomic) NSMutableArray *comments;
 
 @end

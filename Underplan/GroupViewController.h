@@ -7,15 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MeteorClient.h"
-#import "MeteorClient+Extras.h"
 
-@interface GroupViewController : UITabBarController {
-    IBOutlet UITabBar *tabBar;
-}
+@interface GroupViewController : UITabBarController
 
 @property (copy, nonatomic) NSDictionary *group;
-@property (strong, nonatomic) MeteorClient *meteor;
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 @end

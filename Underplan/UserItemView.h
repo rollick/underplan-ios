@@ -8,20 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserItemView : UITableViewCell
+#import "ItemDetailsView.h"
+#import "UnderplanTableViewCell.h"
 
-@property (nonatomic, retain) IBOutlet UILabel *title;
-@property (nonatomic, retain) IBOutlet UILabel *subTitle;
-@property (nonatomic, retain) IBOutlet UILabel *mainText;
-@property (nonatomic, retain) IBOutlet UIImageView *contentImage;
-@property (nonatomic, retain) IBOutlet UIImageView *image;
-@property (nonatomic, retain) IBOutlet NSLayoutConstraint *marginTop;
-@property (nonatomic, retain) IBOutlet NSLayoutConstraint *marginBottom;
-@property (nonatomic, retain) IBOutlet NSLayoutConstraint *imageTextPadding;
-@property (nonatomic, retain) IBOutlet NSLayoutConstraint *photoContentPadding;
-@property (nonatomic, retain) IBOutlet NSLayoutConstraint *photoHeight;
-@property (nonatomic, retain) IBOutlet NSLayoutConstraint *contentMarginBottom;
+#define CELL_BORDER_SIZE 0
 
-- (CGFloat)cellHeight:(NSString *)text;
+@interface UserItemView : UnderplanTableViewCell
+
+@property (assign, nonatomic) BOOL loaded;
+@property (copy, nonatomic) NSString *itemId;
+@property (retain, nonatomic) ItemDetailsView *detailsView;
+@property (retain, nonatomic) UITextView *mainText;
+@property (retain, nonatomic) UIImageView *contentImage;
+
+- (CGFloat)textHeight:(NSString *)text;
+- (int)cellHeight:(NSString *)text;
 
 @end

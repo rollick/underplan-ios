@@ -7,44 +7,29 @@
 //
 
 #import "CommentsViewController.h"
+#import "UIViewController+UnderplanApiNotifications.h"
+#import "SharedApiClient.h"
 
 #import "UserItemView.h"
 
 #import "User.h"
+#import "Comment.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <UIColor+HexString.h>
 
 @interface CommentsViewController ()
 
 @property (strong, nonatomic) NSDictionary *activity;
 
-- (void)configureMeteor;
-
 @end
 
 @implementation CommentsViewController
 
-- (void)setActivity:(id)newActivity
-{
-    if (_activity != newActivity) {
-        _activity = newActivity;
-    }
-}
-
-- (void)setMeteor:(id)newMeteor
-{
-    if (_meteor != newMeteor) {
-        _meteor = newMeteor;
-        
-        // Update the view.
-        [self configureMeteor];
-    }
-}
-
-- (void)configureMeteor
+- (void)configureApiSubscriptions
 {
     NSArray *params = @[_activity[@"_id"]];
-    [_meteor addSubscriptionWithParameters:@"activityComments" paramaters:params];
+    [[SharedApiClient getClient] addSubscription:@"activityComments" withParamaters:params];
 }
 
 - (void)viewDidLoad
@@ -63,36 +48,24 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated
-{
-    self.navigationItem.title = @"Comments";
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"added"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"removed"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"ready"
-                                               object:nil];
-}
 
-- (void)viewWillDisappear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewWillAppear:animated];
+    [self configureApiSubscriptions];
+
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+    self.navigationItem.title = @"Comments";
 }
 
 #pragma mark - Table View
 
 - (NSArray *)computedList {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", self.activity[@"_id"]];
-    return [self.meteor.collections[@"comments"] filteredArrayUsingPredicate:pred];
+    return [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
 }
 
-- (void)didReceiveUpdate:(NSNotification *)notification
+- (void)didReceiveApiUpdate:(NSNotification *)notification
 {
     // TODO: look into the correct use of the ready, added, removed notifcations
     //       for table cells and meteor etc.
@@ -114,50 +87,46 @@
     return [self.computedList count];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UserItemView *cell = [tableView dequeueReusableCellWithIdentifier:@"item"];
-    NSDictionary *comment = self.computedList[indexPath.row];
-    NSString *text = comment[@"comment"];
-    
-    return [cell cellHeight:text];
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    UserItemView *cell = [tableView dequeueReusableCellWithIdentifier:@"item"];
+//    NSDictionary *comment = self.computedList[indexPath.row];
+//    NSString *text = comment[@"comment"];
+//    
+//    return [cell cellHeight:text];
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"item";
     UserItemView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    NSDictionary *comment = self.computedList[indexPath.row];
+    NSDictionary *_comment = self.computedList[indexPath.row];
+    
+    Comment *comment = [[Comment alloc] initWithIdAndUnderplanApiClient:_comment[@"_id"]
+                                                                 apiClient:[SharedApiClient getClient]];
     
     // Fetch owner
-    User *owner = [[User alloc] initWithIdAndCollection:comment[@"owner"] collection:self.meteor.collections[@"users"]];
+    User *owner = [[User alloc] initWithIdAndCollection:comment.owner collection:[SharedApiClient getClient].collections[@"users"]];
     
     // Set the profile image
     // TODO: Maybe the activity cell needs to have a custom view which can
     //       be notified when the owner details are available....
     
     // Set the owners name as the title
-    if([comment[@"owner"] isKindOfClass:[NSString class]])
-    {
-        cell.title.text = owner.profile[@"name"];
-    }
-    else
-    {
-        cell.title.text = @"No title :-(";
-    }
+    cell.detailsView.title.text = owner.profile[@"name"];
     
     // Set the owners profile picture
     NSString *profileImageUrl = [owner profileImageUrl:@75];
     
-    [cell.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
+    [cell.detailsView.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
                  placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
     // Set the info field - date and location
     NSString *created;
-    if([comment[@"created"] isKindOfClass:[NSMutableDictionary class]])
+    if([comment.created isKindOfClass:[NSMutableDictionary class]])
     {
-        double dateDouble = [comment[@"created"][@"$date"] doubleValue];
+        double dateDouble = [comment.created[@"$date"] doubleValue];
         dateDouble = dateDouble/1000;
         NSDate *dateCreated = [NSDate dateWithTimeIntervalSince1970:dateDouble];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -168,20 +137,14 @@
     }
     else
     {
-        created = @"1st Jan 2013";
+        created = @"-";
     }
     
-    cell.subTitle.text = created;
-    
-    if([comment[@"comment"] isKindOfClass:[NSString class]])
-    {
-        cell.mainText.text = comment[@"comment"];
-    }
-    else
-    {
-        cell.mainText.text = @"-";
-    }
+    cell.detailsView.subTitle.text = created;
+    cell.mainText.text = comment.text;
 
+    self.tableView.backgroundColor = [UIColor colorWithHexString:@"#E5E5E5"];
+    
     return cell;
 }
 

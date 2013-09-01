@@ -9,17 +9,14 @@
 #import "UnderplanViewController.h"
 
 #import <UIKit/UIKit.h>
-#import <ObjectiveDDP/MeteorClient.h>
+#import "UnderplanApiClient.h"
 #import <MapKit/MapKit.h>
 
 @interface ActivityMapViewController : UnderplanViewController
 
 @property (copy, nonatomic) NSDictionary *group;
-@property (strong, nonatomic) MeteorClient *meteor;
-
 @property (weak, nonatomic) IBOutlet MKMapView *feedMapView;
 
 - (void)reloadData;
-- (void)setMeteor:(MeteorClient *)newMeteor;
 
 @end

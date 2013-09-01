@@ -23,6 +23,7 @@
 @property (strong, nonatomic) NSString *country;
 @property (strong, nonatomic) NSMutableDictionary *created;
 
+- (NSString *)summaryInfo;
 - (NSString *)photoUrl;
 
 @end

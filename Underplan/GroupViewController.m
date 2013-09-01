@@ -8,44 +8,15 @@
 
 #import "GroupViewController.h"
 #import "ActivityListViewController.h"
-
-#import "UIColor+FlatUI.h"
+#import "ActivityMapViewController.h"
 
 @interface GroupViewController ()
 
 @property (strong, nonatomic) NSMutableArray *_activities;
 
-- (void)configureMeteor;
-
 @end
 
 @implementation GroupViewController
-
-- (void)configureMeteor
-{
-    NSArray *params = @[@{@"groupId":_group[@"_id"], @"limit":@10}];
-    [_meteor addSubscriptionWithParameters:@"feedActivities" paramaters:params];
-    
-    // Update the user interface for the group.
-    self._activities = self.meteor.collections[@"activities"];
-}
-
-- (void)setGroup:(id)newGroup
-{
-    if (_group != newGroup) {
-        _group = newGroup;
-    }
-}
-
-- (void)setMeteor:(id)newMeteor
-{
-    if (_meteor != newMeteor) {
-        _meteor = newMeteor;
-        
-        // Update the view.
-        [self configureMeteor];
-    }
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -56,56 +27,26 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"added"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"removed"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"ready"
-                                               object:nil];
-}
-
-
-- (void)didReceiveUpdate:(NSNotification *)notification
+- (void)viewWillAppear:(BOOL)animated
 {
-    // Reload list
-    // FIXME: need to check which tab is visible and reload that one here
-    //        ... possibly need to set a flag on the hidden tab to tell it
-    //        to reload when it becomes visible.
-    [[[self viewControllers] objectAtIndex:0] reloadData];
-    [[[self viewControllers] objectAtIndex:1] reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
-    // First should be the map
-    [[[self viewControllers] objectAtIndex:0] setMeteor:self.meteor];
-    [[[self viewControllers] objectAtIndex:0] setGroup:self.group];
-
-    // Second should be the list
-    [[[self viewControllers] objectAtIndex:1] setMeteor:self.meteor];
-    [[[self viewControllers] objectAtIndex:1] setGroup:self.group];
+    
+    for (id controller in [self viewControllers]) {
+        if ([controller respondsToSelector:@selector(group)]) {
+            [controller setValue:self.group forKey:@"group"];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

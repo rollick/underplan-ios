@@ -6,12 +6,19 @@
 //  Copyright (c) 2013 Mark Gallop. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+
 #import "ActivityViewController.h"
 #import "CommentsViewController.h"
+#import "UIViewController+UnderplanApiNotifications.h"
+#import "SharedApiClient.h"
+#import "ItemDetailsView.h"
 
 #import "User.h"
+#import "Activity.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "UIColor+HexString.h"
 
 @interface ActivityViewController ()
 
@@ -23,29 +30,14 @@
 
 @implementation ActivityViewController
 
-- (void)setActivity:(id)newActivity
-{
-    if (_activity != newActivity) {
-        _activity = newActivity;
-    }
-}
+@synthesize detailsView, mainText, contentImage;
 
-- (void)setMeteor:(id)newMeteor
-{
-    if (_meteor != newMeteor) {
-        _meteor = newMeteor;
-        
-        // Update the view.
-        [self configureMeteor];
-    }
-}
-
-- (void)configureMeteor
+- (void)configureApiSubscriptions
 {
     // Get the full activity data
     NSArray *params = @[_activity[@"_id"]];
-    [_meteor addSubscriptionWithParameters:@"activityShow" paramaters:params];
-    [_meteor addSubscriptionWithParameters:@"activityCommentsCount" paramaters:params];
+    [[SharedApiClient getClient] addSubscription:@"activityShow" withParamaters:params];
+    [[SharedApiClient getClient] addSubscription:@"activityCommentsCount" withParamaters:params];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -60,66 +52,87 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    
-    CGRect frame = _activityText.frame;
-    frame.size.height = _activityText.contentSize.height;
-    _activityText.frame = frame;
-    
+
     [self.navigationController setNavigationBarHidden:NO
                                              animated:YES];
+
+    self.automaticallyAdjustsScrollViewInsets = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self configureApiSubscriptions];
     
+    [self initView];
     [self setActivityDetails];
+}
+
+- (void)initView
+{
+    self.view = [[UIView alloc] init];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    self.detailsView = [[ItemDetailsView alloc] init];
+    [self.detailsView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addSubview:detailsView];
+    
+    self.mainText = [[UITextView alloc] init];
+    self.mainText.autoresizingMask = ( UIViewAutoresizingFlexibleHeight );
+    self.mainText.contentInset = UIEdgeInsetsMake(-8,-4,-4,-4);
+        [self.mainText setFont:[UIFont fontWithName:@"Helvetica-Light" size:14]];
+    [self.mainText setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    [self.view addSubview:mainText];
+
+    // Get the views dictionary
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView);
+    
+    NSString *format = @"V:|-15-[detailsView]-15-[mainText]-|";
+    NSArray *constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
+    
+    [self.view addConstraints:constraintsArray];
+    
+    format = @"|-15-[mainText]-15-|";
+    constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
+    
+    [self.view addConstraints:constraintsArray];
+    
+    format = @"|-15-[detailsView]-15-|";
+    constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
+    
+    [self.view addConstraints:constraintsArray];
 }
 
 - (void)setActivityDetails
 {
     // Set the profile image
     User *owner = [[User alloc] initWithIdAndCollection:_activity[@"owner"]
-                                             collection:self.meteor.collections[@"users"]];
+                                             collection:[SharedApiClient getClient].collections[@"users"]];
     
-    UIImageView *profileImage = (UIImageView *)[self.view viewWithTag:100];
+    Activity *activity = [[Activity alloc] initWithIdAndUnderplanApiClient:_activity[@"_id"]
+                                                                 apiClient:[SharedApiClient getClient]];
+    
     NSString *profileImageUrl = [owner profileImageUrl:@75];
     
     if ([profileImageUrl length]) {
-        [profileImage setImageWithURL:[NSURL URLWithString:profileImageUrl]
-                     placeholderImage:[UIImage imageNamed:@"placeholder.png"]];        
+        [self.detailsView.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
+                     placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     }
-    
-    _activityText.contentInset = UIEdgeInsetsMake(-4,-8,-8,-8);
     
     // Set the text fields
-    _activityText.text = _activity[@"text"];
+    self.detailsView.subTitle.text = [activity summaryInfo];
+    self.detailsView.title.text = owner.profile[@"name"];
+    self.mainText.text = activity.text;
     
-    if([_activity[@"title"] isKindOfClass:[NSString class]])
-    {
-        _activityTitle.text = _activity[@"title"];
-    }
-    else
-    {
-        _activityTitle.text = @"Testing";
+    if ([activity.type isEqual:@"story"]) {
+        self.navigationItem.title = activity.title;
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    self.navigationItem.title = @"Activities";
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"changed"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"removed"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveUpdate:)
-                                                 name:@"ready"
-                                               object:nil];
-}
-
-- (void)didReceiveUpdate:(NSNotification *)notification
+- (void)didReceiveApiUpdate:(NSNotification *)notification
 {
     // Refresh view if this activity was updated
     if (![[notification name] isEqualToString:@"ready"] && notification.userInfo[@"_id"] == self.activity[@"_id"]) {
@@ -142,7 +155,6 @@
 {
     if ([[segue identifier] isEqualToString:@"showComments"]) {
         [[segue destinationViewController] setActivity:_activity];
-        [[segue destinationViewController] setMeteor:_meteor];
     }
 }
 

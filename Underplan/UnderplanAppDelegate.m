@@ -8,34 +8,14 @@
 
 #import "UnderplanAppDelegate.h"
 #import "MasterViewController.h"
-#import "MeteorClient.h"
-#import "MeteorClient+Extras.h"
-#import "ObjectiveDDP.h"
-#import <ObjectiveDDP/MeteorClient.h>
+#import "UnderplanApiClient.h"
+#import "SharedApiClient.h"
 
 @implementation UnderplanAppDelegate
-@synthesize meteor;
-
-- (void)customizeAppearance
-{
-    // Customize the title text for *all* UINavigationBars
-    [[UINavigationBar appearance] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
-      UITextAttributeTextColor,
-      [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8],
-      UITextAttributeTextShadowColor,
-      [NSValue valueWithUIOffset:UIOffsetMake(0, -1)],
-      UITextAttributeTextShadowOffset,
-      [UIFont fontWithName:@"Helvetica-Regular" size:0.0],
-      UITextAttributeFont,
-      nil]];
-}
+@synthesize apiClient;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    [self customizeAppearance];
-    
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
@@ -43,20 +23,21 @@
         splitViewController.delegate = (id)navigationController.topViewController;
     }
         
-    self.meteor = [[MeteorClient alloc] init];
+    self.apiClient = [[UnderplanApiClient alloc] init];
     
-    NSArray *params = @[@{@"limit":@10}];
-    [self.meteor addSubscriptionWithParameters:@"groups" paramaters:params];
-    [self.meteor addSubscription:@"directory"];
+//    NSArray *params = @[@{@"limit":@10}];
+    [self.apiClient addSubscription:@"groups"];
+    [self.apiClient addSubscription:@"directory"];
 
-    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://underplan.it/websocket" delegate:self.meteor];
-//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.meteor];
+//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://underplan.it/websocket" delegate:self.apiClient];
+    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.apiClient];
     
-    self.meteor.ddp = ddp;
+    self.apiClient.ddp = ddp;
     
-    return YES;
+    [SharedApiClient setClient:self.apiClient];
+        return YES;
 }
-							
+						
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -77,8 +58,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self.meteor resetCollections];
-    [self.meteor.ddp connectWebSocket];
+    [self.apiClient resetCollections];
+    [self.apiClient.ddp connectWebSocket];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

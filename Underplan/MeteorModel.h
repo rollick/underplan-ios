@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MeteorClient.h>
+#import "UnderplanApiClient.h"
 
 @interface MeteorModel : NSObject
 
-@property (retain, nonatomic) MeteorClient *meteor;
+@property (retain, nonatomic) UnderplanApiClient *apiClient;
 
 - (BOOL)processApiData: (NSDictionary *)data_;
 - (id)initWithData: (NSDictionary *)data_;
-- (id)initWithIdAndMeteorClient: (NSString *)id_ meteor:(MeteorClient *)meteor;
+- (id)initWithIdAndUnderplanApiClient: (NSString *)id_ apiClient:(UnderplanApiClient *)apiClient;
 - (id)initWithIdAndCollection: (NSString *)id_ collection:(NSArray *)collection_;
 
 @end

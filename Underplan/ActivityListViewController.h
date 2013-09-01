@@ -10,20 +10,25 @@
 #import "UnderplanViewController.h"
 
 #import <UIKit/UIKit.h>
-#import <ObjectiveDDP/MeteorClient.h>
 #import <SDWebImage/SDWebImageManager.h>
 
-@interface ActivityListViewController : UnderplanViewController <UISplitViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate>
+typedef enum ScrollDirection {
+    ScrollDirectionNone,
+    ScrollDirectionRight,
+    ScrollDirectionLeft,
+    ScrollDirectionUp,
+    ScrollDirectionDown,
+    ScrollDirectionCrazy,
+} ScrollDirection;
+
+@interface ActivityListViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) ActivityViewController *activityViewController;
 
 @property (copy, nonatomic) NSDictionary *group;
-@property (strong, nonatomic) MeteorClient *meteor;
 @property (strong, nonatomic) NSMutableArray *activities;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (retain, nonatomic) UITableView *tableView;
 
 - (void)reloadData;
-- (void)setMeteor:(MeteorClient *)newMeteor;
-- (void)setActivities:(NSMutableArray *)newActivities;
 
 @end
