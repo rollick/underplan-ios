@@ -23,7 +23,11 @@
 
 @end
 
-@implementation GalleryViewController
+@implementation GalleryViewController {
+    BOOL loading;
+    BOOL complete;
+    int limit;
+}
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -49,6 +53,22 @@
     self.mediaFocusManager.delegate = self;
     self.mediaFocusManager.isDefocusingWithTap = YES;
     self.mediaFocusManager.elasticAnimation = NO;
+    
+    // Fix the scrollview being behind tabbar
+    if (self.tabBarController) {
+        UIEdgeInsets inset = self.quiltView.contentInset;
+        inset.bottom = self.tabBarController.tabBar.frame.size.height;
+        self.quiltView.contentInset = inset;
+    }
+    
+    if (self.navigationController) {
+        UIEdgeInsets inset = self.quiltView.contentInset;
+        inset.top = self.navigationController.navigationBar.frame.size.height + 20.0f; // 20.0f for the status bar
+        self.quiltView.contentInset = inset;
+        
+        CGPoint topOffset = CGPointMake(0, -inset.top);
+        [self.quiltView setContentOffset:topOffset animated:YES];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -56,10 +76,15 @@
     [super viewWillAppear:animated];
     
     [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkMenuFontColor]];
-    [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
-    
     [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkMenuFontColor]];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor underplanDarkMenuColor]];
+    
+    NSString *reqSysVer = @"7.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    {
+        [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor underplanDarkMenuColor]];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -67,10 +92,15 @@
     [super viewWillDisappear:animated];
     
     [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
-    
     [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+
+    NSString *reqSysVer = @"7.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    {
+        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+        [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
+    }
 }
 
 -(void)dealloc
@@ -106,10 +136,23 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    //    if(_scroller == aScrollView)
-    //    {
-    //        [self updateNavigatioBarVisibility:aScrollView];
-    //    }
+    // If last section is about to be shown...
+//    if(scrollView.contentOffset.y < 0){
+//        //it means table view is pulled down like refresh
+//        //NSLog(@"refresh!");
+//    }
+//    else if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.bounds.size.height))
+//    {
+//        if (! loading && ! complete )
+//        {
+//            loading = YES;
+//            limit = limit + 10;
+//            
+//            NSArray *params = @[@{@"groupId":_group[@"_id"], @"limit":[NSNumber numberWithInt:limit]}];
+//            [[SharedApiClient getClient] addSubscription:@"feedActivities" withParamaters:params];
+//        }
+//    }
+    
     if (self.navigationController.navigationBar.hidden)
     {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -192,7 +235,7 @@
 - (NSURL *)mediaFocusManager:(ASMediaFocusManager *)mediaFocusManager mediaURLForView:(UIView *)view
 {
     NSDictionary *imageData = [self.images objectAtIndex:(view.tag - 1)];
-    NSURL *url = [NSURL URLWithString:imageData[@"path640x640"]];
+    NSURL *url = [NSURL URLWithString:imageData[@"path1024x1024"]];
     
     return url;
 }

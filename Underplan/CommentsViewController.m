@@ -10,13 +10,13 @@
 #import "UIViewController+UnderplanApiNotifications.h"
 #import "SharedApiClient.h"
 
-#import "UserItemView.h"
+#import "UnderplanCommentItemCell.h"
 
 #import "User.h"
 #import "Comment.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
-#import <UIColor+HexString.h>
+#import "UIColor+Underplan.h"
 
 @interface CommentsViewController ()
 
@@ -25,6 +25,8 @@
 @end
 
 @implementation CommentsViewController
+
+@synthesize tableView = _tableView;
 
 - (void)configureApiSubscriptions
 {
@@ -35,10 +37,35 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
-    UINib *cellNib = [UINib nibWithNibName:@"UserItemView" bundle:nil];
-    [self.tableView registerNib:cellNib forCellReuseIdentifier:@"item"];
+    self.view = [[UIView alloc] init];
+    self.tableView = [[UITableView alloc] init];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    
+    self.view.backgroundColor = [UIColor underplanBgColor];
+    self.tableView.backgroundColor = [UIColor underplanBgColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    // Fix the scrollview being behind tabbar
+    if (self.tabBarController) {
+        UIEdgeInsets inset = self.tableView.contentInset;
+        inset.bottom = self.tabBarController.tabBar.frame.size.height;
+        self.tableView.contentInset = inset;
+    }
+    
+    if (self.navigationController) {
+        UIEdgeInsets inset = self.tableView.contentInset;
+        inset.top = self.navigationController.navigationBar.frame.size.height + 20.0f; // 20.0f for the status bar
+        self.tableView.contentInset = inset;
+        
+        CGPoint topOffset = CGPointMake(0, -inset.top);
+        [self.tableView setContentOffset:topOffset animated:YES];
+    }
+    
+    [self.view addSubview:self.tableView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,11 +78,16 @@
 
 {
     [super viewWillAppear:animated];
-    [self configureApiSubscriptions];
-
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     self.navigationItem.title = @"Comments";
+    [self configureApiSubscriptions];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView registerClass:[UnderplanCommentItemCell class] forCellReuseIdentifier:@"Comment"];
+}
+
+-(void)dealloc
+{
+    self.tableView.delegate = nil;
 }
 
 #pragma mark - Table View
@@ -87,19 +119,22 @@
     return [self.computedList count];
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    UserItemView *cell = [tableView dequeueReusableCellWithIdentifier:@"item"];
-//    NSDictionary *comment = self.computedList[indexPath.row];
-//    NSString *text = comment[@"comment"];
-//    
-//    return [cell cellHeight:text];
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *_comment = self.computedList[indexPath.row];
+    
+    Comment *comment = [[Comment alloc] initWithIdAndUnderplanApiClient:_comment[@"_id"]
+                                                              apiClient:[SharedApiClient getClient]];
+
+    UnderplanCommentItemCell *cell = [[UnderplanCommentItemCell alloc] init];
+    return [cell cellHeight:comment.text];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"item";
-    UserItemView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    UnderplanCommentItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Comment" forIndexPath:indexPath];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     NSDictionary *_comment = self.computedList[indexPath.row];
     
@@ -143,7 +178,7 @@
     cell.detailsView.subTitle.text = created;
     cell.mainText.text = comment.text;
 
-    self.tableView.backgroundColor = [UIColor colorWithHexString:@"#E5E5E5"];
+    self.tableView.backgroundColor = [UIColor underplanBgColor];
     
     return cell;
 }

@@ -13,7 +13,7 @@
 
 @interface CommentsViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (retain, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *comments;
 
 @end

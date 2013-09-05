@@ -35,6 +35,15 @@
     return true;
 }
 
+- (NSString *)summaryText
+{
+    NSString *text = self.text;
+    if ([self.type isEqualToString:@"story"] && [text length] > 247) {
+        text = [[text substringToIndex:247] stringByAppendingString:@"..."];
+    }
+    return text;
+}
+
 - (NSString *)summaryInfo
 {
     // Set the info field - date and location

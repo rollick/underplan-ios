@@ -60,9 +60,10 @@
     [self.lowerLine setFrame:CGRectMake(0, paddingPosition, self.frame.size.width, paddingHeight)];
 }
 
-//- (int)cellHeight
-//{
-//    return 10;
-//}
+- (int)cellHeight:(NSString *)text
+{
+    // Subclass and override
+    return 10;
+}
 
 @end

@@ -12,31 +12,43 @@
 
 @implementation UIColor (Underplan)
 
-+ (UIColor *)underplanBgColor {
++ (UIColor *)underplanCellBgColor
+{
+    return [UIColor colorWithHexString:@"FFFFFF"];
+}
+
++ (UIColor *)underplanBgColor
+{
     return [UIColor colorWithHexString:@"E5E5E5"];
 }
 
-+ (UIColor *)underplanPanelColor {
++ (UIColor *)underplanPanelColor
+{
     return [UIColor colorWithHexString:@"#E0E0E0"];
 }
 
-+ (UIColor *)underplanPrimaryColor {
++ (UIColor *)underplanPrimaryColor
+{
     return [UIColor colorWithHexString:@"#008000"];
 }
 
-+ (UIColor *)underplanNoticeColor {
++ (UIColor *)underplanNoticeColor
+{
     return [UIColor colorWithHexString:@"#1F4100"];
 }
 
-+ (UIColor *)underplanPrimaryDarkColor {
++ (UIColor *)underplanPrimaryDarkColor
+{
     return [UIColor colorWithHexString:@"#D82A1A"];
 }
 
-+ (UIColor *)underplanDarkMenuColor {
-    return [UIColor colorWithHexString:@"#111111"];
++ (UIColor *)underplanDarkMenuColor
+{
+    return [UIColor colorWithHexString:@"#000000"];
 }
 
-+ (UIColor *)underplanDarkMenuFontColor {
++ (UIColor *)underplanDarkMenuFontColor
+{
     return [UIColor colorWithHexString:@"#FFFFFF"];
 }
 

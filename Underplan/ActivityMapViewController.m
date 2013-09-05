@@ -51,10 +51,15 @@
     // FIXME:   This is a hack when the willdisappear of the gallery controller
     //          wasn't re-setting the tabbar reliably
     [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
-    
     [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+
+    NSString *reqSysVer = @"7.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    {
+        [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -62,10 +67,15 @@
     [super viewDidDisappear:animated];
     
     [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
-    
     [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+    
+    NSString *reqSysVer = @"7.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    {
+        [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+    }
 }
 
 - (void)viewDidLoad

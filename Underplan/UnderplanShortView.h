@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Mark Gallop. All rights reserved.
 //
 
-#import "UserItemView.h"
+#import "UnderplanUserItemView.h"
 
-@interface ShortItemView : UserItemView
+@interface UnderplanShortView : UnderplanUserItemView
 
 @end

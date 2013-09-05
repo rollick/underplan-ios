@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Mark Gallop. All rights reserved.
 //
 
-#import "UserItemView.h"
+#import "UnderplanUserItemView.h"
 #import "BannerView.h"
 
-@interface StoryItemView : UserItemView
+@interface UnderplanStoryView : UnderplanUserItemView
 
 @property (retain, nonatomic) BannerView *banner;
 

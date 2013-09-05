@@ -12,13 +12,13 @@
 #import "CommentsViewController.h"
 #import "UIViewController+UnderplanApiNotifications.h"
 #import "SharedApiClient.h"
-#import "ItemDetailsView.h"
+#import "UnderplanUserItemView.h"
 
 #import "User.h"
 #import "Activity.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "UIColor+HexString.h"
+#import "UIColor+Underplan.h"
 
 @interface ActivityViewController ()
 
@@ -30,7 +30,7 @@
 
 @implementation ActivityViewController
 
-@synthesize detailsView, mainText, contentImage;
+@synthesize mainView;
 
 - (void)configureApiSubscriptions
 {
@@ -52,10 +52,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    [self.navigationController setNavigationBarHidden:NO
-                                             animated:YES];
-
+    
     self.automaticallyAdjustsScrollViewInsets = YES;
 }
 
@@ -66,44 +63,37 @@
     
     [self initView];
     [self setActivityDetails];
+    
+    CGRect frame = self.view.frame;
+    self.mainView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+    self.view.contentSize = CGSizeMake(self.mainView.bounds.size.width, self.mainView.bounds.size.height);
 }
 
 - (void)initView
 {
-    self.view = [[UIView alloc] init];
+    self.view = [[UIScrollView alloc] init];
+//    self.view.scrollEnabled = YES;
+    self.view.showsVerticalScrollIndicator = NO;
+    self.view.showsHorizontalScrollIndicator = NO;
+    self.view.bouncesZoom = YES;
+    self.view.decelerationRate = UIScrollViewDecelerationRateFast;
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.view.delegate = self;
+    self.view.backgroundColor = [UIColor underplanBgColor];
+    [self.view.layer setBorderColor:[UIColor redColor].CGColor];
+    self.view.layer.borderWidth = 1.0f;
     
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.mainView = [[UnderplanUserItemView alloc] init];
+    [self.mainView.layer setBorderColor:[UIColor blueColor].CGColor];
+    self.mainView.layer.borderWidth = 1.0f;
     
-    self.detailsView = [[ItemDetailsView alloc] init];
-    [self.detailsView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addSubview:detailsView];
+    [self.view addSubview:self.mainView];
     
-    self.mainText = [[UITextView alloc] init];
-    self.mainText.autoresizingMask = ( UIViewAutoresizingFlexibleHeight );
-    self.mainText.contentInset = UIEdgeInsetsMake(-8,-4,-4,-4);
-        [self.mainText setFont:[UIFont fontWithName:@"Helvetica-Light" size:14]];
-    [self.mainText setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    [self.view addSubview:mainText];
-
-    // Get the views dictionary
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView);
-    
-    NSString *format = @"V:|-15-[detailsView]-15-[mainText]-|";
-    NSArray *constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
-    
-    [self.view addConstraints:constraintsArray];
-    
-    format = @"|-15-[mainText]-15-|";
-    constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
-    
-    [self.view addConstraints:constraintsArray];
-    
-    format = @"|-15-[detailsView]-15-|";
-    constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
-    
-    [self.view addConstraints:constraintsArray];
+    if (self.tabBarController) {
+        UIEdgeInsets inset = self.view.contentInset;
+        inset.bottom = self.tabBarController.tabBar.frame.size.height;
+        self.view.contentInset = inset;
+    }
 }
 
 - (void)setActivityDetails
@@ -118,14 +108,25 @@
     NSString *profileImageUrl = [owner profileImageUrl:@75];
     
     if ([profileImageUrl length]) {
-        [self.detailsView.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
+        [self.mainView.detailsView.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
                      placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     }
     
     // Set the text fields
-    self.detailsView.subTitle.text = [activity summaryInfo];
-    self.detailsView.title.text = owner.profile[@"name"];
-    self.mainText.text = activity.text;
+    self.mainView.detailsView.subTitle.text = [activity summaryInfo];
+    self.mainView.detailsView.title.text = owner.profile[@"name"];
+    self.mainView.mainText.text = activity.text;
+    
+    // Add some constraints
+    UITextView *mainText = self.mainView.mainText;
+    UnderplanItemDetailsView *detailsView = self.mainView.detailsView;
+    
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView);
+    
+    NSString *format = @"V:|-(16)-[detailsView]-16-[mainText]-(>=16)-|";
+    NSArray *constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
+    
+    [self.mainView addConstraints:constraintsArray];
     
     if ([activity.type isEqual:@"story"]) {
         self.navigationItem.title = activity.title;
@@ -143,6 +144,12 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)dealloc
+{
+    // FIXME: temp fis for ios7 issue when view is scrolling and user navigates away
+    self.view.delegate = nil;
 }
 
 - (void)didReceiveMemoryWarning

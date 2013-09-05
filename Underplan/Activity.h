@@ -25,5 +25,6 @@
 
 - (NSString *)summaryInfo;
 - (NSString *)photoUrl;
+- (NSString *)summaryText;
 
 @end

@@ -8,14 +8,12 @@
 
 #import <QuartzCore/CAAnimation.h>
 
-#import "UserItemView.h"
-#import "ItemDetailsView.h"
+#import "UnderplanUserItemView.h"
+#import "UnderplanItemDetailsView.h"
 
 #import "UIColor+Underplan.h"
 
-@implementation UserItemView {
-    int cellBorderSize;
-}
+@implementation UnderplanUserItemView
 
 @synthesize detailsView, mainText, contentImage;
 
@@ -23,17 +21,15 @@
 {
     [super initView];
     
-    self.backgroundColor = [UIColor clearColor];
-
-    self.contentView.backgroundColor = [UIColor whiteColor];
     if (CELL_BORDER_SIZE) {
-        self.contentView.layer.borderColor = [UIColor underplanBgColor].CGColor;
-        self.contentView.layer.borderWidth = CELL_BORDER_SIZE;
+        self.layer.borderColor = [UIColor underplanBgColor].CGColor;
+        self.layer.borderWidth = CELL_BORDER_SIZE;
     }
     
-    self.detailsView = [[ItemDetailsView alloc] init];
+    self.detailsView = [[UnderplanItemDetailsView alloc] init];
     [self.detailsView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.contentView addSubview:detailsView];
+    
+    [self addSubview:detailsView];
     
     self.mainText = [[UITextView alloc] init];
     self.mainText.userInteractionEnabled = NO;
@@ -44,7 +40,7 @@
     [self.mainText setFont:[UIFont fontWithName:@"Helvetica-Light" size:14]];
     [self.mainText setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    [self.contentView addSubview:mainText];
+    [self addSubview:mainText];
     
     // Get the views dictionary
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView);
@@ -52,36 +48,12 @@
     NSString *format = @"|-16-[mainText]-16-|";
     NSArray *constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
 
-    [self.contentView addConstraints:constraintsArray];
+    [self addConstraints:constraintsArray];
 
-    format = @"|-16-[detailsView]-16-|";
+    format = @"|-16-[detailsView]-(>=16)-|";
     constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
     
-    [self.contentView addConstraints:constraintsArray];
-}
-
-- (CGFloat)textHeight:(NSString *)text
-{
-    if ([text length] > 250)
-    {
-        self.mainText.text = [text substringToIndex:250];
-    } else {
-        self.mainText.text = text;
-    }
-    
-    CGSize textSize = [self.mainText.text sizeWithFont:self.mainText.font constrainedToSize:CGSizeMake(self.mainText.frame.size.width, MAXFLOAT)];
-    
-    return textSize.height;
-}
-
-- (int)cellHeight:(NSString *)text
-{
-    return 250;
-}
-
-- (int)cellHeight
-{
-    return 250;
+    [self addConstraints:constraintsArray];
 }
 
 @end

@@ -148,47 +148,10 @@
         <!--Comments View Controller - Comments-->
         <scene sceneID="WV4-UX-36P">
             <objects>
-                <viewController id="bI7-nE-ml9" customClass="CommentsViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="AWm-nT-XOF">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="188" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="YpA-wU-dTw">
-                                <rect key="frame" x="0.0" y="-47" width="320" height="548"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="548" id="ndQ-2A-0ej"/>
-                                </constraints>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="item" id="5eL-wY-rmN" customClass="UserItemView">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="188"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="187"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="bI7-nE-ml9" id="G7k-vU-aqK"/>
-                                    <outlet property="delegate" destination="bI7-nE-ml9" id="Cuu-zz-fkR"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="YpA-wU-dTw" firstAttribute="leading" secondItem="AWm-nT-XOF" secondAttribute="leading" type="default" id="h6u-nn-cMW"/>
-                            <constraint firstItem="YpA-wU-dTw" firstAttribute="trailing" secondItem="AWm-nT-XOF" secondAttribute="trailing" type="default" id="me5-mV-2PC"/>
-                            <constraint firstItem="YpA-wU-dTw" firstAttribute="centerY" secondItem="AWm-nT-XOF" secondAttribute="centerY" type="default" id="sKy-HK-M4s"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Comments" image="comments.png" id="VDr-dr-kRD"/>
+                <viewController hidesBottomBarWhenPushed="YES" id="bI7-nE-ml9" customClass="CommentsViewController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Comments" image="comments.png" id="ERF-fF-mD4"/>
                     <navigationItem key="navigationItem" title="Comments" id="KdH-GX-mTs"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="tableView" destination="YpA-wU-dTw" id="4J7-ck-OZY"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ih-V4-cBz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

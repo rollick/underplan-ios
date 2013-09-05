@@ -6,20 +6,20 @@
 //  Copyright (c) 2013 Mark Gallop. All rights reserved.
 //
 
-#import "ItemDetailsView.h"
+#import "UnderplanItemDetailsView.h"
 
-@implementation ItemDetailsView
+@implementation UnderplanItemDetailsView
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        NSArray* topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ItemDetailsView" owner:nil options:nil];
+        NSArray* topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"UnderplanItemDetailsView" owner:nil options:nil];
 
         for(id currentObject in topLevelObjects)
         {
-            if ([currentObject isKindOfClass:[ItemDetailsView class]])
+            if ([currentObject isKindOfClass:[UnderplanItemDetailsView class]])
             {
                 self = currentObject;
                 break;

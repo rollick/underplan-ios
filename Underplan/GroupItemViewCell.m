@@ -8,7 +8,7 @@
 
 #import "GroupItemViewCell.h"
 
-#import <UIColor+HexString.h>
+#import "UIColor+Underplan.h"
 
 @implementation GroupItemViewCell
 
@@ -18,10 +18,12 @@
 {
     [super initView];
     
-    self.backgroundColor = [UIColor whiteColor];
+    self.contentView.backgroundColor = [UIColor underplanCellBgColor];
+    self.accessoryView.backgroundColor = [UIColor underplanCellBgColor];
+    self.backgroundColor = [UIColor underplanCellBgColor];
     
     self.layer.masksToBounds = YES;
-//    self.layer.borderColor = [UIColor colorWithHexString:@"#E0E0E0"].CGColor;
+//    self.layer.borderColor = [UIColor redColor].CGColor;
 //    self.layer.borderWidth = 8.0;
     
     self.title = [[UILabel alloc] init];
@@ -58,7 +60,7 @@
     [self.contentView addConstraints:constraintsArray];
 }
 
-- (int)cellHeight
+- (int)cellHeight:(NSString *)text
 {
     return 120;
 }

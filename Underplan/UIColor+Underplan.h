@@ -10,6 +10,7 @@
 
 @interface UIColor (Underplan)
 
++ (UIColor *)underplanCellBgColor;
 + (UIColor *)underplanPanelColor;
 + (UIColor *)underplanBgColor;
 + (UIColor *)underplanPrimaryColor;

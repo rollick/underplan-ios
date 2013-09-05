@@ -10,14 +10,12 @@
 
 #import <UIKit/UIKit.h>
 #import "UnderplanApiClient.h"
-#import "ItemDetailsView.h"
+#import "UnderplanUserItemView.h"
 
 @interface ActivityViewController : UnderplanViewController <UIScrollViewDelegate>
 
-@property (retain, nonatomic) ItemDetailsView *detailsView;
-@property (retain, nonatomic) UITextView *mainText;
-@property (retain, nonatomic) UIImageView *contentImage;
-@property (retain, nonatomic) UIView *view;
+@property (retain, nonatomic) UIScrollView *view;
+@property (retain, nonatomic) UnderplanUserItemView *mainView;
 
 @property (copy, nonatomic) NSDictionary *activity;
 

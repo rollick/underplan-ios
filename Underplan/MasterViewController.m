@@ -42,6 +42,8 @@
 //    self.navigationController.toolbar.translucent = YES;
     
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+
+    [self.tableView registerClass:[GroupItemViewCell class] forCellReuseIdentifier:@"Group"];
 }
 
 - (void)didReceiveApiUpdate:(NSNotification *)notification
@@ -59,14 +61,17 @@
 {
     [super viewDidLoad];
     
+
     [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-
     [[UITabBar appearance] setTintColor:[UIColor underplanPrimaryColor]];
-    [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
-
-//    self.navigationController.navigationBar.tintColor = [UIColor underplanPrimaryColor];
     
+    NSString *reqSysVer = @"7.0";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    {
+        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+        [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
+    }
 
     UIBarButtonItem *reconnectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reconnectSocket)];
     self.navigationItem.rightBarButtonItem = reconnectButton;
@@ -83,12 +88,6 @@
     self.view.backgroundColor = [UIColor underplanPanelColor];
     self.tableView.backgroundColor = [UIColor underplanBgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-//    self.view.layer.borderColor = [UIColor redColor].CGColor;
-//    self.view.layer.borderWidth = 8.0;
-    
-//    UINib *cellNib = [UINib nibWithNibName:@"GroupItemViewCell" bundle:nil];
-//    [self.tableView registerNib:cellNib forCellReuseIdentifier:@"Cell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -123,18 +122,12 @@
     // TODO: calculate this based on cell content...
     GroupItemViewCell *item = [[GroupItemViewCell alloc] init];
     
-    return [item cellHeight];
+    return [item cellHeight:@""];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    static NSString *cellIdentifier = @"Cell";
-    
-    GroupItemViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
-        cell = [[GroupItemViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-    }
+    GroupItemViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Group" forIndexPath:indexPath];
     
     NSDictionary *group = self._groups[indexPath.row];
     

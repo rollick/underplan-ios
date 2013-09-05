@@ -11,8 +11,8 @@
 #import "ActivityListViewController.h"
 #import "UnderplanAppDelegate.h"
 #import "ActivityViewController.h"
-#import "ShortItemView.h"
-#import "StoryItemView.h"
+#import "UnderplanShortItemCell.h"
+#import "UnderplanStoryItemCell.h"
 #import "UITabBarController+ShowHideBar.h"
 #import "UIViewController+UnderplanApiNotifications.h"
 #import "SharedApiClient.h"
@@ -76,6 +76,13 @@
     self.tableView.backgroundColor = [UIColor underplanBgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    // Fix the scrollview being behind tabbar
+    if (self.tabBarController) {
+        UIEdgeInsets inset = self.tableView.contentInset;
+        inset.bottom = self.tabBarController.tabBar.frame.size.height;
+        self.tableView.contentInset = inset;
+    }
+    
     [self.view addSubview:self.tableView];
 }
 
@@ -90,9 +97,11 @@
     self.navigationItem.title = @"Activities";
     [self configureApiSubscriptions];
     
-//    [self.tableView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-    
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    
+    // Register cell classes
+    [self.tableView registerClass:[UnderplanShortItemCell class] forCellReuseIdentifier:@"Short"];
+    [self.tableView registerClass:[UnderplanStoryItemCell class] forCellReuseIdentifier:@"Story"];
 }
 
 
@@ -145,14 +154,13 @@
                           initWithIdAndUnderplanApiClient:activityData[@"_id"]
                           apiClient:[SharedApiClient getClient]];
     
-    UserItemView *cell;
     if ([activity.type isEqualToString:@"story"]) {
-        cell = [[StoryItemView alloc] init];
-        return [cell cellHeight];
+        UnderplanStoryItemCell *tempCell = [[UnderplanStoryItemCell alloc] init];
+        return [tempCell cellHeight:activity.summaryText];
     } else
     {
-        cell = [[ShortItemView alloc] init];
-        return [cell cellHeight:activity.text];
+        UnderplanShortItemCell *tempCell = [[UnderplanShortItemCell alloc] init];
+        return [tempCell cellHeight:activity.summaryText];
     }
 }
 
@@ -163,22 +171,14 @@
                           initWithIdAndUnderplanApiClient:activityData[@"_id"]
                           apiClient:[SharedApiClient getClient]];
     
-    UserItemView *cell;
-    if ([activity.type isEqualToString:@"story"]) {
-        static NSString *cellIdentifier = @"Story";
-        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        if (!cell) {
-            cell = [[StoryItemView alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-        }
+    UnderplanTableViewCell *cell;
+    static NSString *cellIdentifier;
+    if ([activity.type isEqualToString:@"story"])
+        cellIdentifier = @"Story";
+    else
+        cellIdentifier = @"Short";
 
-    } else
-    {
-        static NSString *cellIdentifier = @"Shorty";
-        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        if (!cell) {
-            cell = [[ShortItemView alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-        }
-    }
+    cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     // Fetch owner and id for cell
     cell.itemId = activity._id;
@@ -197,7 +197,7 @@
     }
 
     cell.detailsView.subTitle.text = [activity summaryInfo];
-    cell.mainText.text = activity.text;
+    cell.mainText.text = activity.summaryText;
     
     // Set the shorty photo if available
     if ([activity.type isEqual:@"short"])
@@ -246,7 +246,7 @@
 {
     NSArray *visibleCells = [self.tableView visibleCells];
     [visibleCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        UserItemView *cell = (UserItemView *)obj;
+        UnderplanTableViewCell *cell = (UnderplanTableViewCell *)obj;
         Activity *activity = [[Activity alloc] initWithIdAndUnderplanApiClient:cell.itemId
                                                                      apiClient:[SharedApiClient getClient]];
         NSString *photoUrl = [activity photoUrl];
