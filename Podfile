@@ -1,5 +1,5 @@
 platform :ios, '6.1'
-pod 'ObjectiveDDP', :git => 'https://github.com/rollick/ObjectiveDDP.git', :branch => 'master'
+pod 'ObjectiveDDP', :git => 'https://github.com/rollick/ObjectiveDDP.git', :commit => 'b4f4606c199b68fe349e83415cc99bb20abbf18e'
 pod 'SocketRocket', :head
 pod 'FlatUIKit'
 pod 'SDWebImage'
@@ -8,6 +8,7 @@ pod 'SBJson', '3.1'
 pod 'UIColor-HexString'
 pod 'TMQuiltView'
 pod 'ASMediaFocusManager', :git => 'https://github.com/rollick/ASMediaFocusManager.git'
+#pod 'EGOPhotoViewer', :git => 'https://github.com/rollick/PhotoViewer.git'
 
 #pod 'MBProgressHUD'
 #pod 'ShareKit/Facebook'

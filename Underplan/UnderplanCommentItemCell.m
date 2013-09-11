@@ -38,7 +38,7 @@
 {
     [super layoutSubviews];
     
-    [self.mainView setFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height - 12)];
+    [self.mainView setFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height - BOTTOM_BORDER_SIZE - BOTTOM_BORDER_PADDING)];
 }
 
 - (int)cellHeight:(NSString *)text
@@ -50,9 +50,7 @@
     CGRect rect;
     float height;
     
-    NSString *reqSysVer = @"7.0";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)])
     {
         rect = [text boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX) options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin attributes:stringAttributes context:nil];
     } else {
@@ -68,7 +66,9 @@
             16 +
             height + // self.mainText.frame.size.height +
             24 + // fudge!
-            16; // border
+            16 + 
+            BOTTOM_BORDER_PADDING + // border
+            BOTTOM_BORDER_SIZE;
 }
 
 @end

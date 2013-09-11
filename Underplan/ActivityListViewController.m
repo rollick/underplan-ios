@@ -20,6 +20,7 @@
 #import "User.h"
 #import "Activity.h"
 #import "Photo.h"
+#import "Group.h"
 
 #import "BSONIdGenerator.h"
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -47,8 +48,8 @@
         limit = 10;
     }
     
-    NSArray *params = @[@{@"groupId":_group[@"_id"], @"limit":[NSNumber numberWithInt:limit]}];
-    [[SharedApiClient getClient] addSubscription:@"feedActivities" withParamaters:params];
+    NSArray *params = @[@{@"groupId":_group.remoteId, @"limit":[NSNumber numberWithInt:limit]}];
+    [[SharedApiClient getClient] addSubscription:@"feedActivities" withParameters:params];
     
     // Update the user interface for the group.
     _activities = [SharedApiClient getClient].collections[@"activities"];
@@ -87,7 +88,7 @@
 }
 
 - (NSArray *)computedList {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", self.group[@"_id"]];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", self.group.remoteId];
     return [[SharedApiClient getClient].collections[@"activities"] filteredArrayUsingPredicate:pred];
 }
 
@@ -150,9 +151,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *activityData = self.computedList[indexPath.row];
-    Activity *activity = [[Activity alloc]
-                          initWithIdAndUnderplanApiClient:activityData[@"_id"]
-                          apiClient:[SharedApiClient getClient]];
+    Activity *activity = [[Activity alloc] initWithId:activityData[@"_id"]];
     
     if ([activity.type isEqualToString:@"story"]) {
         UnderplanStoryItemCell *tempCell = [[UnderplanStoryItemCell alloc] init];
@@ -167,9 +166,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *activityData = self.computedList[indexPath.row];
-    Activity *activity = [[Activity alloc]
-                          initWithIdAndUnderplanApiClient:activityData[@"_id"]
-                          apiClient:[SharedApiClient getClient]];
+    Activity *activity = [[Activity alloc] initWithId:activityData[@"_id"]];
     
     UnderplanTableViewCell *cell;
     static NSString *cellIdentifier;
@@ -181,9 +178,8 @@
     cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     // Fetch owner and id for cell
-    cell.itemId = activity._id;
-    User *owner = [[User alloc] initWithIdAndUnderplanApiClient:activity.owner
-                                                      apiClient:[SharedApiClient getClient]];
+    cell.itemId = activity.remoteId;
+    User *owner = [[User alloc] initWithId:activity.ownerId];
 
     // Set the owners name as the title
     cell.detailsView.title.text = owner.profile[@"name"];
@@ -236,8 +232,8 @@
             loading = YES;
             limit = limit + 10;
             
-            NSArray *params = @[@{@"groupId":_group[@"_id"], @"limit":[NSNumber numberWithInt:limit]}];
-            [[SharedApiClient getClient] addSubscription:@"feedActivities" withParamaters:params];
+            NSArray *params = @[@{@"groupId":_group.remoteId, @"limit":[NSNumber numberWithInt:limit]}];
+            [[SharedApiClient getClient] addSubscription:@"feedActivities" withParameters:params];
         }
     }
 }
@@ -247,8 +243,7 @@
     NSArray *visibleCells = [self.tableView visibleCells];
     [visibleCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UnderplanTableViewCell *cell = (UnderplanTableViewCell *)obj;
-        Activity *activity = [[Activity alloc] initWithIdAndUnderplanApiClient:cell.itemId
-                                                                     apiClient:[SharedApiClient getClient]];
+        Activity *activity = [[Activity alloc] initWithId:cell.itemId];
         NSString *photoUrl = [activity photoUrl];
         if (photoUrl && ![photoUrl isEqual:@""])
         {
@@ -257,19 +252,14 @@
     }];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-//    CGFloat newOffset = [[change objectForKey:@"new"] CGPointValue].y;
-//    CGFloat oldOffset = [[change objectForKey:@"old"] CGPointValue].y;
-//    CGFloat diff = newOffset - oldOffset;
-//    if (diff < -65 ) { //scrolling down
-//        [self.navigationController setNavigationBarHidden:YES animated:YES];
-////        [self.tabBarController.tabBar setHidden:NO];
-//    } else
-//    {
-//        [self.navigationController setNavigationBarHidden:NO animated:YES];
-////        [self.tabBarController.tabBar setHidden:NO];
-//    }
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    
+    if ([keyPath isEqual:@"group"]) {
+        [self setGroup:[change objectForKey:NSKeyValueChangeNewKey]];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -282,8 +272,14 @@
     if ([[segue identifier] isEqualToString:@"showActivity"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSDictionary *object = self.computedList[indexPath.row];
-        [[segue destinationViewController] setActivity:object];
-        [[segue destinationViewController] setGroup:_group];
+
+        id controller = [segue destinationViewController];
+        if ([controller respondsToSelector:@selector(activityId)]) {
+            [controller setValue:object[@"_id"] forKey:@"activityId"];
+        }
+        if ([controller respondsToSelector:@selector(group)]) {
+            [controller setValue:_group forKey:@"group"];
+        }
     }
 }
 

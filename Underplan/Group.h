@@ -11,10 +11,10 @@
 
 @interface Group : MeteorModel
 
-@property (assign, nonatomic) NSString *_id;
+@property (assign, nonatomic) NSString *remoteId;
 @property (strong, nonatomic) NSString *owner;
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSString *description;
+@property (strong, nonatomic) NSString *details;
 @property (strong, nonatomic) NSDictionary *trovebox;
 
 - (BOOL)hasTrovebox;

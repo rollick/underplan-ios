@@ -8,8 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Gallery : NSArray
+@interface Gallery : NSObject
+{
+	NSArray *_photos;
+	NSInteger _numberOfPhotos;
+}
 
-- (NSArray *)searchTrovebox:(NSDictionary *)trovebox withTags:(NSString *)tags;
+@property(nonatomic,readonly) NSInteger numberOfPhotos;
+@property(nonatomic,readonly) NSArray *photos;
+
+- (id)initTrovebox:(NSDictionary *)trovebox withTags:(NSString *)tags;
 
 @end

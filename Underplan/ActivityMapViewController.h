@@ -9,12 +9,14 @@
 #import "UnderplanViewController.h"
 
 #import <UIKit/UIKit.h>
-#import "UnderplanApiClient.h"
 #import <MapKit/MapKit.h>
+
+#import "UnderplanApiClient.h"
+#import "Group.h"
 
 @interface ActivityMapViewController : UnderplanViewController
 
-@property (copy, nonatomic) NSDictionary *group;
+@property (retain, nonatomic) Group *group;
 @property (weak, nonatomic) IBOutlet MKMapView *feedMapView;
 
 - (void)reloadData;

@@ -10,8 +10,6 @@
 
 #import "ActivityViewController.h"
 #import "CommentsViewController.h"
-#import "UIViewController+UnderplanApiNotifications.h"
-#import "SharedApiClient.h"
 #import "UnderplanUserItemView.h"
 
 #import "User.h"
@@ -22,9 +20,10 @@
 
 @interface ActivityViewController ()
 
+@property (retain, nonatomic) Activity *activity;
 @property (strong, nonatomic) NSMutableDictionary *owner;
 
-- (void)setActivityDetails;
+- (void)reloadData;
 
 @end
 
@@ -32,19 +31,10 @@
 
 @synthesize mainView;
 
-- (void)configureApiSubscriptions
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    // Get the full activity data
-    NSArray *params = @[_activity[@"_id"]];
-    [[SharedApiClient getClient] addSubscription:@"activityShow" withParamaters:params];
-    [[SharedApiClient getClient] addSubscription:@"activityCommentsCount" withParamaters:params];
-}
+    if(self = [super initWithCoder:aDecoder]) {
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -53,16 +43,15 @@
 {
     [super viewDidLoad];
     
-    self.automaticallyAdjustsScrollViewInsets = YES;
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
+        self.automaticallyAdjustsScrollViewInsets = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self configureApiSubscriptions];
     
     [self initView];
-    [self setActivityDetails];
     
     CGRect frame = self.view.frame;
     self.mainView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
@@ -94,17 +83,15 @@
         inset.bottom = self.tabBarController.tabBar.frame.size.height;
         self.view.contentInset = inset;
     }
+    
+    [self reloadData];
 }
 
-- (void)setActivityDetails
+- (void)reloadData
 {
     // Set the profile image
-    User *owner = [[User alloc] initWithIdAndCollection:_activity[@"owner"]
-                                             collection:[SharedApiClient getClient].collections[@"users"]];
-    
-    Activity *activity = [[Activity alloc] initWithIdAndUnderplanApiClient:_activity[@"_id"]
-                                                                 apiClient:[SharedApiClient getClient]];
-    
+    User *owner = _activity.owner;
+        
     NSString *profileImageUrl = [owner profileImageUrl:@75];
     
     if ([profileImageUrl length]) {
@@ -113,9 +100,9 @@
     }
     
     // Set the text fields
-    self.mainView.detailsView.subTitle.text = [activity summaryInfo];
+    self.mainView.detailsView.subTitle.text = _activity.summaryInfo;
     self.mainView.detailsView.title.text = owner.profile[@"name"];
-    self.mainView.mainText.text = activity.text;
+    self.mainView.mainText.text = _activity.text;
     
     // Add some constraints
     UITextView *mainText = self.mainView.mainText;
@@ -128,28 +115,28 @@
     
     [self.mainView addConstraints:constraintsArray];
     
-    if ([activity.type isEqual:@"story"]) {
-        self.navigationItem.title = activity.title;
+    if ([_activity.type isEqual:@"story"]) {
+        self.navigationItem.title = _activity.title;
     }
-}
-
-- (void)didReceiveApiUpdate:(NSNotification *)notification
-{
-    // Refresh view if this activity was updated
-    if (![[notification name] isEqualToString:@"ready"] && notification.userInfo[@"_id"] == self.activity[@"_id"]) {
-        [self setActivityDetails];
-    }
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)dealloc
 {
     // FIXME: temp fis for ios7 issue when view is scrolling and user navigates away
     self.view.delegate = nil;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    
+    if ([keyPath isEqual:@"activity"]) {
+        [self setActivity:[change objectForKey:NSKeyValueChangeNewKey]];
+        if ([self.mainView isKindOfClass:[UnderplanUserItemView class]]) {
+            [self reloadData];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning

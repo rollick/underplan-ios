@@ -12,6 +12,8 @@
 #import "UnderplanUserItemView.h"
 
 #define CELL_BORDER_SIZE 0
+#define BOTTOM_BORDER_PADDING 16
+#define BOTTOM_BORDER_SIZE 2
 
 @interface UnderplanTableViewCell : UITableViewCell
 

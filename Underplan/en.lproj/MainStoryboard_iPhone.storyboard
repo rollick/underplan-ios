@@ -177,9 +177,7 @@
     </scenes>
     <resources>
         <image name="calendar.png" width="30" height="30"/>
-        <image name="calendar.png" width="30" height="30"/>
         <image name="comments.png" width="30" height="30"/>
-        <image name="photos.png" width="30" height="30"/>
         <image name="photos.png" width="30" height="30"/>
         <image name="pin.png" width="30" height="30"/>
     </resources>

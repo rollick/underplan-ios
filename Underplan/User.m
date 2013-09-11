@@ -17,7 +17,7 @@
 
 - (BOOL)processApiData: (NSDictionary *)data_
 {
-    self._id = data_[@"_id"];
+    self.remoteId = data_[@"_id"];
     self.admin = data_[@"admin"];
     self.profile = data_[@"profile"];
     self.services = data_[@"services"];

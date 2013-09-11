@@ -30,17 +30,12 @@
 
 - (void)clearApiNotifications
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];    
 }
 
-//- (void)didReceiveApiUpdate:(NSNotification *)notification
-//{
-//    // Override this method to handle notications from Meteor
-//    if ([[notification name] isEqualToString:@"ready"])
-//    {
-//        NSLog(@"Meteor ready...");
-//    }
-//}
+- (void)didReceiveApiUpdate:(NSNotification *)notification
+{
+    // Override this method to handle notications from Meteor
+}
 
 @end

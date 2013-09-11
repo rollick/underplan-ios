@@ -12,7 +12,7 @@
 
 @interface User : MeteorModel
 
-@property (assign, nonatomic) NSString *_id;
+@property (assign, nonatomic) NSString *remoteId;
 @property (strong, nonatomic) NSNumber *admin;
 @property (strong, nonatomic) NSDictionary *profile;
 @property (strong, nonatomic) NSDictionary *services;

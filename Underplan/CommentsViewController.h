@@ -14,6 +14,6 @@
 @interface CommentsViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (retain, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray *comments;
+@property (assign, nonatomic) id delegate;
 
 @end

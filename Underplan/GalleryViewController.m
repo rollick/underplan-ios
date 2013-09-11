@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "GalleryViewController.h"
+#import "UnderplanSlideshowController.h"
 
 #import "GalleryViewCell.h"
 #import "Gallery.h"
@@ -19,29 +20,29 @@
 
 @interface GalleryViewController ()
 
-@property (nonatomic, retain) NSArray *images;
+@property (retain, nonatomic) Activity *activity;
+@property (retain, nonatomic) Group *group;
 
 @end
 
 @implementation GalleryViewController {
-    BOOL loading;
+    BOOL forceReload;
     BOOL complete;
     int limit;
 }
 
+@synthesize gallery = _gallery, group = _group, activity = _activity, loading;
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithCoder:aDecoder];
-    
-    return self;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if(self = [super initWithCoder:aDecoder]) {
+        [self addObserver:self
+               forKeyPath:@"loading"
+                  options:(NSKeyValueObservingOptionNew |
+                           NSKeyValueObservingOptionOld)
+                  context:NULL];
     }
+    
     return self;
 }
 
@@ -49,10 +50,7 @@
 {
     [super viewDidLoad];
     
-    self.mediaFocusManager = [[ASMediaFocusManager alloc] init];
-    self.mediaFocusManager.delegate = self;
-    self.mediaFocusManager.isDefocusingWithTap = YES;
-    self.mediaFocusManager.elasticAnimation = NO;
+    [self fetchGallery];
     
     // Fix the scrollview being behind tabbar
     if (self.tabBarController) {
@@ -74,13 +72,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+        
     [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkMenuFontColor]];
     [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkMenuFontColor]];
     
-    NSString *reqSysVer = @"7.0";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
         [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
         [self.navigationController.navigationBar setBarTintColor:[UIColor underplanDarkMenuColor]];
@@ -94,12 +90,31 @@
     [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
     [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
 
-    NSString *reqSysVer = @"7.0";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
         [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    
+    if ([keyPath isEqual:@"activity"]) {
+        [self setActivity:[change objectForKey:NSKeyValueChangeNewKey]];
+        [self setGroup:[self.activity group]];
+        forceReload = YES;
+    } else if ([keyPath isEqual:@"group"]) {
+        [self setGroup:[change objectForKey:NSKeyValueChangeNewKey]];
+        forceReload = YES;
+    } else if ([keyPath isEqual:@"loading"]) {
+        if ([change objectForKey:NSKeyValueChangeNewKey]) {
+            [self.quiltView setHidden:YES];
+        } else {
+            [self.quiltView setHidden:NO];
+        }
     }
 }
 
@@ -119,19 +134,34 @@
 
 #pragma mark - QuiltViewControllerDataSource
 
-- (NSArray *)images {
-    if (!_images) {
-        _images = [[Gallery alloc] searchTrovebox:_group[@"trovebox"] withTags:self.searchTags];
+- (void)fetchGallery {
+//    static NSDictionary *trovebox = _group.trovebox;
+    if ((!_gallery && !loading) || forceReload) {
+        forceReload = NO;
+        loading = YES;
+        dispatch_queue_t troveQueue = dispatch_queue_create("Trovebox Request Queue", NULL);
+        dispatch_async(troveQueue, ^{
+            _gallery = [[Gallery alloc] initTrovebox:_group.trovebox withTags:self.searchTags];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.quiltView reloadData];
+                loading = NO;
+            });
+        });
     }
-    return _images;
 }
 
 - (NSString *)imageUrlAtIndexPath:(NSIndexPath *)indexPath {
-    return [self.images objectAtIndex:indexPath.row][@"path320x320"];
+    return [self.gallery.photos objectAtIndex:indexPath.row][@"path320x320"];
+}
+
+- (NSString *)fullImageUrlAtIndexPath:(NSNumber *)index {
+    int i = [index intValue];
+    return [self.gallery.photos objectAtIndex:i][@"path1024x1024"];
 }
 
 - (NSInteger)quiltViewNumberOfCells:(TMQuiltView *)TMQuiltView {
-    return [self.images count];
+    return self.gallery.numberOfPhotos;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -160,24 +190,19 @@
     }
 }
 
-//- (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (! self.navigationController.navigationBar.hidden)
-//    {
-//        [self.navigationController setNavigationBarHidden:YES animated:YES];
-//        
-//        CATransition *animation = [CATransition animation];
-//        [animation setType:kCATransitionFade];
-//        [[self.view.window layer] addAnimation:animation forKey:@"layerAnimation"];
-//        [self.tabBarController.tabBar setHidden:YES];
-//    }
-//}
+- (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath
+{
+	UnderplanSlideshowController *photoController = [[UnderplanSlideshowController alloc] initWithDelegate:self index:[[NSNumber alloc] initWithUnsignedInteger:indexPath.row]];
 
-- (TMQuiltViewCell *)quiltView:(TMQuiltView *)quiltView cellAtIndexPath:(NSIndexPath *)indexPath {
+    [self.navigationController pushViewController:photoController animated:YES];
+}
+
+- (TMQuiltViewCell *)quiltView:(TMQuiltView *)quiltView cellAtIndexPath:(NSIndexPath *)indexPath
+{
     GalleryViewCell *cell = (GalleryViewCell *)[quiltView dequeueReusableCellWithReuseIdentifier:@"PhotoCell"];
     if (!cell) {
         cell = [[GalleryViewCell alloc] initWithReuseIdentifier:@"PhotoCell"];
-        [self.mediaFocusManager installOnView:cell.photoView];
+//        [self.mediaFocusManager installOnView:cell.photoView];
     }
     
     cell.photoView.tag = indexPath.row + 1;
@@ -196,9 +221,8 @@
 
 #pragma mark - TMQuiltViewDelegate
 
-- (NSInteger)quiltViewNumberOfColumns:(TMQuiltView *)quiltView {
-    
-    
+- (NSInteger)quiltViewNumberOfColumns:(TMQuiltView *)quiltView
+{
     if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft
         || [[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeRight) {
         return 3;
@@ -207,45 +231,10 @@
     }
 }
 
-- (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
+{
 //    return [self imageUrlAtIndexPath:indexPath].size.height / [self quiltViewNumberOfColumns:quiltView];
     return 96;
-}
-
-#pragma mark - ASMediaFocusDelegate
-- (UIImage *)mediaFocusManager:(ASMediaFocusManager *)mediaFocusManager imageForView:(UIView *)view
-{
-    return ((UIImageView *)view).image;
-}
-
-- (CGRect)mediaFocusManager:(ASMediaFocusManager *)mediaFocusManager finalFrameforView:(UIView *)view
-{
-    UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    return window.bounds;
-}
-
-- (UIViewController *)parentViewControllerForMediaFocusManager:(ASMediaFocusManager *)mediaFocusManager
-{
-    id rootViewController = [[[[[UIApplication sharedApplication] keyWindow] subviews] objectAtIndex:0] nextResponder];
-
-    return rootViewController;
-}
-
-- (NSURL *)mediaFocusManager:(ASMediaFocusManager *)mediaFocusManager mediaURLForView:(UIView *)view
-{
-    NSDictionary *imageData = [self.images objectAtIndex:(view.tag - 1)];
-    NSURL *url = [NSURL URLWithString:imageData[@"path1024x1024"]];
-    
-    return url;
-}
-
-- (NSString *)mediaFocusManager:(ASMediaFocusManager *)mediaFocusManager titleForView:(UIView *)view;
-{
-    NSDictionary *imageData = [self.images objectAtIndex:(view.tag - 1)];
-    NSString *title = imageData[@"title"];
-    
-    return title;
 }
 
 @end

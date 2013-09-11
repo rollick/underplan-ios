@@ -12,6 +12,8 @@
 #import <UIKit/UIKit.h>
 #import <SDWebImage/SDWebImageManager.h>
 
+#import "Group.h"
+
 typedef enum ScrollDirection {
     ScrollDirectionNone,
     ScrollDirectionRight,
@@ -25,8 +27,8 @@ typedef enum ScrollDirection {
 
 @property (strong, nonatomic) ActivityViewController *activityViewController;
 
-@property (copy, nonatomic) NSDictionary *group;
-@property (strong, nonatomic) NSMutableArray *activities;
+@property (retain, nonatomic) Group *group;
+@property (retain, nonatomic) NSMutableArray *activities;
 @property (retain, nonatomic) UITableView *tableView;
 
 - (void)reloadData;

@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "Group.h"
+
 @interface GroupViewController : UITabBarController
 
-@property (copy, nonatomic) NSDictionary *group;
+@property (retain, nonatomic) Group *group;
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 @end

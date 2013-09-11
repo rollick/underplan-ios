@@ -7,32 +7,27 @@
 //
 
 #import "CommentsViewController.h"
-#import "UIViewController+UnderplanApiNotifications.h"
 #import "SharedApiClient.h"
 
 #import "UnderplanCommentItemCell.h"
 
 #import "User.h"
 #import "Comment.h"
+#import "Activity.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIColor+Underplan.h"
 
 @interface CommentsViewController ()
 
-@property (strong, nonatomic) NSDictionary *activity;
+@property (strong, nonatomic) NSMutableArray *comments;
+@property (strong, nonatomic) Activity *activity;
 
 @end
 
 @implementation CommentsViewController
 
 @synthesize tableView = _tableView;
-
-- (void)configureApiSubscriptions
-{
-    NSArray *params = @[_activity[@"_id"]];
-    [[SharedApiClient getClient] addSubscription:@"activityComments" withParamaters:params];
-}
 
 - (void)viewDidLoad
 {
@@ -74,15 +69,36 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    
+    if ([keyPath isEqual:@"activity"]) {
+        [self setActivity:[change objectForKey:NSKeyValueChangeNewKey]];
+    }
+    
+    if ([keyPath isEqual:@"comments"]) {
+        [self setComments:[change objectForKey:NSKeyValueChangeNewKey]];
+        
+        [self.tableView reloadData];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 
 {
     [super viewWillAppear:animated];
 
     self.navigationItem.title = @"Comments";
-    [self configureApiSubscriptions];
+
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[UnderplanCommentItemCell class] forCellReuseIdentifier:@"Comment"];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(comments)]) {
+        [self setComments:[self.delegate comments]];
+    }
+    [self.tableView reloadData];
 }
 
 -(void)dealloc
@@ -92,23 +108,6 @@
 
 #pragma mark - Table View
 
-- (NSArray *)computedList {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", self.activity[@"_id"]];
-    return [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
-}
-
-- (void)didReceiveApiUpdate:(NSNotification *)notification
-{
-    // TODO: look into the correct use of the ready, added, removed notifcations
-    //       for table cells and meteor etc.
-    //    if([[notification name] isEqualToString:@"ready"]) {
-    //        [self reloadFeedMap];
-    //        [self.tableView reloadData];
-    //    }
-    
-    [self.tableView reloadData];
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -116,15 +115,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.computedList count];
+    return [_comments count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *_comment = self.computedList[indexPath.row];
+    NSDictionary *_comment = _comments[indexPath.row];
     
-    Comment *comment = [[Comment alloc] initWithIdAndUnderplanApiClient:_comment[@"_id"]
-                                                              apiClient:[SharedApiClient getClient]];
+    Comment *comment = [[Comment alloc] initWithId:_comment[@"_id"]];
 
     UnderplanCommentItemCell *cell = [[UnderplanCommentItemCell alloc] init];
     return [cell cellHeight:comment.text];
@@ -136,13 +134,12 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    NSDictionary *_comment = self.computedList[indexPath.row];
+    NSDictionary *_comment = _comments[indexPath.row];
     
-    Comment *comment = [[Comment alloc] initWithIdAndUnderplanApiClient:_comment[@"_id"]
-                                                                 apiClient:[SharedApiClient getClient]];
+    Comment *comment = [[Comment alloc] initWithId:_comment[@"_id"]];
     
     // Fetch owner
-    User *owner = [[User alloc] initWithIdAndCollection:comment.owner collection:[SharedApiClient getClient].collections[@"users"]];
+    User *owner = [[User alloc] initWithId:comment.ownerId];
     
     // Set the profile image
     // TODO: Maybe the activity cell needs to have a custom view which can

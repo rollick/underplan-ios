@@ -8,6 +8,8 @@
 
 #import "MeteorModel.h"
 
+#import "SharedApiClient.h"
+
 @implementation MeteorModel
 
 // Override this in the subclass
@@ -30,12 +32,11 @@
     return self;
 }
 
-- (id)initWithIdAndUnderplanApiClient: (NSString *)id_ apiClient:(UnderplanApiClient *)apiClient
+- (id)initWithId: (NSString *)id_
 {
     self = [super init];
-    self.apiClient = apiClient;
     
-    NSArray *collection_ = self.apiClient.collections[self.collectionName];
+    NSArray *collection_ = [SharedApiClient getClient].collections[self.collectionName];
     NSDictionary *data_ = [self findItemInDictionaryById:collection_ id:id_];
     [self processApiData:data_];
     

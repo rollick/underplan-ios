@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4504" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3734.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-114.png" translatesAutoresizingMaskIntoConstraints="NO" id="LTG-eH-ySj">
+                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="LTG-eH-ySj">
                     <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <constraints>
@@ -40,7 +40,7 @@
                 <constraint firstAttribute="bottom" secondItem="LTG-eH-ySj" secondAttribute="bottom" priority="800" id="Dw2-Jw-RXP"/>
                 <constraint firstItem="LTG-eH-ySj" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Jdy-Uu-9ty"/>
                 <constraint firstItem="LTG-eH-ySj" firstAttribute="top" secondItem="1" secondAttribute="top" id="LVz-xp-sQ4"/>
-                <constraint firstItem="cRn-1e-qqp" firstAttribute="leading" secondItem="LTG-eH-ySj" secondAttribute="trailing" constant="8" symbolic="YES" id="VCj-XQ-ssw"/>
+                <constraint firstItem="dZj-Sy-dEV" firstAttribute="leading" secondItem="cRn-1e-qqp" secondAttribute="leading" id="Neh-iI-fUp"/>
                 <constraint firstAttribute="trailing" secondItem="cRn-1e-qqp" secondAttribute="trailing" constant="7" id="eBj-la-23V"/>
                 <constraint firstAttribute="trailing" secondItem="dZj-Sy-dEV" secondAttribute="trailing" id="mMh-Rs-Cqc"/>
                 <constraint firstItem="cRn-1e-qqp" firstAttribute="top" secondItem="dZj-Sy-dEV" secondAttribute="bottom" constant="4" id="yEZ-ce-UIp"/>
@@ -54,6 +54,6 @@
         </view>
     </objects>
     <resources>
-        <image name="logo-114.png" width="114" height="114"/>
+        <image name="Icon.png" width="57" height="57"/>
     </resources>
 </document>

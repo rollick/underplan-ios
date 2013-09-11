@@ -15,7 +15,7 @@
 
 - (BOOL)processApiData: (NSDictionary *)data_;
 - (id)initWithData: (NSDictionary *)data_;
-- (id)initWithIdAndUnderplanApiClient: (NSString *)id_ apiClient:(UnderplanApiClient *)apiClient;
+- (id)initWithId: (NSString *)id_;
 - (id)initWithIdAndCollection: (NSString *)id_ collection:(NSArray *)collection_;
 
 @end

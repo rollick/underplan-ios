@@ -8,9 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ActivityTabBarController : UITabBarController
+#import "Group.h"
+#import "Activity.h"
 
-@property (copy, nonatomic) NSDictionary *activity;
-@property (copy, nonatomic) NSDictionary *group;
+@interface ActivityTabBarController : UITabBarController <UITabBarControllerDelegate>
+
+@property (strong, nonatomic) NSString *activityId;
+@property (strong, nonatomic) Activity *activity;
+@property (strong, nonatomic) NSString *groupId;
+@property (strong, nonatomic) Group *group;
+@property (strong, nonatomic) NSArray *comments;
+
+- (void)setBadgeValue:(NSString *)value onController:(id)controller;
 
 @end

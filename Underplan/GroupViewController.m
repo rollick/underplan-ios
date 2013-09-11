@@ -18,11 +18,16 @@
 
 @implementation GroupViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if(self = [super initWithCoder:aDecoder]) {
+        for (id controller in [self viewControllers]) {
+            [self addObserver:controller
+                   forKeyPath:@"group"
+                      options:(NSKeyValueObservingOptionNew |
+                               NSKeyValueObservingOptionOld)
+                      context:NULL];
+        }
     }
     return self;
 }
@@ -35,13 +40,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    for (id controller in [self viewControllers]) {
-        if ([controller respondsToSelector:@selector(group)]) {
-            [controller setValue:self.group forKey:@"group"];
-        }
-    }
 }
 
 - (void)didReceiveMemoryWarning

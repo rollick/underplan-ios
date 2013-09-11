@@ -13,13 +13,21 @@
 
 - (id)initWithFirstMatchByTagAndTrovebox:(NSString *)tags trovebox:(NSDictionary *)trovebox
 {
-    Gallery *search = [[Gallery alloc] init];
-    NSArray *photos = [search searchTrovebox:trovebox withTags:tags];
+    self = [super init];
+    Gallery *gallery = [[Gallery alloc] initTrovebox:trovebox withTags:tags];
     
-    if([photos count]) {
-        [self loadData:photos[0]];
+    if([gallery numberOfPhotos]) {
+        [self loadData:[gallery photos][0]];
     }
 
+    return self;
+}
+
+- (id)initWithData:(NSDictionary *)data
+{
+    self = [super init];
+    [self loadData:data];
+    
     return self;
 }
 

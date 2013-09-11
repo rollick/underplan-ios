@@ -26,8 +26,8 @@
 
 - (void)configureApiSubscriptions
 {
-    NSArray *params = @[_group[@"_id"]];
-    [[SharedApiClient getClient] addSubscription:@"basicActivityData" withParamaters:params];
+    NSArray *params = @[_group.remoteId];
+    [[SharedApiClient getClient] addSubscription:@"basicActivityData" withParameters:params];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -50,12 +50,10 @@
 
     // FIXME:   This is a hack when the willdisappear of the gallery controller
     //          wasn't re-setting the tabbar reliably
-    [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
+    [self.tabBarController.tabBar setTintColor:[UIColor redColor]];
+    [self.navigationController.navigationBar setTintColor:[UIColor redColor]];
 
-    NSString *reqSysVer = @"7.0";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
         [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
@@ -69,9 +67,7 @@
     [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
     [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
     
-    NSString *reqSysVer = @"7.0";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
         [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
@@ -102,8 +98,18 @@
 //    [self reloadData];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    
+    if ([keyPath isEqual:@"group"]) {
+        [self setGroup:[change objectForKey:NSKeyValueChangeNewKey]];
+    }
+}
+
 - (NSArray *)computedList {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", self.group[@"_id"]];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", self.group.remoteId];
     return [[SharedApiClient getClient].collections[@"activities"] filteredArrayUsingPredicate:pred];
 }
 

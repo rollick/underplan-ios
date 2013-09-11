@@ -7,7 +7,6 @@
 //
 
 #import "UnderplanShortItemCell.h"
-
 #import "UnderplanShortView.h"
 
 #import "UIColor+Underplan.h"
@@ -32,7 +31,7 @@
 {
     [super layoutSubviews];
 
-    [self.mainView setFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height - 12)];
+    [self.mainView setFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height - BOTTOM_BORDER_SIZE - BOTTOM_BORDER_PADDING)];
 }
 
 - (int)cellHeight:(NSString *)text
@@ -43,9 +42,7 @@
     CGFloat screenWidth = screenRect.size.width;
     float height;
     
-    NSString *reqSysVer = @"7.0";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)])
     {
         CGRect rect = [text boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX) options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin attributes:stringAttributes context:nil];
         
@@ -62,10 +59,10 @@
     52 + // self.detailsView.frame.size.height +
     16 +
     height + // self.mainText.frame.size.height +
-    50 +
     16 +
     150 + // self.contentImage.frame.size.height +
-    12;
+    BOTTOM_BORDER_PADDING +
+    BOTTOM_BORDER_SIZE;
 }
 
 @end

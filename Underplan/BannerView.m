@@ -28,6 +28,7 @@
     self.label = [[UILabel alloc] init];
     self.label.text = @"Story";
     self.label.textColor = [UIColor whiteColor];
+    self.label.backgroundColor = [UIColor underplanNoticeColor];
     [self.label setFont:[UIFont fontWithName:@"Helvetica-Light" size:14]];
     
     [self addSubview:self.label];

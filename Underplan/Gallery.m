@@ -7,12 +7,16 @@
 //
 
 #import "Gallery.h"
+#import "Photo.h"
 #import "SBJson.h"
 
 @implementation Gallery
 
+@synthesize photos=_photos;
+@synthesize numberOfPhotos=_numberOfPhotos;
+
 // options: tags, pageSize, page
-- (NSArray *)searchTrovebox:(NSDictionary *)trovebox withOptions:(NSDictionary *)options
+- (Gallery *)searchTrovebox:(NSDictionary *)trovebox withOptions:(NSDictionary *)options
 {
     NSString *tags;
     if (options) {
@@ -36,15 +40,24 @@
     CGFloat screenWidth = screenRect.size.width;
     url = [url stringByReplacingOccurrencesOfString:@"<widthSize>" withString:[NSString stringWithFormat: @"%.f", screenWidth]];
     
-    return [self sendRequest:url];
+    NSArray *response = [self sendRequest:url];
+    
+    return [self initWithPhotos:response];
 }
 
 
-- (NSArray *)searchTrovebox:(NSDictionary *)trovebox withTags:(NSString *)tags
+- (Gallery *)initTrovebox:(NSDictionary *)trovebox withTags:(NSString *)tags
 {
     NSDictionary *options;
     if (tags) {
         options = @{@"tags": tags};
+    }
+    
+    if ([trovebox[@"album"] isEqualToString:@""] ||
+        [trovebox[@"albumKey"] isEqualToString:@""] ||
+        [trovebox[@"domain"] isEqualToString:@""])
+    {
+        return [self init];
     }
     
     return [self searchTrovebox:trovebox withOptions:options];
@@ -64,6 +77,20 @@
     NSArray *photos = dict[@"result"];
     
     return photos;
+}
+
+- (id)initWithPhotos:(NSArray*)photos
+{
+	if (self = [super init]) {
+		_photos = photos;
+		_numberOfPhotos = [_photos count];
+	}
+	return self;
+}
+
+- (id)photoAtIndex:(NSInteger)index
+{
+    return [[Photo alloc] initWithData:[_photos objectAtIndex:index]];
 }
 
 @end

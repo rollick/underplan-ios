@@ -17,5 +17,6 @@
 @property (copy, nonatomic) NSString *fitWidth;
 
 - (id)initWithFirstMatchByTagAndTrovebox:(NSString *)tags trovebox:(NSDictionary *)trovebox;
+- (id)initWithData:(NSDictionary *)data;
 
 @end

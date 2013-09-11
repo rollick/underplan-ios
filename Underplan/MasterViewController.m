@@ -13,6 +13,8 @@
 #import "SharedApiClient.h"
 #import "GroupItemViewCell.h"
 
+#import "Group.h"
+
 #import "UIColor+Underplan.h"
 
 @interface MasterViewController ()
@@ -51,7 +53,7 @@
     self.connectionStatusText.text = @"Connected to Underplan!";
     self.connectedToMeteor = YES;
 
-    if ([[notification name] isEqualToString:@"ready"]) {
+    if ([[notification name] isEqualToString:@"added"]) {
         self._groups = [SharedApiClient getClient].collections[@"groups"];
         [self.tableView reloadData];
     }
@@ -65,9 +67,7 @@
     [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
     [[UITabBar appearance] setTintColor:[UIColor underplanPrimaryColor]];
     
-    NSString *reqSysVer = @"7.0";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
+    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
         [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
@@ -129,10 +129,10 @@
 {
     GroupItemViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Group" forIndexPath:indexPath];
     
-    NSDictionary *group = self._groups[indexPath.row];
+    Group *group = [[Group alloc] initWithId:self._groups[indexPath.row][@"_id"]];
     
-    cell.title.text = group[@"name"];
-    cell.description.text = group[@"description"];
+    cell.title.text = group.name;
+    cell.description.text = group.details;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -183,8 +183,9 @@
 {
     if ([[segue identifier] isEqualToString:@"showGroup"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDictionary *object = self._groups[indexPath.row];
-        [[segue destinationViewController] setGroup:object];
+        NSDictionary *data = self._groups[indexPath.row];
+        Group *group = [[Group alloc] initWithId:data[@"_id"]];
+        [[segue destinationViewController] setGroup:group];
     }
 }
 

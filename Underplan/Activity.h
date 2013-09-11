@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 
 #import "MeteorModel.h"
+#import "Group.h"
+#import "User.h"
 
 @interface Activity : MeteorModel
 
-@property (assign, nonatomic) NSString *_id;
-@property (strong, nonatomic) NSString *owner;
+@property (assign, nonatomic) NSString *remoteId;
+@property (strong, nonatomic) NSString *ownerId;
 @property (strong, nonatomic) NSString *groupId;
 @property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) NSString *title;
@@ -21,7 +23,10 @@
 @property (strong, nonatomic) NSString *city;
 @property (strong, nonatomic) NSString *region;
 @property (strong, nonatomic) NSString *country;
+@property (strong, nonatomic) NSString *tags;
 @property (strong, nonatomic) NSMutableDictionary *created;
+@property (retain, nonatomic, readonly) User *owner;
+@property (retain, nonatomic, readonly) Group *group;
 
 - (NSString *)summaryInfo;
 - (NSString *)photoUrl;

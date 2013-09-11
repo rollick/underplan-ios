@@ -9,6 +9,9 @@
 #import "Activity.h"
 #import "Group.h"
 #import "Photo.h"
+#import "User.h"
+
+#import "SharedApiClient.h"
 
 @implementation Activity
 
@@ -21,8 +24,8 @@
 // Override this in the subclass
 - (BOOL)processApiData: (NSDictionary *)data_
 {
-    self._id = data_[@"_id"];
-    self.owner = data_[@"owner"];
+    self.remoteId = data_[@"_id"];
+    self.ownerId = data_[@"owner"];
     self.groupId = data_[@"group"];
     self.type = data_[@"type"];
     self.title = data_[@"title"];
@@ -30,9 +33,20 @@
     self.city = data_[@"city"];
     self.region = data_[@"region"];
     self.country = data_[@"country"];
+    self.tags = data_[@"picasaTags"];
     self.created = data_[@"created"];
     
     return true;
+}
+
+- (User *)owner
+{
+    return [[User alloc] initWithId:self.ownerId];
+}
+
+- (Group *)group
+{
+    return [[Group alloc] initWithId:self.groupId];
 }
 
 - (NSString *)summaryText
@@ -89,17 +103,13 @@
 
 - (NSString *)photoUrl
 {
-    if (![self.apiClient isKindOfClass:[UnderplanApiClient class]]) {
-        [NSException raise:@"UnderplanApiClientNotSpecified" format:@"Instance does not have access to UnderplanApiClient with apiClient property."];
-    }
-    
-    Group *group = [[Group alloc] initWithIdAndUnderplanApiClient:self.groupId apiClient:self.apiClient];
+    Group *group = [[Group alloc] initWithId:self.groupId];
     
     // If the group has trovebox settings then check the tags for a photo to match this activity
     if ([group hasTrovebox]) {
         // The tag is set based on the activity id
         NSString *photoTag = @"underplan-*";
-        photoTag = [photoTag stringByReplacingOccurrencesOfString:@"*" withString:self._id];
+        photoTag = [photoTag stringByReplacingOccurrencesOfString:@"*" withString:self.remoteId];
         Photo *photo = [[Photo alloc] initWithFirstMatchByTagAndTrovebox:photoTag trovebox:group.trovebox];
         
         // TODO: return image size url based on device screen width
