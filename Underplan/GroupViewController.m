@@ -24,16 +24,20 @@
         for (id controller in [self viewControllers]) {
             if ([controller respondsToSelector:@selector(delegate)]) {
                 [controller setValue:self forKey:@"delegate"];
-            } else {
-                [self addObserver:controller
-                       forKeyPath:@"group"
-                          options:(NSKeyValueObservingOptionNew |
-                                   NSKeyValueObservingOptionOld)
-                          context:NULL];
             }
         }
     }
     return self;
+}
+
+- (Group *)currentGroup
+{
+    return _group;
+}
+
+- (Activity *)currentActivity
+{
+    return nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated

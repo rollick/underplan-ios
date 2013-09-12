@@ -9,6 +9,8 @@
 #import "ActivityViewController.h"
 #import "UnderplanViewController.h"
 
+#import "UnderplanGroupAwareDelegate.h"
+
 #import <UIKit/UIKit.h>
 #import <SDWebImage/SDWebImageManager.h>
 
@@ -30,6 +32,7 @@ typedef enum ScrollDirection {
 @property (retain, nonatomic) Group *group;
 @property (retain, nonatomic) NSMutableArray *activities;
 @property (retain, nonatomic) UITableView *tableView;
+@property (assign, nonatomic) id <UnderplanGroupAwareDelegate> delegate;
 
 - (void)reloadData;
 

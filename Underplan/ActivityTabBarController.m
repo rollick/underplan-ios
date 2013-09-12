@@ -152,6 +152,11 @@
 //    return YES;
 //}
 
+- (Group *)currentGroup
+{
+    return _group;
+}
+
 - (Activity *)currentActivity
 {
     return _activity;

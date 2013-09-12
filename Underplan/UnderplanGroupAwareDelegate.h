@@ -1,5 +1,5 @@
 //
-//  UnderplanActivityAwareDelegate.h
+//  UnderplanGroupAwareDelegate.h
 //  Underplan
 //
 //  Created by Mark Gallop on 12/09/13.
@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Group.h"
 #import "Activity.h"
 
-@protocol UnderplanActivityAwareDelegate <NSObject>
+@protocol UnderplanGroupAwareDelegate <NSObject>
 
+- (Group *)currentGroup;
 - (Activity *)currentActivity;
 - (NSArray *)currentActivityComments;
 - (void)updateCommentsCount:(id)aController count:(NSUInteger)count;

@@ -55,7 +55,7 @@
     return self;
 }
 
-- (id)initWithDelegate:(id <UnderplanActivityAwareDelegate>)aDelegate
+- (id)initWithDelegate:(id <UnderplanGroupAwareDelegate>)aDelegate
 {
     if (self = [super init])
     {

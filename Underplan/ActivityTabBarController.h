@@ -11,9 +11,9 @@
 #import "Group.h"
 #import "Activity.h"
 
-#import "UnderplanActivityAwareDelegate.h"
+#import "UnderplanGroupAwareDelegate.h"
 
-@interface ActivityTabBarController : UITabBarController <UITabBarControllerDelegate, UnderplanActivityAwareDelegate>
+@interface ActivityTabBarController : UITabBarController <UITabBarControllerDelegate, UnderplanGroupAwareDelegate>
 
 @property (strong, nonatomic) NSString *activityId;
 @property (strong, nonatomic) Activity *activity;

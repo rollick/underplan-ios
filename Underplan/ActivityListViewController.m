@@ -57,6 +57,18 @@
 
 #pragma mark - Managing the activity details
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if(self = [super initWithCoder:aDecoder]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveApiUpdate:)
+                                                     name:@"feedActivities_ready"
+                                                   object:nil];
+    }
+    
+    return self;
+}
+
 -(void)reloadData
 {
     [self.tableView reloadData];
@@ -65,6 +77,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (_delegate)
+        _group = [_delegate currentGroup];
     
     self.view = [[UIView alloc] init];
     self.tableView = [[UITableView alloc] init];
@@ -105,10 +120,9 @@
     [self.tableView registerClass:[UnderplanStoryItemCell class] forCellReuseIdentifier:@"Story"];
 }
 
-
 - (void)didReceiveApiUpdate:(NSNotification *)notification
 {
-    if([[notification name] isEqualToString:@"ready"])
+    if([[notification name] isEqualToString:@"feedActivities_ready"])
     {
         if (limit > [self.computedList count]) {
             complete = YES;
@@ -128,6 +142,13 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Table View
@@ -250,16 +271,6 @@
             [cell.contentImage setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         }
     }];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    
-    if ([keyPath isEqual:@"group"]) {
-        [self setGroup:[change objectForKey:NSKeyValueChangeNewKey]];
-    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

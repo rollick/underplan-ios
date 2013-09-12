@@ -42,6 +42,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    if (_delegate)
+    {
+        _group = [_delegate currentGroup];
+        _activity = [_delegate currentActivity];
+    }
+    
     [self configureApiSubscriptions];
     self.navigationItem.title = @"Map";
     
@@ -96,16 +102,6 @@
     }
     
 //    [self reloadData];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    
-    if ([keyPath isEqual:@"group"]) {
-        [self setGroup:[change objectForKey:NSKeyValueChangeNewKey]];
-    }
 }
 
 - (NSArray *)computedList {
