@@ -134,25 +134,19 @@
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 -(void)dealloc
 {
     // FIXME: temp fis for ios7 issue when view is scrolling and user navigates away
     self.view.delegate = nil;
     
     self.delegate = nil;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    
-    if ([keyPath isEqual:@"activity"]) {
-        [self setActivity:[change objectForKey:NSKeyValueChangeNewKey]];
-        if ([self.mainView isKindOfClass:[UnderplanUserItemView class]]) {
-            [self reloadData];
-        }
-    }
 }
 
 - (void)didReceiveMemoryWarning

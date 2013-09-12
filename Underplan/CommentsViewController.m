@@ -156,6 +156,13 @@
     [self.tableView reloadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 -(void)dealloc
 {
     self.tableView.delegate = nil;
