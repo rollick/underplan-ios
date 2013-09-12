@@ -11,7 +11,9 @@
 #import "Group.h"
 #import "Activity.h"
 
-@interface ActivityTabBarController : UITabBarController <UITabBarControllerDelegate>
+#import "UnderplanActivityAwareDelegate.h"
+
+@interface ActivityTabBarController : UITabBarController <UITabBarControllerDelegate, UnderplanActivityAwareDelegate>
 
 @property (strong, nonatomic) NSString *activityId;
 @property (strong, nonatomic) Activity *activity;
@@ -20,5 +22,6 @@
 @property (strong, nonatomic) NSArray *comments;
 
 - (void)setBadgeValue:(NSString *)value onController:(id)controller;
+//- (Activity *)currentActivity;
 
 @end

@@ -41,6 +41,11 @@
                            NSKeyValueObservingOptionOld)
                   context:NULL];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveApiUpdate:)
+                                                     name:@"activityCommentsCount_ready"
+                                                   object:nil];
+        
         for (id controller in [self viewControllers]) {
             if ([controller isKindOfClass:[CommentsViewController class]])
             {
@@ -50,24 +55,6 @@
             if ([controller respondsToSelector:@selector(delegate)]) {
                 [controller setValue:self forKey:@"delegate"];
             }
-
-            [self addObserver:controller
-                   forKeyPath:@"comments"
-                      options:(NSKeyValueObservingOptionNew |
-                               NSKeyValueObservingOptionOld)
-                      context:NULL];
-            
-            [self addObserver:controller
-                   forKeyPath:@"activity"
-                      options:(NSKeyValueObservingOptionNew |
-                               NSKeyValueObservingOptionOld)
-                      context:NULL];
-            
-            [self addObserver:controller
-                   forKeyPath:@"group"
-                      options:(NSKeyValueObservingOptionNew |
-                               NSKeyValueObservingOptionOld)
-                      context:NULL];
         }
     }
     return self;
@@ -87,7 +74,7 @@
     // Configure api notifications manually as this class
     // isn't extending the UnderplanViewController class
     [self configureApiNotifications];
-    
+
     [self configureApiSubscriptions];
 }
 
@@ -98,6 +85,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -114,9 +103,9 @@
 - (void)didReceiveApiUpdate:(NSNotification *)notification
 {
     // Refresh view if this activity was updated
-    if (![[notification name] isEqualToString:@"ready"] && notification.userInfo[@"_id"] == _activity.remoteId) {
-//        [self setActivityDetails];
-    }
+//    if ([[notification name] isEqualToString:@"activityCommentsCount_ready"]) {
+//
+//    }
     
     // Comment count updated
     NSString *_id = notification.userInfo[@"activityId"];
@@ -124,6 +113,8 @@
     {
         NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", _id];
         _comments = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
+        
+        [self updateCommentsCount:_commentsController count:[_comments count]];
     }
 }
 
@@ -152,24 +143,32 @@
 }
 
 #pragma mark - Tab Bar Controller
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+//- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+//{
+//    if (viewController == _commentsController) {
+//        NSArray *params = @[_activity.remoteId];
+//        [[SharedApiClient getClient] addSubscription:@"activityComments" withParameters:params];
+//    }
+//    return YES;
+//}
+
+- (Activity *)currentActivity
 {
-    if (viewController == _commentsController) {
-        NSArray *params = @[_activity.remoteId];
-        [[SharedApiClient getClient] addSubscription:@"activityComments" withParameters:params];
-    }
-    return YES;
+    return _activity;
+}
+
+- (NSArray *)currentActivityComments
+{
+    return _comments;
 }
 
 #pragma mark - Comments Tab
 
-- (void)updateCommentsCount
+- (void)updateCommentsCount:(id)aController count:(NSUInteger)count
 {
-    if (_commentsController)
-    {
-        // Set the badge count
-        [self setBadgeValue:[NSString stringWithFormat: @"%d", [_comments count]] onController:_commentsController];
-    }
+    // Set the badge count
+    if (count)
+        [self setBadgeValue:[NSString stringWithFormat: @"%d", count] onController:aController];
 }
 
 @end

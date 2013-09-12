@@ -12,6 +12,7 @@
 
 @implementation UIViewController (UnderplanApiNotifications)
 
+// Standard Meteor Subscriptions. 
 - (void)configureApiNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -20,11 +21,16 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveApiUpdate:)
-                                                 name:@"removed"
+                                                 name:@"changed"
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveApiUpdate:)
-                                                 name:@"ready"
+                                                 name:@"removed"
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveApiUpdate:)
+                                                 name:@"connected"
                                                object:nil];
 }
 

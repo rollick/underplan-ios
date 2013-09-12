@@ -22,11 +22,15 @@
 {
     if(self = [super initWithCoder:aDecoder]) {
         for (id controller in [self viewControllers]) {
-            [self addObserver:controller
-                   forKeyPath:@"group"
-                      options:(NSKeyValueObservingOptionNew |
-                               NSKeyValueObservingOptionOld)
-                      context:NULL];
+            if ([controller respondsToSelector:@selector(delegate)]) {
+                [controller setValue:self forKey:@"delegate"];
+            } else {
+                [self addObserver:controller
+                       forKeyPath:@"group"
+                          options:(NSKeyValueObservingOptionNew |
+                                   NSKeyValueObservingOptionOld)
+                          context:NULL];
+            }
         }
     }
     return self;

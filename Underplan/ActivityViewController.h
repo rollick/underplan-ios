@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "UnderplanApiClient.h"
 #import "UnderplanUserItemView.h"
+#import "UnderplanActivityAwareDelegate.h"
 
 #import "Activity.h"
 
@@ -18,6 +19,6 @@
 
 @property (retain, nonatomic) UIScrollView *view;
 @property (retain, nonatomic) UnderplanUserItemView *mainView;
-@property (assign, nonatomic) id delegate;
+@property (assign, nonatomic) id <UnderplanActivityAwareDelegate> delegate;
 
 @end

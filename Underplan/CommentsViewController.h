@@ -11,9 +11,13 @@
 #import <UIKit/UIKit.h>
 #import "UnderplanApiClient.h"
 
+#import "UnderplanActivityAwareDelegate.h"
+
 @interface CommentsViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (retain, nonatomic) UITableView *tableView;
-@property (assign, nonatomic) id delegate;
+@property (assign, nonatomic) id <UnderplanActivityAwareDelegate> delegate;
+
+- (id)initWithDelegate:(id <UnderplanActivityAwareDelegate>)aDelegate;
 
 @end

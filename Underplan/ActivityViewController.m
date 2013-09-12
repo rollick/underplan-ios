@@ -20,7 +20,7 @@
 
 @interface ActivityViewController ()
 
-@property (retain, nonatomic) Activity *activity;
+@property (assign, nonatomic) Activity *activity;
 @property (strong, nonatomic) NSMutableDictionary *owner;
 
 - (void)reloadData;
@@ -39,6 +39,17 @@
     return self;
 }
 
+- (id)initWithDelegate:(id)aDelegate
+{
+    if (self = [super init])
+    {
+        _delegate = aDelegate;
+        _activity = [_delegate currentActivity];
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -50,6 +61,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (_delegate)
+        _activity = [_delegate currentActivity];
     
     [self initView];
     
@@ -124,6 +138,8 @@
 {
     // FIXME: temp fis for ios7 issue when view is scrolling and user navigates away
     self.view.delegate = nil;
+    
+    self.delegate = nil;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath

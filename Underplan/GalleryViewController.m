@@ -50,6 +50,12 @@
 {
     [super viewDidLoad];
     
+    if ([_delegate respondsToSelector:@selector(activity)])
+        _activity = [_delegate activity];
+
+    if ([_delegate respondsToSelector:@selector(group)])
+        _group = [_delegate group];
+    
     [self fetchGallery];
     
     // Fix the scrollview being behind tabbar
@@ -102,14 +108,7 @@
                         change:(NSDictionary *)change
                        context:(void *)context {
     
-    if ([keyPath isEqual:@"activity"]) {
-        [self setActivity:[change objectForKey:NSKeyValueChangeNewKey]];
-        [self setGroup:[self.activity group]];
-        forceReload = YES;
-    } else if ([keyPath isEqual:@"group"]) {
-        [self setGroup:[change objectForKey:NSKeyValueChangeNewKey]];
-        forceReload = YES;
-    } else if ([keyPath isEqual:@"loading"]) {
+    if ([keyPath isEqual:@"loading"]) {
         if ([change objectForKey:NSKeyValueChangeNewKey]) {
             [self.quiltView setHidden:YES];
         } else {
@@ -124,6 +123,8 @@
     //              scrollViewDidScroll: message sent to deallocated instance
     //          issue with ios7
     self.quiltView.delegate = nil;
+    
+    [self removeObserver:self forKeyPath:@"loading"];
 }
 
 - (void)didReceiveMemoryWarning

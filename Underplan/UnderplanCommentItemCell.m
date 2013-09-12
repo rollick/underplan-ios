@@ -43,6 +43,9 @@
 
 - (int)cellHeight:(NSString *)text
 {
+    if (!text)
+        text = @"";
+    
     NSDictionary *stringAttributes = [NSDictionary dictionaryWithObject:self.mainText.font forKey: NSFontAttributeName];
 
     CGRect screenRect = [[UIScreen mainScreen] bounds];

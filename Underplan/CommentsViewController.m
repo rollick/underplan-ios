@@ -10,6 +10,7 @@
 #import "SharedApiClient.h"
 
 #import "UnderplanCommentItemCell.h"
+#import "UIViewController+UnderplanApiNotifications.h"
 
 #import "User.h"
 #import "Comment.h"
@@ -20,8 +21,8 @@
 
 @interface CommentsViewController ()
 
-@property (strong, nonatomic) NSMutableArray *comments;
-@property (strong, nonatomic) Activity *activity;
+@property (strong, nonatomic) NSArray *comments;
+@property (assign, nonatomic) Activity *activity;
 
 @end
 
@@ -29,9 +30,51 @@
 
 @synthesize tableView = _tableView;
 
+- (void)configureApiSubscriptions
+{
+    // Get the full activity data
+    NSArray *params = @[_activity.remoteId];
+    [[SharedApiClient getClient] addSubscription:@"activityComments" withParameters:params];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if(self = [super initWithCoder:aDecoder]) {
+        [self addObserver:self
+               forKeyPath:@"activity"
+                  options:(NSKeyValueObservingOptionNew |
+                           NSKeyValueObservingOptionOld)
+                  context:NULL];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveApiUpdate:)
+                                                     name:@"activityComments_ready"
+                                                   object:nil];
+    }
+    
+    return self;
+}
+
+- (id)initWithDelegate:(id <UnderplanActivityAwareDelegate>)aDelegate
+{
+    if (self = [super init])
+    {
+        _delegate = aDelegate;
+        _activity = [_delegate currentActivity];
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (_delegate)
+    {
+        _activity = [_delegate currentActivity];
+        [self setCommentsByActivityId:_activity.remoteId];
+    }
     
     self.view = [[UIView alloc] init];
     self.tableView = [[UITableView alloc] init];
@@ -69,41 +112,56 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    
-    if ([keyPath isEqual:@"activity"]) {
-        [self setActivity:[change objectForKey:NSKeyValueChangeNewKey]];
-    }
-    
-    if ([keyPath isEqual:@"comments"]) {
-        [self setComments:[change objectForKey:NSKeyValueChangeNewKey]];
-        
-        [self.tableView reloadData];
-    }
-}
-
 - (void)viewWillAppear:(BOOL)animated
-
 {
     [super viewWillAppear:animated];
 
     self.navigationItem.title = @"Comments";
+    [self configureApiSubscriptions];
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[UnderplanCommentItemCell class] forCellReuseIdentifier:@"Comment"];
+}
+
+#pragma mark - API handling
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(comments)]) {
-        [self setComments:[self.delegate comments]];
+    if ([keyPath isEqual:@"activity"] && _activity)
+    {
+        [self configureApiSubscriptions];
     }
+}
+
+- (void)didReceiveApiUpdate:(NSNotification *)notification
+{
+    // Comment count updated
+    NSString *_id = notification.userInfo[@"activityId"];
+    if ([_id isEqualToString:_activity.remoteId])
+    {
+        [self setCommentsByActivityId:_id];
+    }
+}
+
+- (void)setCommentsByActivityId:(NSString *)activityId
+{
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", activityId];
+    _comments = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
+    [_delegate updateCommentsCount:self count:[_comments count]];
+    
     [self.tableView reloadData];
 }
 
 -(void)dealloc
 {
     self.tableView.delegate = nil;
+    
+    self.delegate = nil;
+    [self removeObserver:self forKeyPath:@"activity"];
 }
 
 #pragma mark - Table View
