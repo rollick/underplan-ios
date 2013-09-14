@@ -7,7 +7,7 @@ pod 'ASIHTTPRequest'
 pod 'SBJson', '3.1'
 pod 'UIColor-HexString'
 pod 'TMQuiltView'
-pod 'ASMediaFocusManager', :git => 'https://github.com/rollick/ASMediaFocusManager.git'
+#pod 'ASMediaFocusManager', :git => 'https://github.com/rollick/ASMediaFocusManager.git'
 #pod 'EGOPhotoViewer', :git => 'https://github.com/rollick/PhotoViewer.git'
 
 #pod 'MBProgressHUD'

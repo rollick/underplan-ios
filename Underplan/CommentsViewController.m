@@ -151,7 +151,7 @@
 {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", activityId];
     _comments = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
-    [_delegate updateCommentsCount:self count:[_comments count]];
+    [_delegate updateBadgeCount:self count:[_comments count]];
     
     [self.tableView reloadData];
 }

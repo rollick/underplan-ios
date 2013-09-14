@@ -44,7 +44,7 @@
 {
     [super viewWillAppear:animated];
 
-    [self configureApiNotifications];
+    [self configureStandardApiNotifications];
     [self resetNavigationBarPosition];
 }
 

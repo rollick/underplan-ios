@@ -30,12 +30,18 @@
     [[SharedApiClient getClient] addSubscription:@"basicActivityData" withParameters:params];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if(self = [super initWithCoder:aDecoder]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveApiUpdate:)
+                                                     name:@"basicActivityData_ready"
+                                                   object:nil];
+        
+        MKCoordinateRegion worldRegion = MKCoordinateRegionForMapRect(MKMapRectWorld);
+        _feedMapView.region = worldRegion;
     }
+    
     return self;
 }
 
@@ -51,40 +57,43 @@
     [self configureApiSubscriptions];
     self.navigationItem.title = @"Map";
     
-    MKCoordinateRegion worldRegion = MKCoordinateRegionForMapRect(MKMapRectWorld);
-    _feedMapView.region = worldRegion;
-
     // FIXME:   This is a hack when the willdisappear of the gallery controller
     //          wasn't re-setting the tabbar reliably
-    [self.tabBarController.tabBar setTintColor:[UIColor redColor]];
-    [self.navigationController.navigationBar setTintColor:[UIColor redColor]];
-
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
-    {
-        [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
-        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-    }
+//    [self.tabBarController.tabBar setTintColor:[UIColor redColor]];
+//    [self.navigationController.navigationBar setTintColor:[UIColor redColor]];
+//
+//    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
+//    {
+//        [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
+//        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+//    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    
-    [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-    
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
-    {
-        [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
-        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-    }
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+//    [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
+//    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
+//    
+//    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
+//    {
+//        [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
+//        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+//    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [self reloadData];
+//    [self reloadData];
+//    UIBarButtonItem *zoomToFitButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"arrow_out.png"] style:UIBarButtonItemStylePlain target:self action:@selector(zoomMapViewToFitAnnotations)];
+//    self.navigationItem.rightBarButtonItem = zoomToFitButton;
+    
+    [self zoomMapViewToFitAnnotations:_feedMapView animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,16 +106,20 @@
 {
     // TODO: look into the correct use of the ready, added, removed notifcations
     //       for table cells and meteor etc.
-    if([[notification name] isEqualToString:@"ready"]) {
+    if([[notification name] isEqualToString:@"basicActivityData_ready"]) {
         [self reloadData];
+        [self zoomMapViewToFitAnnotations:_feedMapView animated:YES];
     }
-    
-//    [self reloadData];
 }
 
 - (NSArray *)computedList {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", self.group.remoteId];
     return [[SharedApiClient getClient].collections[@"activities"] filteredArrayUsingPredicate:pred];
+}
+
+- (void)zoomMapViewToFitAnnotations
+{
+    [self zoomMapViewToFitAnnotations:_feedMapView animated:YES];
 }
 
 //size the mapView region to fit its annotations
@@ -193,7 +206,6 @@
         }
         
         [self.feedMapView addAnnotations:activityLocations];
-        [self zoomMapViewToFitAnnotations:_feedMapView animated:TRUE];
     }
 }
 

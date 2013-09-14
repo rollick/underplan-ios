@@ -10,7 +10,7 @@
 
 @interface UIViewController (UnderplanApiNotifications)
 
-- (void)configureApiNotifications;
+- (void)configureStandardApiNotifications;
 - (void)clearApiNotifications;
 
 @end

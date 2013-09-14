@@ -10,7 +10,6 @@ PODS:
     - Reachability
   - ASIHTTPRequest/S3 (1.8.1):
     - Reachability
-  - ASMediaFocusManager (0.1)
   - FlatUIKit (1.2)
   - libwebp (0.3.0-rc7):
     - libwebp/dec
@@ -31,11 +30,10 @@ PODS:
     - libwebp
   - SocketRocket (HEAD based on 0.3.1-beta2)
   - TMQuiltView (0.0.1)
-  - UIColor-HexString (1.0.0)
+  - UIColor-HexString (1.0.1)
 
 DEPENDENCIES:
   - ASIHTTPRequest
-  - ASMediaFocusManager (from `https://github.com/rollick/ASMediaFocusManager.git`)
   - FlatUIKit
   - ObjectiveDDP (from `https://github.com/rollick/ObjectiveDDP.git`, commit `b4f4606c199b68fe349e83415cc99bb20abbf18e`)
   - SBJson (= 3.1)
@@ -45,15 +43,12 @@ DEPENDENCIES:
   - UIColor-HexString
 
 EXTERNAL SOURCES:
-  ASMediaFocusManager:
-    :git: https://github.com/rollick/ASMediaFocusManager.git
   ObjectiveDDP:
     :commit: b4f4606c199b68fe349e83415cc99bb20abbf18e
     :git: https://github.com/rollick/ObjectiveDDP.git
 
 SPEC CHECKSUMS:
   ASIHTTPRequest: a411b8d0f006ed8fc24248be6a0c4ad2abc9b101
-  ASMediaFocusManager: d9ca3509b12e4314b3eae3660307c3911ff74494
   FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
   libwebp: 40517fa1fd3716eded73b4696c45fc0b66e4b414
   ObjectiveDDP: f71330a368a84ea3435052a3bc75f3992510a276
@@ -62,6 +57,6 @@ SPEC CHECKSUMS:
   SDWebImage: f13f791e411c632489824aa7f129e230b52bf5c4
   SocketRocket: 7ac946bcce46287a791dfff3c1f8daa692821dae
   TMQuiltView: 520d09d6a98f1a6aa75ed92a91123ecc79bab62c
-  UIColor-HexString: d0ba217afecf3feff301d679320e3012af52c77f
+  UIColor-HexString: 8a3f512f71b6d94a2cf6bdeabcad2f3532f31b5a
 
 COCOAPODS: 0.22.2

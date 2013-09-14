@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "UnderplanTabBarController.h"
+
 #import "Group.h"
 
-#import "UnderplanGroupAwareDelegate.h"
+@interface GroupViewController : UnderplanTabBarController
 
-@interface GroupViewController : UITabBarController <UnderplanGroupAwareDelegate>
-
-@property (retain, nonatomic) Group *group;
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 @end

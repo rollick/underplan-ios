@@ -16,6 +16,6 @@
 - (Group *)currentGroup;
 - (Activity *)currentActivity;
 - (NSArray *)currentActivityComments;
-- (void)updateCommentsCount:(id)aController count:(NSUInteger)count;
+- (void)updateBadgeCount:(id)aController count:(NSUInteger)count;
 
 @end
