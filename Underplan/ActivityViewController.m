@@ -34,7 +34,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if(self = [super initWithCoder:aDecoder]) {
-
+        [self initView];
     }
     return self;
 }
@@ -54,8 +54,7 @@
 {
     [super viewDidLoad];
     
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
-        self.automaticallyAdjustsScrollViewInsets = YES;
+    [self initView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -65,40 +64,34 @@
     if (_delegate)
         _activity = [_delegate currentActivity];
     
-    [self initView];
-    
     CGRect frame = self.view.frame;
     self.mainView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     self.view.contentSize = CGSizeMake(self.mainView.bounds.size.width, self.mainView.bounds.size.height);
+    
+    [self reloadData];
 }
 
 - (void)initView
 {
     self.view = [[UIScrollView alloc] init];
-//    self.view.scrollEnabled = YES;
+    //    self.view.scrollEnabled = YES;
     self.view.showsVerticalScrollIndicator = NO;
     self.view.showsHorizontalScrollIndicator = NO;
     self.view.bouncesZoom = YES;
     self.view.decelerationRate = UIScrollViewDecelerationRateFast;
-    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.view.delegate = self;
     self.view.backgroundColor = [UIColor underplanBgColor];
-    [self.view.layer setBorderColor:[UIColor redColor].CGColor];
-    self.view.layer.borderWidth = 1.0f;
     
     self.mainView = [[UnderplanUserItemView alloc] init];
-    [self.mainView.layer setBorderColor:[UIColor blueColor].CGColor];
-    self.mainView.layer.borderWidth = 1.0f;
     
     [self.view addSubview:self.mainView];
     
-    if (self.tabBarController) {
-        UIEdgeInsets inset = self.view.contentInset;
-        inset.bottom = self.tabBarController.tabBar.frame.size.height;
-        self.view.contentInset = inset;
-    }
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
     
-    [self reloadData];
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
+        self.automaticallyAdjustsScrollViewInsets = YES;
 }
 
 - (void)reloadData
