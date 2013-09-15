@@ -7,10 +7,10 @@ pod 'ASIHTTPRequest'
 pod 'SBJson', '3.1'
 pod 'UIColor-HexString'
 pod 'TMQuiltView'
+pod 'MBProgressHUD'
+
+#pod 'ShareKit/Facebook'
 #pod 'ASMediaFocusManager', :git => 'https://github.com/rollick/ASMediaFocusManager.git'
 #pod 'EGOPhotoViewer', :git => 'https://github.com/rollick/PhotoViewer.git'
-
-#pod 'MBProgressHUD'
-#pod 'ShareKit/Facebook'
 #pod 'ShareKit/GooglePlus'
 #pod 'Trovebox-SDK', '4.1.2'
