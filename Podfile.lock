@@ -21,7 +21,7 @@ PODS:
   - libwebp/utils (0.3.0-rc7)
   - libwebp/webp (0.3.0-rc7)
   - MBProgressHUD (0.7)
-  - ObjectiveDDP (0.0.24)
+  - ObjectiveDDP (0.0.26)
   - Reachability (3.1.1)
   - SBJson (3.1)
   - SDWebImage (3.4):
@@ -37,7 +37,7 @@ DEPENDENCIES:
   - ASIHTTPRequest
   - FlatUIKit
   - MBProgressHUD
-  - ObjectiveDDP (from `https://github.com/rollick/ObjectiveDDP.git`, commit `b4f4606c199b68fe349e83415cc99bb20abbf18e`)
+  - ObjectiveDDP (from `https://github.com/rollick/ObjectiveDDP.git`, commit `71365bb`)
   - SBJson (= 3.1)
   - SDWebImage
   - SocketRocket (HEAD)
@@ -46,7 +46,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   ObjectiveDDP:
-    :commit: b4f4606c199b68fe349e83415cc99bb20abbf18e
+    :commit: 71365bb
     :git: https://github.com/rollick/ObjectiveDDP.git
 
 SPEC CHECKSUMS:
@@ -54,7 +54,7 @@ SPEC CHECKSUMS:
   FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
   libwebp: 40517fa1fd3716eded73b4696c45fc0b66e4b414
   MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
-  ObjectiveDDP: f71330a368a84ea3435052a3bc75f3992510a276
+  ObjectiveDDP: 0c1544bb4478494911b1e6a54b257ae48b7c7a50
   Reachability: 2be6bc2fd2bd31d97f5db33e75e4b29c79e95883
   SBJson: 0c76c1e4ec7c4fbf9c9c0d9fa78cb3c5743cbe9a
   SDWebImage: f13f791e411c632489824aa7f129e230b52bf5c4

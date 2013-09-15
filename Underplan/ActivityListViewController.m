@@ -24,10 +24,13 @@
 
 #import "BSONIdGenerator.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <MBProgressHUD.h>
 
 #import "UIColor+Underplan.h"
 
 @interface ActivityListViewController ()
+
+@property BOOL loading;
 
 @end
 
@@ -35,10 +38,13 @@
     CGFloat startContentOffset;
     CGFloat lastContentOffset;
     BOOL hidden;
-    BOOL loading;
     BOOL complete;
     int limit;
 }
+
+static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
+
+@synthesize loading = _loading;
 
 #pragma mark - Meteor stuff
 
@@ -64,6 +70,11 @@
                                                  selector:@selector(didReceiveApiUpdate:)
                                                      name:@"feedActivities_ready"
                                                    object:nil];
+        
+        [self addObserver:self
+               forKeyPath:@"loading"
+                  options:NSKeyValueObservingOptionNew
+                  context:ActivityListKVOContext];
     }
     
     return self;
@@ -104,6 +115,20 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if ([keyPath isEqual:@"loading"]) {
+        if ([[change objectForKey:NSKeyValueChangeNewKey] isEqualToNumber:@1]) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+        } else {
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
+        }
+    }
+}
+
 - (NSArray *)computedList {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", self.group.remoteId];
     return [[SharedApiClient getClient].collections[@"activities"] filteredArrayUsingPredicate:pred];
@@ -131,10 +156,10 @@
         } else
         {
             complete = NO;
-            loading = NO;
+            [self setLoading:NO];
         }
         
-        if (! loading)
+        if (! _loading)
         {
             [self reloadData];
         }
@@ -250,9 +275,9 @@
     }
     else if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.bounds.size.height))
     {
-        if (! loading && ! complete )
+        if (! _loading && ! complete )
         {
-            loading = YES;
+            [self setLoading:YES];
             limit = limit + 10;
             
             NSArray *params = @[@{@"groupId":_group.remoteId, @"limit":[NSNumber numberWithInt:limit]}];

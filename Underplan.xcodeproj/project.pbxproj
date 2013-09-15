@@ -377,6 +377,19 @@
 			name = Arrows;
 			sourceTree = "<group>";
 		};
+		264C856217E64FDD00E2A09E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2621FAF717DF50EA00E20D85 /* UnderplanSlideshowController.h */,
+				2621FAF817DF50EA00E20D85 /* UnderplanSlideshowController.m */,
+				26EA951E17B65429003E31CA /* UnderplanViewController.h */,
+				26EA951F17B65429003E31CA /* UnderplanViewController.m */,
+				264C853817E44E7800E2A09E /* UnderplanTabBarController.h */,
+				264C853917E44E7800E2A09E /* UnderplanTabBarController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		26659046179EE51D001EFABF = {
 			isa = PBXGroup;
 			children = (
@@ -509,6 +522,7 @@
 		26A1D5DD17A3149100526060 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				264C856217E64FDD00E2A09E /* Controllers */,
 				263DCD0617E19C5E0077DD15 /* Delegates */,
 				26AAAAD717D32BE200944DAC /* Views */,
 				26AAAAD617D2129C00944DAC /* Cells */,
@@ -516,19 +530,8 @@
 				26848EF717B871B90021E247 /* UITabBarController+ShowHideBar.m */,
 				26A12C1217C9F852006B619E /* UIViewController+UnderplanApiNotifications.h */,
 				26A12C1317C9F852006B619E /* UIViewController+UnderplanApiNotifications.m */,
-				2621FAF717DF50EA00E20D85 /* UnderplanSlideshowController.h */,
-				2621FAF817DF50EA00E20D85 /* UnderplanSlideshowController.m */,
 				266590B4179FC5BC001EFABF /* ActivityFeedAnnotation.h */,
 				266590B5179FC5BC001EFABF /* ActivityFeedAnnotation.m */,
-				26EA951E17B65429003E31CA /* UnderplanViewController.h */,
-				26EA951F17B65429003E31CA /* UnderplanViewController.m */,
-				26EE72F117CF97440028639E /* BannerView.h */,
-				26EE72F217CF97440028639E /* BannerView.m */,
-				26018CF917CE300600D766A4 /* UnderplanItemDetailsView.h */,
-				26018CFA17CE300600D766A4 /* UnderplanItemDetailsView.m */,
-				26018CF717CE1A1A00D766A4 /* UnderplanItemDetailsView.xib */,
-				264C853817E44E7800E2A09E /* UnderplanTabBarController.h */,
-				264C853917E44E7800E2A09E /* UnderplanTabBarController.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -563,6 +566,11 @@
 				26AAAAD417D20FF900944DAC /* UnderplanShortView.m */,
 				26EE72EE17CF86450028639E /* UnderplanStoryView.h */,
 				26EE72EF17CF86450028639E /* UnderplanStoryView.m */,
+				26018CF917CE300600D766A4 /* UnderplanItemDetailsView.h */,
+				26018CFA17CE300600D766A4 /* UnderplanItemDetailsView.m */,
+				26018CF717CE1A1A00D766A4 /* UnderplanItemDetailsView.xib */,
+				26EE72F117CF97440028639E /* BannerView.h */,
+				26EE72F217CF97440028639E /* BannerView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
