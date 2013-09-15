@@ -183,6 +183,8 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 -(void)dealloc
 {
     self.tableView.delegate = nil;
+    
+    [self removeObserver:self forKeyPath:@"loading"];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
