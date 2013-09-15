@@ -84,6 +84,8 @@
     self.view = [[UIView alloc] init];
     self.tableView = [[UITableView alloc] init];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.tableView.showsVerticalScrollIndicator = NO;
+    self.tableView.showsHorizontalScrollIndicator = NO;
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -131,11 +133,11 @@
             complete = NO;
             loading = NO;
         }
-    }
-
-    if (! loading)
-    {
-        [self reloadData];
+        
+        if (! loading)
+        {
+            [self reloadData];
+        }
     }
 }
 
