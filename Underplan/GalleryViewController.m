@@ -17,6 +17,7 @@
 #import "UIColor+Underplan.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <MBProgressHUD.h>
 
 @interface GalleryViewController ()
 
@@ -28,8 +29,9 @@
 @implementation GalleryViewController {
     BOOL forceReload;
     BOOL complete;
-    int limit;
 }
+
+static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
 
 @synthesize gallery = _gallery, group = _group, activity = _activity, loading;
 
@@ -38,9 +40,10 @@
     if(self = [super initWithCoder:aDecoder]) {
         [self addObserver:self
                forKeyPath:@"loading"
-                  options:(NSKeyValueObservingOptionNew |
-                           NSKeyValueObservingOptionOld)
-                  context:NULL];
+                  options:NSKeyValueObservingOptionNew
+                  context:GalleryKVOContext];
+
+        _searchTags = @"";
     }
     
     return self;
@@ -56,7 +59,7 @@
     if ([_delegate respondsToSelector:@selector(group)])
         _group = [_delegate group];
     
-    [self fetchGallery];
+    [self createGallery];
     
     // Fix the scrollview being behind tabbar
     if (self.tabBarController) {
@@ -78,6 +81,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.tabBarController.tabBar setHidden:NO];
+    [self.quiltView setHidden:NO];
         
     [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkMenuFontColor]];
     [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkMenuFontColor]];
@@ -106,13 +112,15 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change
-                       context:(void *)context {
-    
+                       context:(void *)context
+{
     if ([keyPath isEqual:@"loading"]) {
-        if ([change objectForKey:NSKeyValueChangeNewKey]) {
-            [self.quiltView setHidden:YES];
+        if ([[change objectForKey:NSKeyValueChangeNewKey] isEqualToNumber:@1]) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+//            [self.quiltView setHidden:YES];
         } else {
-            [self.quiltView setHidden:NO];
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
+//            [self.quiltView setHidden:NO];
         }
     }
 }
@@ -135,21 +143,41 @@
 
 #pragma mark - QuiltViewControllerDataSource
 
-- (void)fetchGallery {
-//    static NSDictionary *trovebox = _group.trovebox;
-    if ((!_gallery && !loading) || forceReload) {
-        forceReload = NO;
-        loading = YES;
-        dispatch_queue_t troveQueue = dispatch_queue_create("Trovebox Request Queue", NULL);
-        dispatch_async(troveQueue, ^{
-            _gallery = [[Gallery alloc] initTrovebox:_group.trovebox withTags:self.searchTags];
+- (void)createGallery
+{
+    [self setLoading:YES];
+    
+    if (_activity && _activity.tags)
+        _searchTags = _activity.tags;
+    
+    NSArray *optionValues = [[NSArray alloc] initWithObjects:_searchTags,@"1",nil];
+    NSArray *optionKeys = [[NSArray alloc] initWithObjects:@"tags",@"page",nil];
+    NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithObjects:optionValues forKeys:optionKeys];
+    
+    dispatch_queue_t troveQueue = dispatch_queue_create("Trovebox Request Queue", NULL);
+    dispatch_async(troveQueue, ^{
+        _gallery = [[Gallery alloc] initTrovebox:_group.trovebox withOptions:options];
 
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.quiltView reloadData];
-                loading = NO;
-            });
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.quiltView reloadData];
+            [self setLoading:NO];
         });
-    }
+    });
+}
+
+- (void)loadNextPage
+{
+    [self setLoading:YES];
+    
+    dispatch_queue_t troveQueue = dispatch_queue_create("Trovebox Request Queue", NULL);
+    dispatch_async(troveQueue, ^{
+        [_gallery loadNextPage];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.quiltView reloadData];
+            [self setLoading:NO];
+        });
+    });
 }
 
 - (NSString *)imageUrlAtIndexPath:(NSIndexPath *)indexPath {
@@ -168,21 +196,17 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     // If last section is about to be shown...
-//    if(scrollView.contentOffset.y < 0){
-//        //it means table view is pulled down like refresh
-//        //NSLog(@"refresh!");
-//    }
-//    else if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.bounds.size.height))
-//    {
-//        if (! loading && ! complete )
-//        {
-//            loading = YES;
-//            limit = limit + 10;
-//            
-//            NSArray *params = @[@{@"groupId":_group[@"_id"], @"limit":[NSNumber numberWithInt:limit]}];
-//            [[SharedApiClient getClient] addSubscription:@"feedActivities" withParamaters:params];
-//        }
-//    }
+    if(scrollView.contentOffset.y < 0){
+        //it means table view is pulled down like refresh
+        //NSLog(@"refresh!");
+    }
+    else if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.bounds.size.height))
+    {
+        if (! loading && ! complete )
+        {
+            [self loadNextPage];
+        }
+    }
     
     if (self.navigationController.navigationBar.hidden)
     {
@@ -195,6 +219,8 @@
 {
 	UnderplanSlideshowController *photoController = [[UnderplanSlideshowController alloc] initWithDelegate:self index:[[NSNumber alloc] initWithUnsignedInteger:indexPath.row]];
 
+    [self.quiltView setHidden:YES];
+    [self.tabBarController.tabBar setHidden:YES];
     [self.navigationController pushViewController:photoController animated:YES];
 }
 

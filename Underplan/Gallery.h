@@ -10,13 +10,16 @@
 
 @interface Gallery : NSObject
 {
-	NSArray *_photos;
+	NSMutableArray *_photos;
 	NSInteger _numberOfPhotos;
 }
 
 @property(nonatomic,readonly) NSInteger numberOfPhotos;
-@property(nonatomic,readonly) NSArray *photos;
+@property(nonatomic,readonly) NSMutableArray *photos;
 
 - (id)initTrovebox:(NSDictionary *)trovebox withTags:(NSString *)tags;
+- (id)initTrovebox:(NSDictionary *)trovebox withOptions:(NSDictionary *)options;
+- (void)loadNextPage;
+- (void)loadNextPageAndAppendResults:(Boolean)append;
 
 @end

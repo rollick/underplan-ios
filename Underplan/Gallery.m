@@ -11,28 +11,52 @@
 #import "SBJson.h"
 
 @implementation Gallery
+{
+    NSDictionary *_trovebox;
+    NSInteger _page;
+    NSString *_tags;
+}
 
-@synthesize photos=_photos;
-@synthesize numberOfPhotos=_numberOfPhotos;
+@synthesize photos = _photos;
+@synthesize numberOfPhotos = _numberOfPhotos;
 
 // options: tags, pageSize, page
-- (Gallery *)searchTrovebox:(NSDictionary *)trovebox withOptions:(NSDictionary *)options
+- (id)initTrovebox:(NSDictionary *)trovebox withOptions:(NSDictionary *)options
 {
-    NSString *tags;
     if (options) {
-        tags = options[@"tags"];
+        _tags = options[@"tags"];
+        _page = [options[@"page"] integerValue];
     }
+    _trovebox = trovebox;
     
+    return [self initWithPhotos:[self fetchResultsByPage:_page andTags:_tags]];
+}
+
+- (NSArray *)fetchResults
+{
+    return [self fetchResultsByPage:1 andTags:@""];
+}
+
+- (NSArray *)fetchResultsBy:(NSInteger)page
+{
+    return [self fetchResultsByPage:page andTags:@""];
+}
+
+- (NSArray *)fetchResultsByPage:(NSInteger)page andTags:(NSString *)tags
+{
     // Generate URL for searching tags
     NSString *url = @"https://<domain>/photos/album-<album>/token-<albumKey>/list.json?returnSizes=<returnSizes>,<widthSize>x<widthSize>";
-    url = [url stringByReplacingOccurrencesOfString:@"<domain>" withString:trovebox[@"domain"]];
-    url = [url stringByReplacingOccurrencesOfString:@"<album>" withString:trovebox[@"album"]];
-    url = [url stringByReplacingOccurrencesOfString:@"<albumKey>" withString:trovebox[@"albumKey"]];
-    url = [url stringByReplacingOccurrencesOfString:@"<albumKey>" withString:trovebox[@"albumKey"]];
+    url = [url stringByReplacingOccurrencesOfString:@"<domain>" withString:_trovebox[@"domain"]];
+    url = [url stringByReplacingOccurrencesOfString:@"<album>" withString:_trovebox[@"album"]];
+    url = [url stringByReplacingOccurrencesOfString:@"<albumKey>" withString:_trovebox[@"albumKey"]];
     url = [url stringByReplacingOccurrencesOfString:@"<returnSizes>" withString:@"64x64,320x320,640x640,1024x1024,1600x1600"];
     
-    if (tags) {
+    if (tags && ![tags isEqualToString:@""]) {
         url = [url stringByAppendingString:[[NSString alloc] initWithFormat:@"&tags=%@",tags]];
+    }
+    
+    if (page) {
+        url = [url stringByAppendingString:[[NSString alloc] initWithFormat:@"&page=%ld",(long)page]];
     }
     
     // Get size to match screen width
@@ -42,7 +66,7 @@
     
     NSArray *response = [self sendRequest:url];
     
-    return [self initWithPhotos:response];
+    return response;
 }
 
 
@@ -60,7 +84,7 @@
         return [self init];
     }
     
-    return [self searchTrovebox:trovebox withOptions:options];
+    return [self initTrovebox:trovebox withOptions:options];
 }
 
 - (NSArray *)sendRequest:(NSString *)url
@@ -82,7 +106,7 @@
 - (id)initWithPhotos:(NSArray*)photos
 {
 	if (self = [super init]) {
-		_photos = photos;
+		_photos = [photos mutableCopy];
 		_numberOfPhotos = [_photos count];
 	}
 	return self;
@@ -91,6 +115,28 @@
 - (id)photoAtIndex:(NSInteger)index
 {
     return [[Photo alloc] initWithData:[_photos objectAtIndex:index]];
+}
+
+- (void)loadNextPageAndAppendResults:(Boolean)append
+{
+    // FIXME:   Bit hacky I think to create new gallery instance here jist to fetch
+    //          more images
+    _page += 1;
+    NSArray *newResults = [self fetchResultsByPage:_page andTags:_tags];
+    
+    if (append)
+    {
+        [_photos addObjectsFromArray:newResults];
+    } else
+    {
+        _photos = [newResults mutableCopy];
+    }
+    _numberOfPhotos = [_photos count];
+}
+
+- (void)loadNextPage
+{
+    [self loadNextPageAndAppendResults:YES];
 }
 
 @end
