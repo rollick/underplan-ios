@@ -23,6 +23,7 @@
 
 @property (retain, nonatomic) Activity *activity;
 @property (retain, nonatomic) Group *group;
+@property BOOL loading;
 
 @end
 
@@ -117,10 +118,8 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     if ([keyPath isEqual:@"loading"]) {
         if ([[change objectForKey:NSKeyValueChangeNewKey] isEqualToNumber:@1]) {
             [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-//            [self.quiltView setHidden:YES];
         } else {
             [MBProgressHUD hideHUDForView:self.view animated:NO];
-//            [self.quiltView setHidden:NO];
         }
     }
 }

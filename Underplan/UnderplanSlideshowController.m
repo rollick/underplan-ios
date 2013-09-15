@@ -13,6 +13,12 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <MBProgressHUD.h>
 
+@interface UnderplanSlideshowController ()
+
+@property (nonatomic, retain) NSTimer *timer;
+
+@end
+
 @implementation UnderplanSlideshowController
 
 @synthesize photoImage, canvas, delegate;
@@ -47,6 +53,7 @@
     [super viewWillAppear:animated];
     
     [self.photoImage setHidden:NO];
+    [self showNavBarTemporarily];
     
     if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
@@ -71,6 +78,7 @@
 {
     [super viewWillDisappear:animated];
     
+    [self.timer invalidate];
     [self.photoImage setHidden:YES];
     
     if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
@@ -106,7 +114,8 @@
     [photoImage setTransform:newTransform];
     
     _lastScale = [(UIPinchGestureRecognizer*)sender scale];
-//    [self showOverlayWithFrame:photoImage.frame];
+    
+    [self showNavBarTemporarily];
 }
 
 -(void)rotate:(id)sender {
@@ -125,7 +134,8 @@
     [photoImage setTransform:newTransform];
     
     _lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
-//    [self showOverlayWithFrame:photoImage.frame];
+
+    [self showNavBarTemporarily];
 }
 
 
@@ -141,13 +151,12 @@
     translatedPoint = CGPointMake(_firstX+translatedPoint.x, _firstY+translatedPoint.y);
     
     [photoImage setCenter:translatedPoint];
-//    [self showOverlayWithFrame:photoImage.frame];
+
+    [self showNavBarTemporarily];
 }
 
 -(void)tapped:(id)sender {
-//    _marque.hidden = YES;
-    Boolean newState = !self.navigationController.navigationBar.hidden;
-    [self.navigationController.navigationBar setHidden:newState];
+    [self.navigationController.navigationBar setHidden:NO];
 }
 
 -(void)doubleTapped:(id)sender
@@ -160,6 +169,27 @@
 	[[(UIPinchGestureRecognizer*)sender view] setTransform:newTransform];
 }
 
+- (void)showNavBarTemporarily
+{
+    [self.timer invalidate];
+    [self showNavBar];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:3
+                                                  target:self
+                                                selector:@selector(hideNavBar)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
+
+- (void)showNavBar
+{
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+- (void)hideNavBar
+{
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -168,19 +198,6 @@
     photoImage = [[UIImageView alloc] initWithFrame:canvas.bounds];
     
     [self loadImageAtIndex:_photoIndex];
-    
-//    if (!_marque) {
-//        _marque = [CAShapeLayer layer];
-//        _marque.fillColor = [[UIColor clearColor] CGColor];
-//        _marque.strokeColor = [[UIColor grayColor] CGColor];
-//        _marque.lineWidth = 1.0f;
-//        _marque.lineJoin = kCALineJoinRound;
-//        _marque.lineDashPattern = [NSArray arrayWithObjects:[NSNumber numberWithInt:10],[NSNumber numberWithInt:5], nil];
-//        _marque.bounds = CGRectMake(photoImage.frame.origin.x, photoImage.frame.origin.y, 0, 0);
-//        _marque.position = CGPointMake(photoImage.frame.origin.x + canvas.frame.origin.x, photoImage.frame.origin.y + canvas.frame.origin.y);
-//    }
-//    
-//    [[self.view layer] addSublayer:_marque];
     
     photoImage.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     photoImage.opaque = YES;
@@ -240,10 +257,6 @@
     {
         NSString *imageUrl = [delegate performSelector:@selector(fullImageUrlAtIndexPath:) withObject:index];
         NSURL *url = [NSURL URLWithString:imageUrl];
-        
-//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//        hud.mode = MBProgressHUDModeAnnularDeterminate;
-//        hud.labelText = @"Loading";
 
         UIView *mainView = self.view;
         [MBProgressHUD showHUDAddedTo:mainView animated:YES];
@@ -263,30 +276,6 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return NO;
-}
-
--(void)showOverlayWithFrame:(CGRect)frame {
-    
-    if (![_marque actionForKey:@"linePhase"]) {
-        CABasicAnimation *dashAnimation;
-        dashAnimation = [CABasicAnimation animationWithKeyPath:@"lineDashPhase"];
-        [dashAnimation setFromValue:[NSNumber numberWithFloat:0.0f]];
-        [dashAnimation setToValue:[NSNumber numberWithFloat:15.0f]];
-        [dashAnimation setDuration:0.5f];
-        [dashAnimation setRepeatCount:HUGE_VALF];
-        [_marque addAnimation:dashAnimation forKey:@"linePhase"];
-    }
-    
-    _marque.bounds = CGRectMake(frame.origin.x, frame.origin.y, 0, 0);
-    _marque.position = CGPointMake(frame.origin.x + self.canvas.frame.origin.x, frame.origin.y + self.canvas.frame.origin.y);
-    
-    CGMutablePathRef path = CGPathCreateMutable();
-    CGPathAddRect(path, NULL, frame);
-    [_marque setPath:path];
-    CGPathRelease(path);
-    
-    _marque.hidden = NO;
-    
 }
 
 #pragma mark UIGestureRecognizerDelegate

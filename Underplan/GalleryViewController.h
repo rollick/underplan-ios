@@ -23,7 +23,6 @@
 @property (retain, nonatomic) Gallery *gallery;
 //@property (strong, nonatomic) ASMediaFocusManager *mediaFocusManager;
 @property (assign, nonatomic) id delegate;
-@property BOOL loading;
 
 - (NSString *)fullImageUrlAtIndexPath:(NSNumber *)index;
 
