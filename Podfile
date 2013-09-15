@@ -1,5 +1,5 @@
 platform :ios, '6.1'
-pod 'ObjectiveDDP', :git => 'https://github.com/rollick/ObjectiveDDP.git', :commit => 'b4f4606c199b68fe349e83415cc99bb20abbf18e'
+pod 'ObjectiveDDP', :git => 'https://github.com/rollick/ObjectiveDDP.git', :commit => '71365bb'
 pod 'SocketRocket', :head
 pod 'FlatUIKit'
 pod 'SDWebImage'
