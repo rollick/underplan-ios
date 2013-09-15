@@ -11,6 +11,7 @@
 #import "UIColor+Underplan.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <MBProgressHUD.h>
 
 @implementation UnderplanSlideshowController
 
@@ -45,6 +46,8 @@
 {
     [super viewWillAppear:animated];
     
+    [self.photoImage setHidden:NO];
+    
     if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
         [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
@@ -67,6 +70,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    [self.photoImage setHidden:YES];
     
     if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
@@ -101,7 +106,7 @@
     [photoImage setTransform:newTransform];
     
     _lastScale = [(UIPinchGestureRecognizer*)sender scale];
-    [self showOverlayWithFrame:photoImage.frame];
+//    [self showOverlayWithFrame:photoImage.frame];
 }
 
 -(void)rotate:(id)sender {
@@ -120,7 +125,7 @@
     [photoImage setTransform:newTransform];
     
     _lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
-    [self showOverlayWithFrame:photoImage.frame];
+//    [self showOverlayWithFrame:photoImage.frame];
 }
 
 
@@ -136,11 +141,13 @@
     translatedPoint = CGPointMake(_firstX+translatedPoint.x, _firstY+translatedPoint.y);
     
     [photoImage setCenter:translatedPoint];
-    [self showOverlayWithFrame:photoImage.frame];
+//    [self showOverlayWithFrame:photoImage.frame];
 }
 
 -(void)tapped:(id)sender {
-    _marque.hidden = YES;
+//    _marque.hidden = YES;
+    Boolean newState = !self.navigationController.navigationBar.hidden;
+    [self.navigationController.navigationBar setHidden:newState];
 }
 
 -(void)doubleTapped:(id)sender
@@ -162,18 +169,18 @@
     
     [self loadImageAtIndex:_photoIndex];
     
-    if (!_marque) {
-        _marque = [CAShapeLayer layer];
-        _marque.fillColor = [[UIColor clearColor] CGColor];
-        _marque.strokeColor = [[UIColor grayColor] CGColor];
-        _marque.lineWidth = 1.0f;
-        _marque.lineJoin = kCALineJoinRound;
-        _marque.lineDashPattern = [NSArray arrayWithObjects:[NSNumber numberWithInt:10],[NSNumber numberWithInt:5], nil];
-        _marque.bounds = CGRectMake(photoImage.frame.origin.x, photoImage.frame.origin.y, 0, 0);
-        _marque.position = CGPointMake(photoImage.frame.origin.x + canvas.frame.origin.x, photoImage.frame.origin.y + canvas.frame.origin.y);
-    }
-    
-    [[self.view layer] addSublayer:_marque];
+//    if (!_marque) {
+//        _marque = [CAShapeLayer layer];
+//        _marque.fillColor = [[UIColor clearColor] CGColor];
+//        _marque.strokeColor = [[UIColor grayColor] CGColor];
+//        _marque.lineWidth = 1.0f;
+//        _marque.lineJoin = kCALineJoinRound;
+//        _marque.lineDashPattern = [NSArray arrayWithObjects:[NSNumber numberWithInt:10],[NSNumber numberWithInt:5], nil];
+//        _marque.bounds = CGRectMake(photoImage.frame.origin.x, photoImage.frame.origin.y, 0, 0);
+//        _marque.position = CGPointMake(photoImage.frame.origin.x + canvas.frame.origin.x, photoImage.frame.origin.y + canvas.frame.origin.y);
+//    }
+//    
+//    [[self.view layer] addSublayer:_marque];
     
     photoImage.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     photoImage.opaque = YES;
@@ -205,16 +212,24 @@
     [tapProfileImageRecognizer setDelegate:self];
     [canvas addGestureRecognizer:tapProfileImageRecognizer];
     
-    UIImageView *previous = [[UIImageView alloc] initWithFrame:CGRectMake(0, 200, 60, 60)];
-    previous.layer.backgroundColor = [UIColor clearColor].CGColor;
-    previous.image = [[UIImage imageNamed:@"chevron-left.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    previous.contentMode = UIViewContentModeScaleAspectFill;
-    previous.clipsToBounds = NO;
-
+    
+    // Next / Previous buttons
+    UIImageView *previousBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 200, 60, 60)];
+    previousBtn.layer.backgroundColor = [UIColor clearColor].CGColor;
+    previousBtn.image = [[UIImage imageNamed:@"leftLarge.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    previousBtn.contentMode = UIViewContentModeScaleToFill;
+    previousBtn.clipsToBounds = NO;
+    
+    UIImageView *nextBtn = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 60.0f, 200, 60, 60)];
+    nextBtn.layer.backgroundColor = [UIColor clearColor].CGColor;
+    nextBtn.image = [[UIImage imageNamed:@"rightLarge.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    nextBtn.contentMode = UIViewContentModeScaleAspectFit;
+    nextBtn.clipsToBounds = NO;
     
     // add views
     [self.view addSubview:self.canvas];
-    [self.view addSubview:previous];
+    [self.view addSubview:previousBtn];
+    [self.view addSubview:nextBtn];
 
     [canvas addSubview:photoImage];
 }
@@ -226,7 +241,17 @@
         NSString *imageUrl = [delegate performSelector:@selector(fullImageUrlAtIndexPath:) withObject:index];
         NSURL *url = [NSURL URLWithString:imageUrl];
         
-        [photoImage setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        hud.mode = MBProgressHUDModeAnnularDeterminate;
+//        hud.labelText = @"Loading";
+
+        UIView *mainView = self.view;
+        [MBProgressHUD showHUDAddedTo:mainView animated:YES];
+        [photoImage setImageWithURL:url
+                   placeholderImage:nil
+                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType){
+                              [MBProgressHUD hideHUDForView:mainView animated:YES];
+                          }];
     }
 }
 
