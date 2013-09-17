@@ -34,14 +34,14 @@
     UIImage *image;
     CGRect frame;
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    padding = -10;
+    padding = -5;
     
     if (_direction == SlideshowDirectionLeft) {
-        image = [UIImage imageNamed:@"chevron-white-left-large.png"];
-        frame = CGRectMake(padding, screenRect.size.height / 2 - image.size.height / 2, image.size.width, image.size.height);
+        image = [UIImage imageNamed:@"chevron-white-left-large"];
+        frame = CGRectMake(padding, screenRect.size.height / 2 - image.size.height / 2, image.size.width*2/3, image.size.height*2/3);
     } else {
-        image = [UIImage imageNamed:@"chevron-white-right-large.png"];
-        frame = CGRectMake(screenRect.size.width - image.size.width - padding, screenRect.size.height / 2 - image.size.height / 2, image.size.width, image.size.height);
+        image = [UIImage imageNamed:@"chevron-white-right-large"];
+        frame = CGRectMake(screenRect.size.width - image.size.width - padding, screenRect.size.height / 2 - image.size.height / 2, image.size.width*2/3, image.size.height*2/3);
     }
     
     self = [self initWithFrame:frame];
@@ -55,7 +55,7 @@
     self.backgroundColor = [UIColor clearColor];
     // Make it invisible for now
     self.alpha = 0.8f;
-    self.contentMode = UIViewContentModeScaleToFill;
+    self.contentMode = UIViewContentModeScaleAspectFill;
     self.clipsToBounds = NO;
     self.userInteractionEnabled = YES;
     
