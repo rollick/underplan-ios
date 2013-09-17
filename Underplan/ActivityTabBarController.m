@@ -54,10 +54,29 @@
 {
     [super didReceiveApiUpdate:notification];
     
-    // Comment count updated
-    NSString *_id = notification.userInfo[@"activityId"];
+    NSString *_id = notification.userInfo[@"_id"];
     if ([_id isEqualToString:_activity.remoteId])
     {
+        // Reload the activity to get the new data
+        [_activity reload];
+        
+        // FIXME: Yikes. I don't think pushing changes here to child controllers
+        //        is standard practice. We should be observing a property on this
+        //        controller from child controllers. AND the child controller should
+        //        be deciding for itself what to do when the activity changes, eg a
+        //        friendly notice to the user to click 'refresh' to see the changes.
+        for (id controller in [self viewControllers])
+        {
+            if ([controller respondsToSelector:@selector(setActivity:)])
+                [controller setActivity:_activity];
+        }
+    }
+    
+    // Comment count updated
+    _id = notification.userInfo[@"activityId"];
+    if ([_id isEqualToString:_activity.remoteId])
+    {
+        // Set count badge for comments tabbaritem
         NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", _id];
         _comments = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
         

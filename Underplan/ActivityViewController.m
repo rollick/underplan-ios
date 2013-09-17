@@ -29,12 +29,20 @@
 
 @implementation ActivityViewController
 
+static void * const ActivityViewKVOContext = (void*)&ActivityViewKVOContext;
+
 @synthesize mainView;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if(self = [super initWithCoder:aDecoder]) {
         [self initView];
+        
+        [self addObserver:self
+               forKeyPath:@"activity"
+                  options:(NSKeyValueObservingOptionNew |
+                           NSKeyValueObservingOptionOld)
+                  context:ActivityViewKVOContext];
     }
     return self;
 }
@@ -62,7 +70,12 @@
     [super viewWillAppear:animated];
     
     if (_delegate)
+    {
+        // TODO: this should be a pointer to a property on the delegate
+        //       rather than a method returning a value - with current
+        //       implementation we can't observe changes.
         _activity = [_delegate currentActivity];
+    }
     
     CGRect frame = self.view.frame;
     self.mainView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
@@ -134,12 +147,25 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    
+    if ([keyPath isEqual:@"activity"] && _activity)
+    {
+        [self reloadData];
+    }
+}
+
 -(void)dealloc
 {
     // FIXME: temp fis for ios7 issue when view is scrolling and user navigates away
     self.view.delegate = nil;
     
     self.delegate = nil;
+    [self removeObserver:self forKeyPath:@"activity"];
 }
 
 - (void)didReceiveMemoryWarning

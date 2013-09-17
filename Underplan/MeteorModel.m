@@ -35,10 +35,7 @@
 - (id)initWithId: (NSString *)id_
 {
     self = [super init];
-    
-    NSArray *collection_ = [SharedApiClient getClient].collections[self.collectionName];
-    NSDictionary *data_ = [self findItemInDictionaryById:collection_ id:id_];
-    [self processApiData:data_];
+    [self processApiDataById:id_];
     
     return self;
 }
@@ -65,6 +62,18 @@
     }
     
     return data_;
+}
+
+- (void)processApiDataById:(NSString *)id_
+{
+    NSArray *collection_ = [SharedApiClient getClient].collections[self.collectionName];
+    NSDictionary *data_ = [self findItemInDictionaryById:collection_ id:id_];
+    [self processApiData:data_];
+}
+
+- (void)reload
+{
+    [self processApiDataById:self.remoteId];
 }
 
 @end

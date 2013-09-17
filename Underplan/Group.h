@@ -11,7 +11,6 @@
 
 @interface Group : MeteorModel
 
-@property (assign, nonatomic) NSString *remoteId;
 @property (strong, nonatomic) NSString *owner;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *details;

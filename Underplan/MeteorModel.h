@@ -12,7 +12,9 @@
 @interface MeteorModel : NSObject
 
 @property (retain, nonatomic) UnderplanApiClient *apiClient;
+@property (assign, nonatomic) NSString *remoteId;
 
+- (void)reload;
 - (BOOL)processApiData: (NSDictionary *)data_;
 - (id)initWithData: (NSDictionary *)data_;
 - (id)initWithId: (NSString *)id_;
