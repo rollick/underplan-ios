@@ -10,9 +10,12 @@
 
 #import "GalleryViewController.h"
 #import "UnderplanSlideshowController.h"
+#import "UIViewController+ShowHideBars.h"
+#import "SharedApiClient.h"
 
 #import "GalleryViewCell.h"
 #import "Gallery.h"
+#import "Photo.h"
 
 #import "UIColor+Underplan.h"
 
@@ -43,8 +46,6 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
                forKeyPath:@"loading"
                   options:NSKeyValueObservingOptionNew
                   context:GalleryKVOContext];
-
-        _searchTags = @"";
     }
     
     return self;
@@ -55,10 +56,10 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     [super viewDidLoad];
     
     if ([_delegate respondsToSelector:@selector(activity)])
-        _activity = [_delegate activity];
+        [self setActivity:[_delegate activity]];
 
     if ([_delegate respondsToSelector:@selector(group)])
-        _group = [_delegate group];
+        [self setGroup:[_delegate group]];
     
     [self createGallery];
     
@@ -82,17 +83,18 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self.tabBarController.tabBar setHidden:NO];
+
+    [self showBars];
+    [self setNeedsStatusBarAppearanceUpdate];
     [self.quiltView setHidden:NO];
-        
-    [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkMenuFontColor]];
-    [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkMenuFontColor]];
+    
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    [self.tabBarController.tabBar setBarStyle:UIBarStyleBlack];
     
     if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
-        [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
-        [self.navigationController.navigationBar setBarTintColor:[UIColor underplanDarkMenuColor]];
+        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+        [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     }
 }
 
@@ -100,13 +102,13 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
 {
     [super viewWillDisappear:animated];
     
-    [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
+    [self.tabBarController.tabBar setBarStyle:UIBarStyleDefault];
+    
     if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
-        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-        [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
+        [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
+        [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
     }
 }
 
@@ -148,10 +150,10 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     
     if (_activity && _activity.tags)
         _searchTags = _activity.tags;
+    else
+        _searchTags = @"-1"; // FIXME: need a better way to indicate no searchTags
     
-    NSArray *optionValues = [[NSArray alloc] initWithObjects:_searchTags,@"1",nil];
-    NSArray *optionKeys = [[NSArray alloc] initWithObjects:@"tags",@"page",nil];
-    NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithObjects:optionValues forKeys:optionKeys];
+    NSDictionary *options = @{@"tags" : _searchTags, @"page" : @"1"};
     
     dispatch_queue_t troveQueue = dispatch_queue_create("Trovebox Request Queue", NULL);
     dispatch_async(troveQueue, ^{
@@ -166,17 +168,28 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
 
 - (void)loadNextPage
 {
+    if (loading || complete)
+        return;
+    
     [self setLoading:YES];
     
     dispatch_queue_t troveQueue = dispatch_queue_create("Trovebox Request Queue", NULL);
     dispatch_async(troveQueue, ^{
-        [_gallery loadNextPage];
+        Boolean allPhotosLoaded = [_gallery loadNextPage];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.quiltView reloadData];
             [self setLoading:NO];
+            complete = allPhotosLoaded;
         });
     });
+}
+
+#pragma mark - UnderplanGalleryDelegate
+
+- (int)numberOfPhotos
+{
+    return self.gallery.numberOfPhotos;;
 }
 
 - (NSString *)imageUrlAtIndexPath:(NSIndexPath *)indexPath {
@@ -194,6 +207,8 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+//    [self showBars];
+    
     // If last section is about to be shown...
     if(scrollView.contentOffset.y < 0){
         //it means table view is pulled down like refresh
@@ -201,25 +216,26 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     }
     else if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.bounds.size.height))
     {
-        if (! loading && ! complete )
-        {
-            [self loadNextPage];
-        }
-    }
-    
-    if (self.navigationController.navigationBar.hidden)
-    {
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
-        [self.tabBarController.tabBar setHidden:NO];
+        [self loadNextPage];
     }
 }
+
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+//{
+//    [self showBars];
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//    [self hideBars];
+//}
 
 - (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath
 {
 	UnderplanSlideshowController *photoController = [[UnderplanSlideshowController alloc] initWithDelegate:self index:[[NSNumber alloc] initWithUnsignedInteger:indexPath.row]];
 
+    [self hideBars];
     [self.quiltView setHidden:YES];
-    [self.tabBarController.tabBar setHidden:YES];
     [self.navigationController pushViewController:photoController animated:YES];
 }
 
@@ -228,11 +244,12 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     GalleryViewCell *cell = (GalleryViewCell *)[quiltView dequeueReusableCellWithReuseIdentifier:@"PhotoCell"];
     if (!cell) {
         cell = [[GalleryViewCell alloc] initWithReuseIdentifier:@"PhotoCell"];
-//        [self.mediaFocusManager installOnView:cell.photoView];
     }
     
+    Photo *photo = [_gallery photoAtIndex:indexPath.row];
+    
     cell.photoView.tag = indexPath.row + 1;
-    [cell.photoView setImageWithURL:[NSURL URLWithString:[self imageUrlAtIndexPath:indexPath]]
+    [cell.photoView setImageWithURL:[NSURL URLWithString:photo.small]
                    placeholderImage:nil
                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType){
                               if (error){
@@ -241,7 +258,15 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
                               } else {
                               }
                           }];
-    cell.titleLabel.text = nil;
+    if ([photo.title isEqualToString:@""])
+    {
+        [cell.titleLabel setHidden:YES];
+    } else
+    {
+        [cell.titleLabel setHidden:NO];
+        cell.titleLabel.text = photo.title;
+    }
+
     return cell;
 }
 

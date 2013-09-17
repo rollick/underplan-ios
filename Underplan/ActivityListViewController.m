@@ -105,6 +105,12 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     self.tableView.backgroundColor = [UIColor underplanBgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
+    
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
+        self.automaticallyAdjustsScrollViewInsets = YES;
+    
     // Fix the scrollview being behind tabbar
     if (self.tabBarController) {
         UIEdgeInsets inset = self.tableView.contentInset;

@@ -7,6 +7,8 @@
 //
 
 #import "UnderplanSlideshowController.h"
+#import "UIViewController+ShowHideBars.h"
+#import "UnderplanSlideshowButton.h"
 
 #import "UIColor+Underplan.h"
 
@@ -15,11 +17,15 @@
 
 @interface UnderplanSlideshowController ()
 
-@property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic, retain) NSTimer *buttonTimer;
 
 @end
 
 @implementation UnderplanSlideshowController
+{
+    bool buttonsVisible;
+    bool zoomed;
+}
 
 @synthesize photoImage, canvas, delegate;
 
@@ -53,24 +59,24 @@
     [super viewWillAppear:animated];
     
     [self.photoImage setHidden:NO];
-    [self showNavBarTemporarily];
+    [self showControlsTemporarily];
     
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
-    {
-        [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
-        [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkMenuFontColor]];
-    } else
-    {
-        [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkMenuColor]];
-    }
-
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    
     if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)])
     {
-        [self.navigationController.navigationBar setBarTintColor:[UIColor underplanDarkMenuColor]];
-        [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkMenuFontColor]];
-    } else
-    {
-        [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkMenuColor]];
+        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    }
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    int yPosition = self.navigationController.navigationBar.layer.position.y;
+    
+	if (yPosition > 0) {
+        return NO;
+    } else {
+        return YES;
     }
 }
 
@@ -78,25 +84,17 @@
 {
     [super viewWillDisappear:animated];
     
-    [self.timer invalidate];
+    [_nextBtn setHidden:YES];
+    [_previousBtn setHidden:YES];
     [self.photoImage setHidden:YES];
+    
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
+    [self.tabBarController.tabBar setBarStyle:UIBarStyleDefault];
     
     if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
     {
-        [self.tabBarController.tabBar setBarTintColor:[UIColor underplanPrimaryColor]];
-        [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
-    } else
-    {
-        [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
-    }
-    
-    if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)])
-    {
-        [self.navigationController.navigationBar setBarTintColor:[UIColor underplanPrimaryColor]];
-        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-    } else
-    {
         [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
+        [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
     }
 }
 
@@ -115,7 +113,7 @@
     
     _lastScale = [(UIPinchGestureRecognizer*)sender scale];
     
-    [self showNavBarTemporarily];
+    [self showControlsTemporarily];
 }
 
 -(void)rotate:(id)sender {
@@ -135,7 +133,7 @@
     
     _lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
 
-    [self showNavBarTemporarily];
+    [self showControlsTemporarily];
 }
 
 
@@ -152,42 +150,110 @@
     
     [photoImage setCenter:translatedPoint];
 
-    [self showNavBarTemporarily];
+    [self showControlsTemporarily];
 }
 
 -(void)tapped:(id)sender {
-    [self.navigationController.navigationBar setHidden:NO];
+    [self showControlsTemporarily];
 }
 
 -(void)doubleTapped:(id)sender
 {
-    [self.view bringSubviewToFront:[(UIPinchGestureRecognizer*)sender view]];
-    
-	CGAffineTransform currentTransform = [(UIPinchGestureRecognizer*)sender view].transform;
-	CGAffineTransform newTransform = CGAffineTransformScale(currentTransform, 1.0, 1.0);
-    
-	[[(UIPinchGestureRecognizer*)sender view] setTransform:newTransform];
+    if ([(UITapGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded)
+    {
+//        if(zoomed) {
+//            _lastScale = 0.25;
+//            zoomed = NO;
+//        } else {
+//            _lastScale = 4.0;
+//            zoomed = YES;
+//        }
+//        
+//        CGAffineTransform currentTransform = photoImage.transform;
+//        CGAffineTransform newTransform = CGAffineTransformScale(currentTransform, _lastScale, _lastScale);
+//        
+//        [photoImage setTransform:newTransform];
+//        CGPoint touchLocation = [(UITapGestureRecognizer*)sender locationInView:canvas];
+//        
+//        [UIView animateWithDuration:0.25 animations:^{
+//            [self.photoImage setCenter:CGPointMake(touchLocation.x, touchLocation.y)];
+//            self.canvas.transform = CGAffineTransformIdentity;
+//        }];
+        
+        CGPoint canvasPoint = [(UITapGestureRecognizer*)sender locationInView:canvas];
+        
+        CGFloat photoX = [photoImage center].x;
+        CGFloat photoY = [photoImage center].y;
+
+        CGFloat canvasX = [canvas center].x;
+        CGFloat canvasY = [canvas center].y;
+        
+        CGPoint translatedPoint = CGPointMake(photoX + canvasX - canvasPoint.x, photoY + canvasY - canvasPoint.y);
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [photoImage setCenter:translatedPoint];
+        }];
+        
+        [self showControlsTemporarily];
+    }
 }
 
-- (void)showNavBarTemporarily
+- (void)swipe:(id)sender {
+    if ([(UISwipeGestureRecognizer *)sender direction] == UISwipeGestureRecognizerDirectionLeft)
+    {
+        [self loadNextImage];
+    } else if ([(UISwipeGestureRecognizer *)sender direction] == UISwipeGestureRecognizerDirectionRight) {
+        [self loadPreviousImage];
+    }
+}
+
+- (void)loadNextImage
 {
-    [self.timer invalidate];
-    [self showNavBar];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:3
+    if ([delegate numberOfPhotos] > [_photoIndex integerValue] + 1) {
+        _photoIndex = [NSNumber numberWithInt:[_photoIndex integerValue] + 1];
+        [self loadImageAtIndex:_photoIndex];
+        
+        [self setButtonVisibility];
+    }
+}
+
+// Returns whether first image loaded
+- (void)loadPreviousImage
+{
+    if ([_photoIndex integerValue] > 0) {
+        _photoIndex = [NSNumber numberWithInt:[_photoIndex integerValue] - 1];
+        [self loadImageAtIndex:_photoIndex];
+        
+        [self setButtonVisibility];
+    }
+}
+
+- (void)showControlsTemporarily
+{
+    [self showBarsTemporarily];
+
+    [self slideButtonsIn];
+    self.buttonTimer = [NSTimer scheduledTimerWithTimeInterval:2
                                                   target:self
-                                                selector:@selector(hideNavBar)
+                                                selector:@selector(slideButtonsOut)
                                                 userInfo:nil
                                                  repeats:YES];
 }
 
-- (void)showNavBar
+- (void)slideButtonsOut
 {
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.buttonTimer invalidate];
+    buttonsVisible = NO;
+    [_previousBtn slideIn];
+    [_nextBtn slideIn];
 }
 
-- (void)hideNavBar
+- (void)slideButtonsIn
 {
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.buttonTimer invalidate];
+    buttonsVisible = YES;
+    [_previousBtn slideOut];
+    [_nextBtn slideOut];
 }
 
 - (void)viewDidLoad
@@ -195,75 +261,99 @@
     [super viewDidLoad];
     
     canvas = [[UIView alloc] initWithFrame:self.view.bounds];
-    photoImage = [[UIImageView alloc] initWithFrame:canvas.bounds];
+    [self slideButtonsOut];
     
     [self loadImageAtIndex:_photoIndex];
     
-    photoImage.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-    photoImage.opaque = YES;
-//    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
-    photoImage.contentMode = UIViewContentModeScaleAspectFill;
-    photoImage.clipsToBounds = NO;
-    [photoImage.layer setBorderColor:[UIColor redColor].CGColor];
-    
     canvas.userInteractionEnabled = YES;
     canvas.multipleTouchEnabled = YES;
-    [canvas.layer setBorderColor:[UIColor blueColor].CGColor];
     
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(scale:)];
     [pinchRecognizer setDelegate:self];
     [self.view addGestureRecognizer:pinchRecognizer];
     
-//    UIRotationGestureRecognizer *rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotate:)];
-//    [rotationRecognizer setDelegate:self];
-//    [self.view addGestureRecognizer:rotationRecognizer];
+//    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
+//    [panRecognizer setMinimumNumberOfTouches:1];
+//    [panRecognizer setMaximumNumberOfTouches:1];
+//    [panRecognizer setDelegate:self];
+//    [canvas addGestureRecognizer:panRecognizer];
     
-    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
-    [panRecognizer setMinimumNumberOfTouches:1];
-    [panRecognizer setMaximumNumberOfTouches:1];
-    [panRecognizer setDelegate:self];
-    [canvas addGestureRecognizer:panRecognizer];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+    [tapRecognizer setNumberOfTapsRequired:1];
+    [tapRecognizer setDelegate:self];
+    [canvas addGestureRecognizer:tapRecognizer];
+
+    UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapped:)];
+    [doubleTapRecognizer setNumberOfTapsRequired:2];
+    [doubleTapRecognizer setDelegate:self];
+    [canvas addGestureRecognizer:doubleTapRecognizer];
     
-    UITapGestureRecognizer *tapProfileImageRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
-    [tapProfileImageRecognizer setNumberOfTapsRequired:1];
-    [tapProfileImageRecognizer setDelegate:self];
-    [canvas addGestureRecognizer:tapProfileImageRecognizer];
-    
+    UISwipeGestureRecognizer *swipeLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+    [swipeLeftRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [[self view] addGestureRecognizer:swipeLeftRecognizer];
+
+    UISwipeGestureRecognizer *swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+    [swipeRightRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
+    [[self view] addGestureRecognizer:swipeRightRecognizer];
     
     // Next / Previous buttons
-    UIImageView *previousBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 200, 60, 60)];
-    previousBtn.layer.backgroundColor = [UIColor clearColor].CGColor;
-    previousBtn.image = [[UIImage imageNamed:@"leftLarge.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    previousBtn.contentMode = UIViewContentModeScaleToFill;
-    previousBtn.clipsToBounds = NO;
+    _previousBtn = [[UnderplanSlideshowButton alloc] initWithDelegate:self andDirection:SlideshowDirectionLeft];
+    _nextBtn = [[UnderplanSlideshowButton alloc] initWithDelegate:self andDirection:SlideshowDirectionRight];
     
-    UIImageView *nextBtn = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 60.0f, 200, 60, 60)];
-    nextBtn.layer.backgroundColor = [UIColor clearColor].CGColor;
-    nextBtn.image = [[UIImage imageNamed:@"rightLarge.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    nextBtn.contentMode = UIViewContentModeScaleAspectFit;
-    nextBtn.clipsToBounds = NO;
+    [self setButtonVisibility];
     
     // add views
     [self.view addSubview:self.canvas];
-    [self.view addSubview:previousBtn];
-    [self.view addSubview:nextBtn];
+    [self.view addSubview:_nextBtn];
+    [self.view addSubview:_previousBtn];
+}
 
-    [canvas addSubview:photoImage];
+- (void)setButtonVisibility
+{
+    if ([_photoIndex isEqualToNumber:@0]) {
+        [_nextBtn setHidden:NO];
+        [_previousBtn setHidden:YES];
+    }
+    else if ([delegate numberOfPhotos] == [_photoIndex integerValue] + 1) {
+        [_nextBtn setHidden:YES];
+        [_previousBtn setHidden:NO];
+    }
+    else {
+        [_nextBtn setHidden:NO];
+        [_previousBtn setHidden:NO];
+    }
 }
 
 - (void)loadImageAtIndex:(NSNumber *)index
 {
     if (delegate && [delegate respondsToSelector:@selector(fullImageUrlAtIndexPath:)])
     {
+        photoImage = [[UIImageView alloc] initWithFrame:canvas.bounds];
+        
         NSString *imageUrl = [delegate performSelector:@selector(fullImageUrlAtIndexPath:) withObject:index];
         NSURL *url = [NSURL URLWithString:imageUrl];
 
         UIView *mainView = self.view;
+        CGRect bounds = self.view.bounds;
+        
         [MBProgressHUD showHUDAddedTo:mainView animated:YES];
         [photoImage setImageWithURL:url
                    placeholderImage:nil
                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType){
                               [MBProgressHUD hideHUDForView:mainView animated:YES];
+                              
+                              photoImage.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
+                              photoImage.opaque = YES;
+                              //    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+                              photoImage.contentMode = UIViewContentModeScaleAspectFill;
+                              photoImage.clipsToBounds = NO;
+                              
+                              // TODO:  Should create a view stack and push / pull the images rather than
+                              //        re-adding them everytime.
+                              [canvas.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+                              [canvas addSubview:photoImage];
+                              
+//                              [self showControlsTemporarily];
                           }];
     }
 }

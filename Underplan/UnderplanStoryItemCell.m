@@ -60,7 +60,8 @@
             52 + // self.detailsView.frame.size.height +
             16 +
             height + // self.mainText.frame.size.height +
-            16 + 
+            16 +
+            80 +
             BOTTOM_BORDER_PADDING + // border
             BOTTOM_BORDER_SIZE;
 }

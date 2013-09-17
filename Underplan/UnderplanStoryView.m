@@ -30,9 +30,10 @@
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView, banner);
     
     NSString *format = @"V:|-16-[detailsView]-16-[mainText]-(>=16)-|";
-    NSArray *constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
-    
-    [self addConstraints:constraintsArray];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                 options:NSLayoutFormatAlignAllLeft
+                                                                 metrics:nil
+                                                                   views:viewsDictionary]];
 }
 
 - (void)layoutSubviews

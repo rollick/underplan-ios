@@ -19,7 +19,8 @@
 
 - (id)initTrovebox:(NSDictionary *)trovebox withTags:(NSString *)tags;
 - (id)initTrovebox:(NSDictionary *)trovebox withOptions:(NSDictionary *)options;
-- (void)loadNextPage;
-- (void)loadNextPageAndAppendResults:(Boolean)append;
+- (Boolean)loadNextPage;
+- (Boolean)loadNextPageAndAppendResults:(Boolean)append;
+- (id)photoAtIndex:(NSInteger)index;
 
 @end

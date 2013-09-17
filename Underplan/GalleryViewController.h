@@ -10,20 +10,18 @@
 
 #import "TMQuiltViewController.h"
 #import "TMQuiltView.h"
-//#import "ASMediaFocusManager.h"
+#import "UnderplanGalleryDelegate.h"
 
 #import "Activity.h"
 #import "Group.h"
 #import "Gallery.h"
 
-@interface GalleryViewController : TMQuiltViewController <UIPopoverControllerDelegate>
+@interface GalleryViewController : TMQuiltViewController <UIPopoverControllerDelegate, UnderplanGalleryDelegate>
 
 @property (retain, nonatomic) UIPopoverController *aPopoverController;
 @property (copy, nonatomic) NSString *searchTags;
 @property (retain, nonatomic) Gallery *gallery;
 //@property (strong, nonatomic) ASMediaFocusManager *mediaFocusManager;
 @property (assign, nonatomic) id delegate;
-
-- (NSString *)fullImageUrlAtIndexPath:(NSNumber *)index;
 
 @end

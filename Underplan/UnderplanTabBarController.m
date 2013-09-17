@@ -100,9 +100,15 @@
     if ([keyPath isEqual:@"activityId"]) {
         self.activity = [[Activity alloc] initWithId:[change objectForKey:NSKeyValueChangeNewKey]];
         self.group = _activity.group;
+        [self activityWasSet];
     } else if ([keyPath isEqual:@"groupId"]) {
         self.group = [[Group alloc] initWithId:[change objectForKey:NSKeyValueChangeNewKey]];
     }
+}
+
+- (void)activityWasSet
+{
+    // Override in subclass
 }
 
 #pragma mark - UnderplanGroupAwareDelegate methods

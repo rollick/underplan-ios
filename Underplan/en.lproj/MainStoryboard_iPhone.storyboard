@@ -106,7 +106,7 @@
         <!--Group View Controller-->
         <scene sceneID="UfK-eu-S8t">
             <objects>
-                <tabBarController extendedLayoutIncludesOpaqueBars="YES" definesPresentationContext="YES" id="E4F-op-RZV" customClass="GroupViewController" sceneMemberID="viewController">
+                <tabBarController extendedLayoutIncludesOpaqueBars="YES" id="E4F-op-RZV" customClass="GroupViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="W41-dn-e70"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="J4a-bF-Cwx">
@@ -179,7 +179,6 @@
         <image name="activity.png" width="30" height="30"/>
         <image name="calendar.png" width="30" height="30"/>
         <image name="comments.png" width="30" height="30"/>
-        <image name="photos.png" width="30" height="30"/>
         <image name="photos.png" width="30" height="30"/>
         <image name="pin.png" width="30" height="30"/>
     </resources>

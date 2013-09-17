@@ -8,6 +8,7 @@
 
 #import "ActivityTabBarController.h"
 #import "CommentsViewController.h"
+#import "GalleryViewController.h"
 
 #import "SharedApiClient.h"
 
@@ -61,6 +62,24 @@
         _comments = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
         
         [self updateBadgeCount:_commentsController count:[_comments count]];
+    }
+}
+
+- (void)activityWasSet
+{
+    [super activityWasSet];
+    
+    if ([_activity.type isEqualToString:@"short"])
+    {
+        for (id controller in [self viewControllers])
+        {
+            if([controller isKindOfClass:[GalleryViewController class]])
+            {
+                UITabBarItem *tabBarItem = [self.tabBar.items objectAtIndex:[self.viewControllers indexOfObject:controller]];
+                
+                [tabBarItem setEnabled:NO];
+            }
+        }
     }
 }
 

@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface UnderplanItemDetailsView : UIView
-@property (weak, nonatomic) IBOutlet UIImageView *image;
-@property (weak, nonatomic) IBOutlet UILabel *title;
-@property (weak, nonatomic) IBOutlet UILabel *subTitle;
+@property (retain, nonatomic) UIImageView *image;
+@property (retain, nonatomic) UILabel *title;
+@property (retain, nonatomic) UILabel *subTitle;
 
 @end

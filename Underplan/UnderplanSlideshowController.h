@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UnderplanSlideshowController : UIViewController <UIGestureRecognizerDelegate>
+#import "UnderplanSlideshowButton.h"
+#import "UnderplanSlideshowActionDelegate.h"
+#import "UnderplanGalleryDelegate.h"
+
+@interface UnderplanSlideshowController : UIViewController <UIGestureRecognizerDelegate, UnderplanSlideshowActionDelegate>
 {
     CGFloat _lastScale;
 	CGFloat _lastRotation;
@@ -21,7 +25,9 @@
 
 @property (retain, nonatomic) UIImageView *photoImage;
 @property (retain, nonatomic) UIView *canvas;
-@property (assign) id delegate;
+@property (assign) id<UnderplanGalleryDelegate> delegate;
+@property (retain, nonatomic) UnderplanSlideshowButton *previousBtn;
+@property (retain, nonatomic) UnderplanSlideshowButton *nextBtn;
 
 - (id)initWithDelegate:(id)aDelegate;
 - (id)initWithDelegate:(id)aDelegate index:(NSNumber *)aIndex;

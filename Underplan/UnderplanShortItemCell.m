@@ -46,13 +46,13 @@
     {
         CGRect rect = [text boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX) options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin attributes:stringAttributes context:nil];
         
-        height = rect.size.height < 50 ? 50 : rect.size.height;
+        height = rect.size.height < 24 ? 24 : rect.size.height;
     } else {
         NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text attributes:stringAttributes];
         
         CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX) options:NSLineBreakByWordWrapping|NSStringDrawingUsesLineFragmentOrigin context:nil];
         
-        height = rect.size.height < 50 ? 50 : rect.size.height;
+        height = rect.size.height < 24 ? 24 : rect.size.height;
     }
     
     return  16 +
@@ -60,6 +60,7 @@
     16 +
     height + // self.mainText.frame.size.height +
     16 +
+    35 +
     150 + // self.contentImage.frame.size.height +
     BOTTOM_BORDER_PADDING +
     BOTTOM_BORDER_SIZE;

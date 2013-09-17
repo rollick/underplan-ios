@@ -26,7 +26,10 @@
         self.layer.borderWidth = CELL_BORDER_SIZE;
     }
     
+//    self.backgroundColor = [UIColor purpleColor];
+    
     self.detailsView = [[UnderplanItemDetailsView alloc] init];
+
     [self.detailsView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     [self addSubview:detailsView];
@@ -37,6 +40,8 @@
     self.mainText.contentMode = UIViewContentModeTop;
     self.mainText.contentInset = UIEdgeInsetsMake(-8,-4,-4,-4);
 
+//    self.mainText.backgroundColor = [UIColor purpleColor];
+
     [self.mainText setFont:[UIFont fontWithName:@"Helvetica-Light" size:14]];
     [self.mainText setTranslatesAutoresizingMaskIntoConstraints:NO];
     
@@ -45,15 +50,26 @@
     // Get the views dictionary
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView);
     
-    NSString *format = @"|-16-[mainText]-16-|";
-    NSArray *constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
-
-    [self addConstraints:constraintsArray];
-
-    format = @"|-16-[detailsView]-(>=16)-|";
-    constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:detailsView
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                     attribute:NSLayoutAttributeNotAnAttribute
+                                                    multiplier:1
+                                                      constant:52]];
     
-    [self addConstraints:constraintsArray];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(16)-[detailsView]-(16)-|"
+                                                                 options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil
+                                                                   views:viewsDictionary]];
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[mainText]-16-|"
+                                                                 options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil
+                                                                   views:viewsDictionary]];
+    
+//    format = @"V:|-(16)-[detailsView]-(16)-[mainText]-(16)-|";
+//    constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:viewsDictionary];
+//    
+//    [self addConstraints:constraintsArray];
 }
 
 @end

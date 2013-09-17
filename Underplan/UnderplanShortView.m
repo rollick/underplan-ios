@@ -17,11 +17,12 @@
 - (void)initView
 {
     [super initView];
-        
+    
     self.contentImage = [[UIImageView alloc] init];
     self.contentImage.translatesAutoresizingMaskIntoConstraints = NO;
     self.contentImage.contentMode = UIViewContentModeScaleAspectFill;
     self.contentImage.clipsToBounds = YES;
+    
     [self addSubview:self.contentImage];
     
     UITextView *mainText = self.mainText;
@@ -29,19 +30,24 @@
     
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView, contentImage);
     
-    NSString *format = @"V:|-16-[detailsView]-16-[mainText]-(>=0)-[contentImage]-0-|";
-    NSArray *constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
-
-    [self addConstraints:constraintsArray];
+    NSString *format = @"V:|-(16)-[detailsView]-(16)-[mainText]-(16)-[contentImage]-(0)-|";
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                 options:NSLayoutFormatAlignAllLeft
+                                                                 metrics:nil
+                                                                   views:viewsDictionary]];
     
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.contentImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem: nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:150];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentImage
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                     attribute:NSLayoutAttributeNotAnAttribute
+                                                    multiplier:1
+                                                      constant:150]];
     
-    [self addConstraint:constraint];
-    
-    format = @"|-0-[contentImage]-0-|";
-    constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
-    
-    [self addConstraints:constraintsArray];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[contentImage]-0-|"
+                                                                 options:NSLayoutFormatAlignAllLeft
+                                                                 metrics:nil
+                                                                   views:viewsDictionary]];
 }
 
 @end

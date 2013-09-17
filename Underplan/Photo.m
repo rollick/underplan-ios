@@ -36,7 +36,10 @@
     // Get size to match screen width
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
+
+    self.title = data[@"title"];
     
+    self.thumbnail = data[@"path180x180"];
     self.small= data[@"path320x320"];
     self.medium = data[@"path640x640"];
     self.large = data[@"path1024x1024"];

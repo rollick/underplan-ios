@@ -25,5 +25,6 @@
 - (void)clearNavBarActions;
 - (void)setBadgeValue:(NSString *)value onController:(id)controller;
 - (void)didReceiveApiUpdate:(NSNotification *)notification;
+- (void)activityWasSet;
 
 @end

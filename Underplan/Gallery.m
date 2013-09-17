@@ -49,15 +49,13 @@
     url = [url stringByReplacingOccurrencesOfString:@"<domain>" withString:_trovebox[@"domain"]];
     url = [url stringByReplacingOccurrencesOfString:@"<album>" withString:_trovebox[@"album"]];
     url = [url stringByReplacingOccurrencesOfString:@"<albumKey>" withString:_trovebox[@"albumKey"]];
-    url = [url stringByReplacingOccurrencesOfString:@"<returnSizes>" withString:@"64x64,320x320,640x640,1024x1024,1600x1600"];
+    url = [url stringByReplacingOccurrencesOfString:@"<returnSizes>" withString:@"180x180,320x320,640x640,1024x1024,1600x1600"];
     
-    if (tags && ![tags isEqualToString:@""]) {
+    if (tags && ![tags isEqualToString:@"-1"])
         url = [url stringByAppendingString:[[NSString alloc] initWithFormat:@"&tags=%@",tags]];
-    }
     
-    if (page) {
+    if (page)
         url = [url stringByAppendingString:[[NSString alloc] initWithFormat:@"&page=%ld",(long)page]];
-    }
     
     // Get size to match screen width
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -117,7 +115,8 @@
     return [[Photo alloc] initWithData:[_photos objectAtIndex:index]];
 }
 
-- (void)loadNextPageAndAppendResults:(Boolean)append
+// Returns true if no more photos
+- (Boolean)loadNextPageAndAppendResults:(Boolean)append
 {
     // FIXME:   Bit hacky I think to create new gallery instance here jist to fetch
     //          more images
@@ -132,11 +131,15 @@
         _photos = [newResults mutableCopy];
     }
     _numberOfPhotos = [_photos count];
+    
+    // TODO: 10 is the default pageSize for Trovebox but this should be
+    //       defined in the class / instance and used here
+    return [newResults count] < 10;
 }
 
-- (void)loadNextPage
+- (Boolean)loadNextPage
 {
-    [self loadNextPageAndAppendResults:YES];
+    return [self loadNextPageAndAppendResults:YES];
 }
 
 @end

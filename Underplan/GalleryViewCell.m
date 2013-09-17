@@ -39,6 +39,8 @@ const CGFloat kTMPhotoQuiltViewMargin = 5;
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
         _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        [_titleLabel setFont:[UIFont fontWithName:@"Helvetica-Light" size:11]];
 //        _titleLabel.textAlignment = UITextAlignmentCenter;
         [self addSubview:_titleLabel];
     }

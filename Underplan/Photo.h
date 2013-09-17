@@ -10,6 +10,8 @@
 
 @interface Photo : NSObject
 
+@property (copy, nonatomic) NSString *title;
+@property (copy, nonatomic) NSString *thumbnail;
 @property (copy, nonatomic) NSString *small;
 @property (copy, nonatomic) NSString *medium;
 @property (copy, nonatomic) NSString *large;
