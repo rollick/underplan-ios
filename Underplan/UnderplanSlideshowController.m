@@ -198,12 +198,21 @@
     }
 }
 
-- (void)swipe:(id)sender {
-    if ([(UISwipeGestureRecognizer *)sender direction] == UISwipeGestureRecognizerDirectionLeft)
+- (void)swipe:(id)sender
+{
+    UISwipeGestureRecognizerDirection direction = [(UISwipeGestureRecognizer *)sender direction];
+    
+    if (direction == UISwipeGestureRecognizerDirectionLeft)
     {
         [self loadNextImage];
-    } else if ([(UISwipeGestureRecognizer *)sender direction] == UISwipeGestureRecognizerDirectionRight) {
+    }
+    else if (direction == UISwipeGestureRecognizerDirectionRight)
+    {
         [self loadPreviousImage];
+    }
+    else if (direction == UISwipeGestureRecognizerDirectionUp || direction == UISwipeGestureRecognizerDirectionDown)
+    {
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -295,6 +304,14 @@
     UISwipeGestureRecognizer *swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
     [swipeRightRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
     [[self view] addGestureRecognizer:swipeRightRecognizer];
+
+    UISwipeGestureRecognizer *swipeUpRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+    [swipeUpRecognizer setDirection:UISwipeGestureRecognizerDirectionUp];
+    [[self view] addGestureRecognizer:swipeUpRecognizer];
+
+    UISwipeGestureRecognizer *swipeDownRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+    [swipeDownRecognizer setDirection:UISwipeGestureRecognizerDirectionDown];
+    [[self view] addGestureRecognizer:swipeDownRecognizer];
     
     // Next / Previous buttons
     _previousBtn = [[UnderplanSlideshowButton alloc] initWithDelegate:self andDirection:SlideshowDirectionLeft];
