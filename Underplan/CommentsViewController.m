@@ -150,9 +150,18 @@
 - (void)setCommentsByActivityId:(NSString *)activityId
 {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", activityId];
-    _comments = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
-    [_delegate updateBadgeCount:self count:[_comments count]];
     
+    // Filter for comments related to the current activity
+    NSArray *filteredList = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
+    
+    // Sort by oldest to newest
+    _comments = [filteredList sortedArrayUsingComparator: ^(id a, id b) {
+        NSString *first = [[a objectForKey:@"created"] objectForKey:@"$date"];
+        NSString *second = [[b objectForKey:@"created"] objectForKey:@"$date"];
+        return [first compare:second];
+    }];
+    
+    [_delegate updateBadgeCount:self count:[_comments count]];
     [self.tableView reloadData];
 }
 

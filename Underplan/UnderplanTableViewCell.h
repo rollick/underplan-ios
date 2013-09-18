@@ -11,16 +11,16 @@
 #import "UnderplanItemDetailsView.h"
 #import "UnderplanUserItemView.h"
 
-#define CELL_BORDER_SIZE 0
-#define BOTTOM_BORDER_PADDING 16
+#define CELL_BORDER_SIZE 5
 #define BOTTOM_BORDER_SIZE 2
+#define CELL_CORDER_RADIUS 0
 
 @interface UnderplanTableViewCell : UITableViewCell
 
 @property (copy, nonatomic) NSString *itemId;
 @property (assign, nonatomic) BOOL loaded;
-@property (retain, nonatomic) UIView *lowerLine;
-@property (retain, nonatomic) UIView *upperLine;
+@property (retain, nonatomic) UIView *containerView;
+@property (retain, nonatomic) UIView *underLineView;
 
 @property (retain, nonatomic) UnderplanItemDetailsView *detailsView;
 @property (retain, nonatomic) UITextView *mainText;

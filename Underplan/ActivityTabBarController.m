@@ -34,6 +34,13 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
+    tabBarImageNames = @[@{@"selected": @"activity_full.png",
+                           @"unselected": @"activity.png"},
+                         @{@"selected": @"comments_full.png",
+                           @"unselected": @"comments.png"},
+                         @{@"selected": @"photos_full.png",
+                           @"unselected": @"photos.png"}];
+    
     if(self = [super initWithCoder:aDecoder]) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didReceiveApiUpdate:)

@@ -23,6 +23,7 @@
     UnderplanItemDetailsView *detailsView = self.detailsView;
     
     self.banner = [[BannerView alloc] init];
+    [self.banner setBannerBorder:0];
     [self.banner setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     [self addSubview:self.banner];
@@ -44,7 +45,7 @@
     int bannerHeight = 28;
     int bannerOffset = 8;
     
-    CGRect bannerRect = CGRectMake(self.frame.size.width - bannerWidth - CELL_BORDER_SIZE, bannerOffset + CELL_BORDER_SIZE, bannerWidth, bannerHeight);
+    CGRect bannerRect = CGRectMake(self.frame.size.width - bannerWidth, bannerOffset, bannerWidth, bannerHeight);
     
     [self.banner setFrame:bannerRect];
 }

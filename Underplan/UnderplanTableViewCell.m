@@ -31,31 +31,35 @@
 
 - (void)initView
 {
-    self.lowerLine = [[UIView alloc] init];
-    self.lowerLine.backgroundColor = [UIColor underplanBgColor];
-    [self.contentView addSubview:self.lowerLine];
+    self.containerView = [[UIView alloc] init];
+    [self.contentView addSubview:self.containerView];
+    [self.contentView bringSubviewToFront:self.containerView];
     
-    self.upperLine = [[UIView alloc] init];
-    self.upperLine.backgroundColor = [UIColor underplanPrimaryColor];
-    [self.contentView addSubview:self.upperLine];
+//    self.containerView.backgroundColor = [UIColor underplanGroupCellColor];
+//    self.containerView.layer.masksToBounds = YES;
+//    self.containerView.layer.cornerRadius = 3.0;
+//    self.containerView.layer.borderColor = [UIColor underplanDarkMenuColor].CGColor;
+//    self.containerView.layer.borderWidth = 1.0;
+    
+    self.contentView.backgroundColor = [UIColor clearColor];
+    self.backgroundView.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor clearColor];
+    
+    self.underLineView = [[UIView alloc] init];
+    self.underLineView.backgroundColor = [UIColor underplanPrimaryColor];
+    [self.containerView addSubview:self.underLineView];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    int paddingPosition = self.frame.size.height - BOTTOM_BORDER_PADDING;
+
     if (CELL_BORDER_SIZE) {
-        paddingPosition = paddingPosition - CELL_BORDER_SIZE;
+        CGRect frame = self.contentView.frame;
+        self.containerView.frame = CGRectInset(frame, CELL_BORDER_SIZE, CELL_BORDER_SIZE);
     }
-    
-    int borderPosition = self.frame.size.height - BOTTOM_BORDER_SIZE - BOTTOM_BORDER_PADDING;
-    if (CELL_BORDER_SIZE) {
-        borderPosition = borderPosition - CELL_BORDER_SIZE;
-    }
-    
-    [self.upperLine setFrame:CGRectMake(0, borderPosition, self.frame.size.width, BOTTOM_BORDER_SIZE)];
-    [self.lowerLine setFrame:CGRectMake(0, paddingPosition, self.frame.size.width, BOTTOM_BORDER_PADDING)];
+
+    [self.underLineView setFrame:CGRectMake(0, self.containerView.bounds.size.height, self.containerView.bounds.size.width, BOTTOM_BORDER_SIZE)];
 }
 
 - (int)cellHeight:(NSString *)text

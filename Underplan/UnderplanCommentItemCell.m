@@ -21,7 +21,7 @@
     self.detailsView = self.mainView.detailsView;
     self.mainText = self.mainView.mainText;
 
-    [self.contentView addSubview:self.mainView];
+    [self.containerView addSubview:self.mainView];
     
     UITextView *mainText = self.mainText;
     UnderplanItemDetailsView *detailsView = self.detailsView;
@@ -29,7 +29,7 @@
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView);
     
     NSString *format = @"V:|-16-[detailsView]-16-[mainText]-(>=16)-|";
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                               options:NSLayoutFormatAlignAllLeft
                                                                               metrics:nil
                                                                                 views:viewsDictionary]];
@@ -39,7 +39,7 @@
 {
     [super layoutSubviews];
     
-    [self.mainView setFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height - BOTTOM_BORDER_SIZE - BOTTOM_BORDER_PADDING)];
+    [self.mainView setFrame:CGRectMake(0, 0, self.containerView.bounds.size.width, self.containerView.bounds.size.height)];
 }
 
 - (int)cellHeight:(NSString *)text
@@ -71,7 +71,6 @@
             height + // self.mainText.frame.size.height +
             24 + // fudge!
             16 + 
-            BOTTOM_BORDER_PADDING + // border
             BOTTOM_BORDER_SIZE;
 }
 

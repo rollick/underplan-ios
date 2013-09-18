@@ -12,7 +12,7 @@
 #import "UnderplanItemDetailsView.h"
 #import "UnderplanTableViewCell.h"
 
-#define CELL_BORDER_SIZE 0
+#define VIEW_BORDER_SIZE 0
 
 @interface UnderplanUserItemView : UnderplanView
 

@@ -18,4 +18,18 @@
 
 @implementation GroupViewController
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    tabBarImageNames = @[@{@"selected": @"calendar_full.png",
+                           @"unselected": @"calendar.png"},
+                         @{@"selected": @"pin_full.png",
+                           @"unselected": @"pin.png"},
+                         @{@"selected": @"photos_full.png",
+                           @"unselected": @"photos.png"}];
+    
+    self = [super initWithCoder:aDecoder];
+    
+    return self;
+}
+
 @end

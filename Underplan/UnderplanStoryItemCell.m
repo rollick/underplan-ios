@@ -21,14 +21,14 @@
     self.detailsView = self.mainView.detailsView;
     self.mainText = self.mainView.mainText;
         
-    [self.contentView addSubview:self.mainView];
+    [self.containerView addSubview:self.mainView];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     
-    [self.mainView setFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height - BOTTOM_BORDER_SIZE - BOTTOM_BORDER_PADDING)];
+    [self.mainView setFrame:CGRectMake(0, 0, self.containerView.bounds.size.width, self.containerView.bounds.size.height)];
 }
 
 - (int)cellHeight:(NSString *)text
@@ -62,7 +62,6 @@
             height + // self.mainText.frame.size.height +
             16 +
             80 +
-            BOTTOM_BORDER_PADDING + // border
             BOTTOM_BORDER_SIZE;
 }
 

@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface UITabBarController (ShowHideBar)
+@interface UITabBarController (ShowHideTabBar)
 
 - (void) setHidden:(BOOL)hidden;
 

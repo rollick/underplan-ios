@@ -55,46 +55,61 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
 {
     [super viewDidLoad];
     
+    [self showBars];
+    
     if ([_delegate respondsToSelector:@selector(activity)])
         [self setActivity:[_delegate activity]];
 
     if ([_delegate respondsToSelector:@selector(group)])
         [self setGroup:[_delegate group]];
     
-    [self createGallery];
-    
-    // Fix the scrollview being behind tabbar
-    if (self.tabBarController) {
-        UIEdgeInsets inset = self.quiltView.contentInset;
-        inset.bottom = self.tabBarController.tabBar.frame.size.height;
-        self.quiltView.contentInset = inset;
-    }
-    
-    if (self.navigationController) {
-        UIEdgeInsets inset = self.quiltView.contentInset;
-        inset.top = self.navigationController.navigationBar.frame.size.height + 20.0f; // 20.0f for the status bar
-        self.quiltView.contentInset = inset;
+    if ([self.tabBarController.tabBar respondsToSelector:@selector(barStyle)])
+    {
+        // Fix the scrollview being behind tabbar
+        if (self.tabBarController) {
+            UIEdgeInsets inset = self.quiltView.contentInset;
+            inset.bottom = self.tabBarController.tabBar.frame.size.height;
+            self.quiltView.contentInset = inset;
+        }
         
-        CGPoint topOffset = CGPointMake(0, -inset.top);
-        [self.quiltView setContentOffset:topOffset animated:YES];
+        if (self.navigationController) {
+            UIEdgeInsets inset = self.quiltView.contentInset;
+            inset.top = self.navigationController.navigationBar.frame.size.height + 20.0f; // 20.0f for the status bar
+            self.quiltView.contentInset = inset;
+            
+            CGPoint topOffset = CGPointMake(0, -inset.top);
+            [self.quiltView setContentOffset:topOffset animated:YES];
+        }
     }
+    
+    // FIXME: ugly but need to ensure the tab / nav bars have animated into place
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                  target:self
+                                                selector:@selector(createGallery)
+                                                userInfo:nil
+                                                 repeats:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
-    [self showBars];
-    [self setNeedsStatusBarAppearanceUpdate];
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
+        [self setNeedsStatusBarAppearanceUpdate];
     [self.quiltView setHidden:NO];
     
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-    [self.tabBarController.tabBar setBarStyle:UIBarStyleBlack];
-    
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(barStyle)])
     {
+        [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+        [self.tabBarController.tabBar setBarStyle:UIBarStyleBlack];
+        
         [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
         [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
+    }
+    else
+    {
+        [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkMenuColor]];
+        [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkMenuColor]];
     }
 }
 
@@ -102,14 +117,14 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
 {
     [super viewWillDisappear:animated];
     
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
-    [self.tabBarController.tabBar setBarStyle:UIBarStyleDefault];
-    
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
+    if ([self.tabBarController.tabBar respondsToSelector:@selector(barStyle)])
     {
-        [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-        [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
+        [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
+        [self.tabBarController.tabBar setBarStyle:UIBarStyleDefault];
     }
+    
+    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
+    [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath

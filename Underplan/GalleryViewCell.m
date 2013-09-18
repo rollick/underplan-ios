@@ -8,7 +8,9 @@
 
 #import "GalleryViewCell.h"
 
-const CGFloat kTMPhotoQuiltViewMargin = 5;
+#import "UIColor+Underplan.h"
+
+const CGFloat kTMPhotoQuiltViewMargin = 2;
 
 @implementation GalleryViewCell
 
@@ -19,7 +21,7 @@ const CGFloat kTMPhotoQuiltViewMargin = 5;
 {
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor underplanCellBgColor];
     }
     return self;
 }
@@ -40,7 +42,7 @@ const CGFloat kTMPhotoQuiltViewMargin = 5;
         _titleLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
-        [_titleLabel setFont:[UIFont fontWithName:@"Helvetica-Light" size:11]];
+        [_titleLabel setFont:[UIFont fontWithName:@"Roboto-Light" size:11]];
 //        _titleLabel.textAlignment = UITextAlignmentCenter;
         [self addSubview:_titleLabel];
     }

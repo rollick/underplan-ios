@@ -21,9 +21,9 @@
 {
     [super initView];
     
-    if (CELL_BORDER_SIZE) {
+    if (VIEW_BORDER_SIZE) {
         self.layer.borderColor = [UIColor underplanBgColor].CGColor;
-        self.layer.borderWidth = CELL_BORDER_SIZE;
+        self.layer.borderWidth = VIEW_BORDER_SIZE;
     }
     
 //    self.backgroundColor = [UIColor purpleColor];
@@ -42,7 +42,7 @@
 
 //    self.mainText.backgroundColor = [UIColor purpleColor];
 
-    [self.mainText setFont:[UIFont fontWithName:@"Helvetica-Light" size:14]];
+    [self.mainText setFont:[UIFont fontWithName:@"Roboto-Light" size:14]];
     [self.mainText setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     [self addSubview:mainText];

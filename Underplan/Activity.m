@@ -70,7 +70,14 @@
         dateDouble = dateDouble/1000;
         NSDate *dateCreated = [NSDate dateWithTimeIntervalSince1970:dateDouble];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"dd MMM yyyy 'at' HH:mm"];
+        if ([self.type isEqualToString:@"story"])
+        {
+            [dateFormatter setDateFormat:@"dd MMM yyyy"];
+        }
+        else
+        {
+            [dateFormatter setDateFormat:@"dd MMM yyyy 'at' HH:mm"];
+        }
         NSString *formattedDateString = [dateFormatter stringFromDate:dateCreated];
         
         created = formattedDateString;

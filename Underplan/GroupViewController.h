@@ -12,7 +12,7 @@
 
 #import "Group.h"
 
-@interface GroupViewController : UnderplanTabBarController
+@interface GroupViewController : UnderplanTabBarController <UITabBarControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 

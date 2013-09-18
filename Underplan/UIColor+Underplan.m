@@ -12,6 +12,26 @@
 
 @implementation UIColor (Underplan)
 
++ (UIColor *)underplanGrayTextColor
+{
+    return [UIColor colorWithHexString:@"CCCCCC"];
+}
+
++ (UIColor *)underplanGroupCellTextColor
+{
+    return [UIColor underplanGrayTextColor];
+}
+
++ (UIColor *)underplanGroupCellTitleColor
+{
+    return [UIColor colorWithHexString:@"FFFFFF"];
+}
+
++ (UIColor *)underplanGroupCellColor
+{
+    return [[UIColor colorWithHexString:@"303030"] colorWithAlphaComponent:0.8f];
+}
+
 + (UIColor *)underplanCellBgColor
 {
     return [UIColor colorWithHexString:@"FFFFFF"];
@@ -37,9 +57,14 @@
     return [UIColor colorWithHexString:@"#1F4100"];
 }
 
-+ (UIColor *)underplanPrimaryDarkColor
++ (UIColor *)underplanWarningColor
 {
     return [UIColor colorWithHexString:@"#D82A1A"];
+}
+
++ (UIColor *)underplanPrimaryDarkColor
+{
+    return [UIColor colorWithHexString:@"#004D00"];
 }
 
 + (UIColor *)underplanDarkMenuColor

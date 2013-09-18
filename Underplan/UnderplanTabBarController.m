@@ -8,6 +8,7 @@
 
 #import "UnderplanTabBarController.h"
 #import "UIViewController+UnderplanApiNotifications.h"
+#import "UIViewController+ShowHideBars.h"
 
 @interface UnderplanTabBarController ()
 
@@ -30,9 +31,28 @@
                            NSKeyValueObservingOptionOld)
                   context:NULL];
         
-        for (id controller in [self viewControllers]) {
+        for (int i = 0; i < [self.viewControllers count]; i++)
+        {
+            UIViewController* controller = [self.viewControllers objectAtIndex:i];
+            
             if ([controller respondsToSelector:@selector(delegate)]) {
                 [controller setValue:self forKey:@"delegate"];
+            }
+            
+            if ([tabBarImageNames count])
+            {
+                UIImage *selectedImage = [UIImage imageNamed:tabBarImageNames[i][@"selected"]];
+                UIImage *unselectedImage = [UIImage imageNamed:tabBarImageNames[i][@"unselected"]];
+                
+                if ([controller.tabBarItem respondsToSelector:@selector(selectedImage)])
+                {
+                    [controller.tabBarItem setSelectedImage:selectedImage];
+                    [controller.tabBarItem setImage:unselectedImage];
+                }
+                else
+                {
+                    [controller.tabBarItem setFinishedSelectedImage:selectedImage withFinishedUnselectedImage:unselectedImage];
+                }
             }
         }
         
@@ -56,6 +76,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [self showBars];
 }
 
 - (void)viewWillAppear:(BOOL)animated

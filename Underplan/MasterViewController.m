@@ -8,8 +8,12 @@
 
 #import "MasterViewController.h"
 #import "GroupViewController.h"
-#import "UnderplanAppDelegate.h"
+#import "WebViewController.h"
+
 #import "UIViewController+UnderplanApiNotifications.h"
+#import "UIViewController+ShowHideBars.h"
+
+#import "UnderplanAppDelegate.h"
 #import "SharedApiClient.h"
 #import "GroupItemViewCell.h"
 
@@ -25,7 +29,11 @@
 
 @end
 
-@implementation MasterViewController
+@implementation MasterViewController {
+    int tableOffset;
+}
+
+@synthesize tableView, addGroupView, exploreLabel;
 
 - (void)awakeFromNib
 {
@@ -41,11 +49,13 @@
     [super viewWillAppear:animated];
     
     self.navigationItem.title = @"Underplan";
-//    self.navigationController.toolbar.translucent = YES;
+    
+    [self hideBars];
     
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-
     [self.tableView registerClass:[GroupItemViewCell class] forCellReuseIdentifier:@"Group"];
+    [self.tableView setContentInset:UIEdgeInsetsMake(tableOffset, 0, 0, 0)];
+//    [self.tableView setBounces:NO];
 }
 
 - (void)didReceiveApiUpdate:(NSNotification *)notification
@@ -63,7 +73,20 @@
 {
     [super viewDidLoad];
     
+    self.view = [[UIView alloc] init];
+    NSString *bgName;
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    if (screenHeight > 480)
+    {
+        bgName = @"bg_iphone5.png";
+    }
+    else
+    {
+        bgName = @"bg_iphone4.png";
+    }
 
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:bgName]];
+    
     [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
     [[UITabBar appearance] setTintColor:[UIColor underplanPrimaryColor]];
     
@@ -72,22 +95,149 @@
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
         [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
     }
-
+    
     UIBarButtonItem *reconnectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reconnectSocket)];
     self.navigationItem.rightBarButtonItem = reconnectButton;
     
-    self.view = [[UIView alloc] init];
+    [self setupTableView];
+    [self setupGroupView];
+}
+
+- (void)setupTableView
+{
+    tableOffset = 150;
+    
+    // Table View
     self.tableView = [[UITableView alloc] init];
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
     [self.view addSubview:self.tableView];
-    
-    self.view.backgroundColor = [UIColor underplanPanelColor];
-    self.tableView.backgroundColor = [UIColor underplanBgColor];
+    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+
+- (void)setupGroupView
+{
+    self.addGroupView = [[UIView alloc] init];
+    
+    NSNumber *btnWidth = @200;
+    NSNumber *btnHeight = @50;
+    NSNumber *btnPositionY = @250;
+    
+    self.addGroupView.backgroundColor = [UIColor underplanPrimaryColor];
+    self.addGroupView.layer.borderColor = [UIColor underplanPrimaryDarkColor].CGColor;
+    self.addGroupView.layer.borderWidth = 1;
+    self.addGroupView.layer.masksToBounds = YES;
+    self.addGroupView.layer.cornerRadius = [btnHeight floatValue] / 2;
+    
+    UITapGestureRecognizer *tapGesture =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openWebURL:)];
+    [self.addGroupView addGestureRecognizer:tapGesture];
+    [self.addGroupView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    self.addGroupView.alpha = 0.0f;
+    [self.view addSubview:self.addGroupView];
+    
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(addGroupView);
+    
+    NSString *format = @"H:|-(>=0)-[addGroupView(width)]-(>=0)-|";
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                      options:NSLayoutFormatAlignAllCenterX
+                                                                      metrics:@{@"width": btnWidth}
+                                                                        views:viewsDictionary]];
+
+    // Center the button horizontally with the parent view
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.addGroupView
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.0f
+                                                           constant:0.0f]];
+    
+    NSNumber *textHeight = @16;
+    UILabel *btnLabel = [[UILabel alloc] init];
+    btnLabel.text = @"Create your journey";
+    btnLabel.textAlignment = NSTextAlignmentCenter;
+    btnLabel.textColor = [UIColor whiteColor];
+    btnLabel.font = [UIFont fontWithName:@"Roboto-Medium" size:[textHeight integerValue]];
+    btnLabel.backgroundColor = [UIColor clearColor];
+    [btnLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+    [self.addGroupView addSubview:btnLabel];
+    
+    viewsDictionary = NSDictionaryOfVariableBindings(btnLabel);
+    
+    format = @"H:|-(0)-[btnLabel(width)]-(0)-|";
+    [self.addGroupView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                      options:NSLayoutFormatAlignAllCenterY
+                                                                      metrics:@{@"width": btnWidth}
+                                                                        views:viewsDictionary]];
+
+    format = @"V:|-(>=0)-[btnLabel(height)]-(>=0)-|";
+    [self.addGroupView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                      options:NSLayoutFormatAlignAllCenterX
+                                                                      metrics:@{@"height": textHeight}
+                                                                        views:viewsDictionary]];
+    
+    [self.addGroupView addConstraint:[NSLayoutConstraint constraintWithItem:btnLabel
+                                                          attribute:NSLayoutAttributeCenterY
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.addGroupView
+                                                          attribute:NSLayoutAttributeCenterY
+                                                         multiplier:1.0f
+                                                           constant:0.0f]];
+    
+    [self.addGroupView addConstraint:[NSLayoutConstraint constraintWithItem:btnLabel
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute:NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1
+                                                                   constant:[textHeight floatValue]]];
+    
+    // Explore Label
+    exploreLabel = [[UILabel alloc] init];
+    NSNumber *lblHeight = @16;
+    exploreLabel.text = @"Or, Explore";
+    exploreLabel.textColor = [UIColor whiteColor];
+    exploreLabel.font = [UIFont fontWithName:@"Roboto-Medium" size:[lblHeight integerValue]];
+    exploreLabel.backgroundColor = [UIColor clearColor];
+    [exploreLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    self.exploreLabel.alpha = 0.0f;
+    [self.view addSubview:exploreLabel];
+    
+    viewsDictionary = NSDictionaryOfVariableBindings(addGroupView, exploreLabel);
+    
+    format = @"V:|-(btnPositionY)-[addGroupView(btnHeight)]-(20)-[exploreLabel(lblHeight)]-(>=0)-|";
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                      options:NSLayoutFormatAlignAllCenterX
+                                                                      metrics:@{@"lblHeight": lblHeight,
+                                                                                @"btnHeight": btnHeight,
+                                                                                @"btnPositionY": btnPositionY}
+                                                                        views:viewsDictionary]];
+    
+    // Center the label horizontally with the parent view
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.addGroupView
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.0f
+                                                           constant:0.0f]];
+    
+}
+
+- (void)openWebURL:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://underplan.it/new"]];
+    
+//    WebViewController *webController = [[WebViewController alloc] initWithUrl:@"http://underplan.it/new"];
+//    
+//    [self.navigationController pushViewController:webController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -107,6 +257,43 @@
 
 #pragma mark - Table View
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    // return if views not initialised
+    if (!scrollView || !self.exploreLabel)
+        return;
+    
+    // Fade in / out group button and labels
+    int yOffset = scrollView.contentOffset.y;
+    int lblOffset = self.exploreLabel.frame.origin.y + self.exploreLabel.frame.size.height;
+    int diff = yOffset + lblOffset;
+    int proximity = -40;
+    
+    // return if exploreLabel at 0 => layout not complete
+    if (!lblOffset)
+        return;
+    
+    if (diff > proximity)
+    {
+        if (diff < 0)
+        {
+            float a = diff/(float)proximity;
+            self.addGroupView.alpha = a;
+            self.exploreLabel.alpha = a;
+        }
+        else
+        {
+            self.addGroupView.alpha = 0.0f;
+            self.exploreLabel.alpha = 0.0f;
+        }
+    }
+    else
+    {
+        self.addGroupView.alpha = 1.0f;
+        self.exploreLabel.alpha = 1.0f;
+    }
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -125,15 +312,15 @@
     return [item cellHeight:@""];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GroupItemViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Group" forIndexPath:indexPath];
+    GroupItemViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:@"Group" forIndexPath:indexPath];
     
     Group *group = [[Group alloc] initWithId:self._groups[indexPath.row][@"_id"]];
     
     cell.title.text = group.name;
     cell.description.text = group.details;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
@@ -145,37 +332,18 @@
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self._groups removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [aTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSDictionary *group = self._groups[indexPath.row];
-//    self.groupViewController.group = group;
-
     [self performSegueWithIdentifier:@"showGroup" sender:self.tableView];
 }
 

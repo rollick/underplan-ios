@@ -10,10 +10,13 @@
 
 #import "UnderplanTableViewCell.h"
 
-@interface GroupItemViewCell : UnderplanTableViewCell
+@interface GroupItemViewCell : UITableViewCell
 
 @property (copy, nonatomic) NSString *itemId;
 @property (retain, nonatomic) UILabel *description;
 @property (retain, nonatomic) UILabel *title;
+@property (retain, nonatomic) UIView *containerView;
+
+- (int)cellHeight:(NSString *)text;
 
 @end

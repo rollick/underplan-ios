@@ -63,7 +63,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cwo-aB-h6E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="391" y="1430"/>
+            <point key="canvasLocation" x="399" y="1478"/>
         </scene>
         <!--Gallery View Controller - Photos-->
         <scene sceneID="VtH-o8-lMl">
@@ -149,7 +149,7 @@
         <scene sceneID="WV4-UX-36P">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="bI7-nE-ml9" customClass="CommentsViewController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Comments" image="comments.png" id="ERF-fF-mD4"/>
+                    <tabBarItem key="tabBarItem" title="Comments" image="comments_full.png" id="ERF-fF-mD4"/>
                     <navigationItem key="navigationItem" title="Comments" id="KdH-GX-mTs"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
@@ -178,7 +178,8 @@
     <resources>
         <image name="activity.png" width="30" height="30"/>
         <image name="calendar.png" width="30" height="30"/>
-        <image name="comments.png" width="30" height="30"/>
+        <image name="comments_full.png" width="30" height="30"/>
+        <image name="photos.png" width="30" height="30"/>
         <image name="photos.png" width="30" height="30"/>
         <image name="pin.png" width="30" height="30"/>
     </resources>

@@ -16,7 +16,7 @@
 - (void)initView
 {
     [super initView];
-
+    
     self.mainView = [[UnderplanShortView alloc] init];
     self.mainText = self.mainView.mainText;
     self.contentImage = self.mainView.contentImage;
@@ -24,14 +24,14 @@
     
     self.mainView.backgroundColor = [UIColor underplanCellBgColor];
 
-    [self.contentView addSubview:self.mainView];
+    [self.containerView addSubview:self.mainView];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
 
-    [self.mainView setFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height - BOTTOM_BORDER_SIZE - BOTTOM_BORDER_PADDING)];
+    [self.mainView setFrame:CGRectMake(0, 0, self.containerView.bounds.size.width, self.containerView.bounds.size.height)];
 }
 
 - (int)cellHeight:(NSString *)text
@@ -60,9 +60,8 @@
     16 +
     height + // self.mainText.frame.size.height +
     16 +
-    35 +
+    45 +
     150 + // self.contentImage.frame.size.height +
-    BOTTOM_BORDER_PADDING +
     BOTTOM_BORDER_SIZE;
 }
 

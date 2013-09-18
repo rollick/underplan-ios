@@ -7,6 +7,7 @@
 //
 
 #import "UIViewController+ShowHideBars.h"
+#import "UITabBarController+ShowHideTabBar.h"
 
 #import <objc/runtime.h>
 
@@ -38,21 +39,25 @@ static void * const TimerTagKey = (void*)&TimerTagKey;
 - (void)showBars
 {
     if (self.navigationController.navigationBar.hidden)
-    {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
-        [self.tabBarController.tabBar setHidden:NO];
+    
+    if (self.tabBarController)
+        [self.tabBarController setHidden:NO];
+    
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
         [self setNeedsStatusBarAppearanceUpdate];
-    }
 }
 
 - (void)hideBars
 {
     if (! self.navigationController.navigationBar.hidden)
-    {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
-        [self.tabBarController.tabBar setHidden:YES];
+
+    if (self.tabBarController)
+        [self.tabBarController setHidden:YES];
+
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
         [self setNeedsStatusBarAppearanceUpdate];
-    }
 }
 
 @end

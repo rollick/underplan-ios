@@ -10,10 +10,16 @@
 
 @interface UIColor (Underplan)
 
++ (UIColor *)underplanGroupCellTextColor;
++ (UIColor *)underplanGroupCellTitleColor;
++ (UIColor *)underplanGroupCellColor;
+
++ (UIColor *)underplanGrayTextColor;
 + (UIColor *)underplanCellBgColor;
 + (UIColor *)underplanPanelColor;
 + (UIColor *)underplanBgColor;
 + (UIColor *)underplanPrimaryColor;
++ (UIColor *)underplanWarningColor;
 + (UIColor *)underplanNoticeColor;
 + (UIColor *)underplanPrimaryDarkColor;
 + (UIColor *)underplanDarkMenuColor;

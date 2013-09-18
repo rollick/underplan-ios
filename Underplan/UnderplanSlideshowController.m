@@ -61,11 +61,18 @@
     [self.photoImage setHidden:NO];
     [self showControlsTemporarily];
     
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-    
-    if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)])
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(barStyle)])
     {
+        [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+        [self.tabBarController.tabBar setBarStyle:UIBarStyleBlack];
+        
         [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+        [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
+    }
+    else
+    {
+        [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkMenuColor]];
+        [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkMenuColor]];
     }
 }
 
@@ -86,6 +93,7 @@
     
     [_nextBtn setHidden:YES];
     [_previousBtn setHidden:YES];
+    [self showBars];
     [self.photoImage setHidden:YES];
     
     [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];

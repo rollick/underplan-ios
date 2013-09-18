@@ -17,6 +17,8 @@
 
 @property (strong, nonatomic) GroupViewController *groupViewController;
 @property (retain, nonatomic) UITableView *tableView;
+@property (retain, nonatomic) UIView *addGroupView;
 @property (retain, nonatomic) UILabel *connectionStatusText;
+@property (retain, nonatomic) UILabel *exploreLabel;
 
 @end

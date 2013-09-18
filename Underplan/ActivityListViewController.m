@@ -13,7 +13,7 @@
 #import "ActivityViewController.h"
 #import "UnderplanShortItemCell.h"
 #import "UnderplanStoryItemCell.h"
-#import "UITabBarController+ShowHideBar.h"
+#import "UITabBarController+ShowHideTabBar.h"
 #import "UIViewController+UnderplanApiNotifications.h"
 #import "SharedApiClient.h"
 
@@ -137,7 +137,16 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 
 - (NSArray *)computedList {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", self.group.remoteId];
-    return [[SharedApiClient getClient].collections[@"activities"] filteredArrayUsingPredicate:pred];
+
+    // Filter for current group
+    NSArray *filteredList = [[SharedApiClient getClient].collections[@"activities"] filteredArrayUsingPredicate:pred];
+    
+    // Sort by newest to oldest
+    return [filteredList sortedArrayUsingComparator: ^(id a, id b) {
+        NSString *first = [[a objectForKey:@"created"] objectForKey:@"$date"];
+        NSString *second = [[b objectForKey:@"created"] objectForKey:@"$date"];
+        return [second compare:first];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

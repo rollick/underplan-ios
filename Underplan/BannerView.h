@@ -13,5 +13,6 @@
 @property (retain, nonatomic) UIView *border;
 @property (retain, nonatomic) UILabel *label;
 @property (retain, nonatomic) NSString *text;
+@property (nonatomic) NSInteger bannerBorder;
 
 @end

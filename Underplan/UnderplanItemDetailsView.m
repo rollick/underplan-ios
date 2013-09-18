@@ -38,16 +38,16 @@
     [self addSubview:image];
     
     title = [[UILabel alloc] init];
-    [subTitle setFont:[UIFont fontWithName:@"Helvetica-Light" size:14]];
+    [subTitle setFont:[UIFont fontWithName:@"Roboto-Medium" size:14]];
     [title setTranslatesAutoresizingMaskIntoConstraints:NO];
 //    self.title.backgroundColor = [UIColor blueColor];
     
     [self addSubview:title];
 
     subTitle = [[UILabel alloc] init];
-    [subTitle setFont:[UIFont fontWithName:@"Helvetica-Light" size:12]];
+    [subTitle setFont:[UIFont fontWithName:@"Roboto-Light" size:12]];
     [subTitle setTranslatesAutoresizingMaskIntoConstraints:NO];
-//    self.subTitle.backgroundColor = [UIColor orangeColor];
+    subTitle.textColor = [UIColor grayColor];
 
     [self addSubview:subTitle];
     

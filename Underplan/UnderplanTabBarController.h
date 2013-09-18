@@ -14,6 +14,9 @@
 #import "Group.h"
 
 @interface UnderplanTabBarController : UITabBarController <UITabBarControllerDelegate, UnderplanGroupAwareDelegate>
+{
+    NSArray *tabBarImageNames;
+}
 
 @property (strong, nonatomic) Activity *activity;
 @property (strong, nonatomic) Group *group;

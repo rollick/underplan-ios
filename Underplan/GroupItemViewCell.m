@@ -9,60 +9,120 @@
 #import "GroupItemViewCell.h"
 
 #import "UIColor+Underplan.h"
+#import <UIColor+HexString.h>
 
 @implementation GroupItemViewCell
 
 @synthesize title, description;
 
-- (void)initView
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    [super initView];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self initView];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if(self = [super initWithCoder:aDecoder]) {
+        [self initView];
+    }
+    return self;
+}
+
+- (void)initView
+{    
+    self.containerView = [[UIView alloc] init];
+    [self.contentView addSubview:self.containerView];
+    [self.contentView bringSubviewToFront:self.containerView];
+    self.containerView.backgroundColor = [UIColor underplanGroupCellColor];
+    self.containerView.layer.masksToBounds = YES;
+    self.containerView.layer.cornerRadius = 3.0;
     
-    self.contentView.backgroundColor = [UIColor underplanCellBgColor];
-    self.accessoryView.backgroundColor = [UIColor underplanCellBgColor];
-    self.backgroundColor = [UIColor underplanCellBgColor];
+    self.containerView.layer.borderColor = [UIColor underplanDarkMenuColor].CGColor;
+    self.containerView.layer.borderWidth = 1.0;
     
-    self.layer.masksToBounds = YES;
-//    self.layer.borderColor = [UIColor redColor].CGColor;
-//    self.layer.borderWidth = 8.0;
+    self.contentView.backgroundColor = [UIColor clearColor];
+    self.backgroundView.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor clearColor];
     
     self.title = [[UILabel alloc] init];
     self.title.text = @"A Test Title";
+    self.title.textColor = [UIColor underplanGroupCellTitleColor];
+    self.title.textAlignment = NSTextAlignmentCenter;
     
-    [self.title setFont:[UIFont fontWithName:@"Helvetica-Light" size:18]];
-    [self.title setTranslatesAutoresizingMaskIntoConstraints:NO];
+    NSNumber *titleHeight = @18;
+    self.title.font = [UIFont fontWithName:@"Roboto-Medium" size:[titleHeight integerValue]];
+    self.title.translatesAutoresizingMaskIntoConstraints = NO;
+    self.title.backgroundColor = [UIColor clearColor];
     
-    [self.contentView addSubview:self.title];
+    [self.containerView addSubview:self.title];
     
     self.description = [[UILabel alloc] init];
-    [self.description setFont:[UIFont fontWithName:@"Helvetica-Light" size:14]];
+    NSNumber *descriptionHeight = @14;
+    self.description.font = [UIFont fontWithName:@"Roboto-Light" size:[descriptionHeight integerValue]];
     self.description.text = @"A Test Description";
-    [self.description setTranslatesAutoresizingMaskIntoConstraints:NO];
+    self.description.textColor = [UIColor underplanGroupCellTextColor];
+    self.description.backgroundColor = [UIColor clearColor];
+    self.description.numberOfLines = 2;
+    self.description.lineBreakMode = NSLineBreakByWordWrapping;
+    self.description.textAlignment = NSTextAlignmentCenter;
+
+    self.description.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [self.contentView addSubview:self.description];
+    [self.containerView addSubview:self.description];
     
     // Get the views dictionary
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(title, description);
     
-    NSString *format = @"V:|-16-[title]-(0)-[description]-(>=16)-|";
-    NSArray *constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
-    
-    [self.contentView addConstraints:constraintsArray];
+    NSString *format = @"V:|-16-[title(titleHeight)]-(5)-[description]-(>=0)-|";
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                        options:NSLayoutFormatAlignAllLeft
+                                                                               metrics:@{@"titleHeight": titleHeight}
+                                                                          views:viewsDictionary]];
     
     format = @"|-16-[title]-16-|";
-    constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
-    
-    [self.contentView addConstraints:constraintsArray];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                               options:NSLayoutFormatAlignAllLeft
+                                                               metrics:nil
+                                                                 views:viewsDictionary]];
     
     format = @"|-16-[description]-16-|";
-    constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatAlignAllLeft metrics:nil views:viewsDictionary];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                               options:NSLayoutFormatAlignAllLeft
+                                                               metrics:nil
+                                                                 views:viewsDictionary]];
+
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:self.description
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:nil
+                                                                   attribute:NSLayoutAttributeNotAnAttribute
+                                                                  multiplier:1
+                                                                    constant:50]];
     
-    [self.contentView addConstraints:constraintsArray];
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:self.title
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                     attribute:NSLayoutAttributeNotAnAttribute
+                                                    multiplier:1
+                                                      constant:18]];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    CGRect frame = self.contentView.frame;
+    self.containerView.frame = CGRectInset(frame, 8.0, 8.0);
 }
 
 - (int)cellHeight:(NSString *)text
 {
-    return 120;
+    return 120 + BOTTOM_BORDER_SIZE;
 }
 
 @end
