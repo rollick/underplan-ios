@@ -37,7 +37,7 @@ DEPENDENCIES:
   - ASIHTTPRequest
   - FlatUIKit
   - MBProgressHUD
-  - ObjectiveDDP (from `https://github.com/rollick/ObjectiveDDP.git`, commit `71365bb`)
+  - ObjectiveDDP (from `https://github.com/rollick/ObjectiveDDP.git`, commit `57d2154`)
   - SBJson (= 3.1)
   - SDWebImage
   - SocketRocket (HEAD)
@@ -46,7 +46,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   ObjectiveDDP:
-    :commit: 71365bb
+    :commit: 57d2154
     :git: https://github.com/rollick/ObjectiveDDP.git
 
 SPEC CHECKSUMS:

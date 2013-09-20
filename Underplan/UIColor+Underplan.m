@@ -12,6 +12,16 @@
 
 @implementation UIColor (Underplan)
 
++ (UIColor *)underplanDarkTextColor
+{
+    return [UIColor whiteColor];
+}
+
++ (UIColor *)underplanPrimaryTextColor
+{
+    return [UIColor whiteColor];
+}
+
 + (UIColor *)underplanGrayTextColor
 {
     return [UIColor colorWithHexString:@"CCCCCC"];
@@ -69,7 +79,7 @@
 
 + (UIColor *)underplanDarkMenuColor
 {
-    return [UIColor colorWithHexString:@"#000000"];
+    return [UIColor colorWithHexString:@"#111111"];
 }
 
 + (UIColor *)underplanDarkMenuFontColor

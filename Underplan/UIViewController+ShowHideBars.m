@@ -42,7 +42,7 @@ static void * const TimerTagKey = (void*)&TimerTagKey;
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     
     if (self.tabBarController)
-        [self.tabBarController setHidden:NO];
+        [self.tabBarController showTabBar];
     
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
         [self setNeedsStatusBarAppearanceUpdate];
@@ -54,7 +54,7 @@ static void * const TimerTagKey = (void*)&TimerTagKey;
         [self.navigationController setNavigationBarHidden:YES animated:YES];
 
     if (self.tabBarController)
-        [self.tabBarController setHidden:YES];
+        [self.tabBarController hideTabBar];
 
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
         [self setNeedsStatusBarAppearanceUpdate];

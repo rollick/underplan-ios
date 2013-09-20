@@ -55,6 +55,13 @@
 		264C85DF17EA194400E2A09E /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 264C85DB17EA15E600E2A09E /* Roboto-Light.ttf */; };
 		264C85E017EA194400E2A09E /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 264C85DC17EA15E600E2A09E /* Roboto-Medium.ttf */; };
 		264C85E117EA194400E2A09E /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 264C85DD17EA15E600E2A09E /* Roboto-Regular.ttf */; };
+		264C85E417EB7EFE00E2A09E /* UIViewController+BarColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 264C85E317EB7EFE00E2A09E /* UIViewController+BarColor.m */; };
+		264C85E917EB8E9B00E2A09E /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 264C85E617EB8E8B00E2A09E /* OpenSans-Bold.ttf */; };
+		264C85EA17EB8E9B00E2A09E /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 264C85E717EB8E8B00E2A09E /* OpenSans-Light.ttf */; };
+		264C85EB17EB8E9B00E2A09E /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 264C85E817EB8E8B00E2A09E /* OpenSans-Regular.ttf */; };
+		264C85EE17EBA46200E2A09E /* UnderplanBasicLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 264C85ED17EBA46200E2A09E /* UnderplanBasicLabel.m */; };
+		264C85F117EC512200E2A09E /* UnderplanNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 264C85F017EC512200E2A09E /* UnderplanNavigationController.m */; };
+		264C85F417EC7A8100E2A09E /* UnderplanBarBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 264C85F317EC7A8100E2A09E /* UnderplanBarBackgroundView.m */; };
 		26659053179EE51E001EFABF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659052179EE51E001EFABF /* UIKit.framework */; };
 		26659055179EE51E001EFABF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26659054179EE51E001EFABF /* Foundation.framework */; };
 		2665905D179EE51E001EFABF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2665905B179EE51E001EFABF /* InfoPlist.strings */; };
@@ -228,6 +235,18 @@
 		264C85DB17EA15E600E2A09E /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Light.ttf"; path = "../Roboto-Light.ttf"; sourceTree = "<group>"; };
 		264C85DC17EA15E600E2A09E /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		264C85DD17EA15E600E2A09E /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		264C85E217EB7EFE00E2A09E /* UIViewController+BarColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BarColor.h"; sourceTree = "<group>"; };
+		264C85E317EB7EFE00E2A09E /* UIViewController+BarColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BarColor.m"; sourceTree = "<group>"; };
+		264C85E517EB834E00E2A09E /* SystemVersionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemVersionInfo.h; sourceTree = "<group>"; };
+		264C85E617EB8E8B00E2A09E /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		264C85E717EB8E8B00E2A09E /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		264C85E817EB8E8B00E2A09E /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		264C85EC17EBA46200E2A09E /* UnderplanBasicLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanBasicLabel.h; sourceTree = "<group>"; };
+		264C85ED17EBA46200E2A09E /* UnderplanBasicLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanBasicLabel.m; sourceTree = "<group>"; };
+		264C85EF17EC512200E2A09E /* UnderplanNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanNavigationController.h; sourceTree = "<group>"; };
+		264C85F017EC512200E2A09E /* UnderplanNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanNavigationController.m; sourceTree = "<group>"; };
+		264C85F217EC7A8100E2A09E /* UnderplanBarBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanBarBackgroundView.h; sourceTree = "<group>"; };
+		264C85F317EC7A8100E2A09E /* UnderplanBarBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanBarBackgroundView.m; sourceTree = "<group>"; };
 		2665904F179EE51E001EFABF /* Underplan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Underplan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26659052179EE51E001EFABF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		26659054179EE51E001EFABF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -435,6 +454,8 @@
 				26EA951F17B65429003E31CA /* UnderplanViewController.m */,
 				264C853817E44E7800E2A09E /* UnderplanTabBarController.h */,
 				264C853917E44E7800E2A09E /* UnderplanTabBarController.m */,
+				264C85EF17EC512200E2A09E /* UnderplanNavigationController.h */,
+				264C85F017EC512200E2A09E /* UnderplanNavigationController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -445,8 +466,28 @@
 				264C85DB17EA15E600E2A09E /* Roboto-Light.ttf */,
 				264C85DC17EA15E600E2A09E /* Roboto-Medium.ttf */,
 				264C85DD17EA15E600E2A09E /* Roboto-Regular.ttf */,
+				264C85E617EB8E8B00E2A09E /* OpenSans-Bold.ttf */,
+				264C85E717EB8E8B00E2A09E /* OpenSans-Light.ttf */,
+				264C85E817EB8E8B00E2A09E /* OpenSans-Regular.ttf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		264C85F517EC7D4E00E2A09E /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				264C85E217EB7EFE00E2A09E /* UIViewController+BarColor.h */,
+				264C85E317EB7EFE00E2A09E /* UIViewController+BarColor.m */,
+				26848EF817B871B90021E247 /* UITabBarController+ShowHideTabBar.h */,
+				26848EF717B871B90021E247 /* UITabBarController+ShowHideTabBar.m */,
+				26A12C1217C9F852006B619E /* UIViewController+UnderplanApiNotifications.h */,
+				26A12C1317C9F852006B619E /* UIViewController+UnderplanApiNotifications.m */,
+				264C856317E6F40100E2A09E /* UIViewController+ShowHideBars.h */,
+				264C856417E6F40100E2A09E /* UIViewController+ShowHideBars.m */,
+				264C85C817E7543F00E2A09E /* UIImage+ImageEffects.h */,
+				264C85C917E7543F00E2A09E /* UIImage+ImageEffects.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		26659046179EE51D001EFABF = {
@@ -583,18 +624,10 @@
 		26A1D5DD17A3149100526060 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				264C85F517EC7D4E00E2A09E /* Categories */,
 				264C856217E64FDD00E2A09E /* Controllers */,
-				263DCD0617E19C5E0077DD15 /* Delegates */,
 				26AAAAD717D32BE200944DAC /* Views */,
 				26AAAAD617D2129C00944DAC /* Cells */,
-				26848EF817B871B90021E247 /* UITabBarController+ShowHideTabBar.h */,
-				26848EF717B871B90021E247 /* UITabBarController+ShowHideTabBar.m */,
-				264C85C817E7543F00E2A09E /* UIImage+ImageEffects.h */,
-				264C85C917E7543F00E2A09E /* UIImage+ImageEffects.m */,
-				26A12C1217C9F852006B619E /* UIViewController+UnderplanApiNotifications.h */,
-				26A12C1317C9F852006B619E /* UIViewController+UnderplanApiNotifications.m */,
-				264C856317E6F40100E2A09E /* UIViewController+ShowHideBars.h */,
-				264C856417E6F40100E2A09E /* UIViewController+ShowHideBars.m */,
 				266590B4179FC5BC001EFABF /* ActivityFeedAnnotation.h */,
 				266590B5179FC5BC001EFABF /* ActivityFeedAnnotation.m */,
 			);
@@ -623,6 +656,7 @@
 		26AAAAD717D32BE200944DAC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				263DCD0617E19C5E0077DD15 /* Delegates */,
 				26018CF917CE300600D766A4 /* UnderplanItemDetailsView.h */,
 				26018CFA17CE300600D766A4 /* UnderplanItemDetailsView.m */,
 				264C85AD17E7257C00E2A09E /* UnderplanSlideshowButton.h */,
@@ -637,6 +671,10 @@
 				26EE72EF17CF86450028639E /* UnderplanStoryView.m */,
 				26EE72F117CF97440028639E /* BannerView.h */,
 				26EE72F217CF97440028639E /* BannerView.m */,
+				264C85EC17EBA46200E2A09E /* UnderplanBasicLabel.h */,
+				264C85ED17EBA46200E2A09E /* UnderplanBasicLabel.m */,
+				264C85F217EC7A8100E2A09E /* UnderplanBarBackgroundView.h */,
+				264C85F317EC7A8100E2A09E /* UnderplanBarBackgroundView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -782,6 +820,7 @@
 		26F9A8B617A95E7B007B0CBB /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				264C85E517EB834E00E2A09E /* SystemVersionInfo.h */,
 				26A12C0C17C7825C006B619E /* UnderplanApiClient.h */,
 				26A12C0D17C7825C006B619E /* UnderplanApiClient.m */,
 				26018CFD17CE781F00D766A4 /* UILabel+VerticalAlign.h */,
@@ -871,6 +910,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				264C85E917EB8E9B00E2A09E /* OpenSans-Bold.ttf in Resources */,
+				264C85EA17EB8E9B00E2A09E /* OpenSans-Light.ttf in Resources */,
+				264C85EB17EB8E9B00E2A09E /* OpenSans-Regular.ttf in Resources */,
 				264C85DF17EA194400E2A09E /* Roboto-Light.ttf in Resources */,
 				264C85E017EA194400E2A09E /* Roboto-Medium.ttf in Resources */,
 				264C85E117EA194400E2A09E /* Roboto-Regular.ttf in Resources */,
@@ -1032,14 +1074,17 @@
 				26659072179EE51E001EFABF /* MasterViewController.m in Sources */,
 				26EE738217D175F20028639E /* ActivityTabBarController.m in Sources */,
 				26EE730617CFA2A80028639E /* GalleryViewController.m in Sources */,
+				264C85EE17EBA46200E2A09E /* UnderplanBasicLabel.m in Sources */,
 				26659075179EE51E001EFABF /* ActivityListViewController.m in Sources */,
 				26AAAAD517D20FF900944DAC /* UnderplanShortView.m in Sources */,
 				264C85CA17E7543F00E2A09E /* UIImage+ImageEffects.m in Sources */,
 				26EE732117CFC3020028639E /* Gallery.m in Sources */,
 				266590B6179FC5BC001EFABF /* ActivityFeedAnnotation.m in Sources */,
+				264C85E417EB7EFE00E2A09E /* UIViewController+BarColor.m in Sources */,
 				26AAAADD17D3497000944DAC /* UnderplanShortItemCell.m in Sources */,
 				26AAAADA17D347F100944DAC /* UnderplanStoryItemCell.m in Sources */,
 				266590B9179FEC8E001EFABF /* UnderplanUserItemView.m in Sources */,
+				264C85F117EC512200E2A09E /* UnderplanNavigationController.m in Sources */,
 				266590BE17A01447001EFABF /* ActivityViewController.m in Sources */,
 				264C85AF17E7257C00E2A09E /* UnderplanSlideshowButton.m in Sources */,
 				26AAAAE317D431CF00944DAC /* UnderplanCommentItemCell.m in Sources */,
@@ -1058,6 +1103,7 @@
 				26A12C1717CBC876006B619E /* SharedApiClient.m in Sources */,
 				2621FAF917DF50EA00E20D85 /* UnderplanSlideshowController.m in Sources */,
 				264C85DA17E9FA1300E2A09E /* WebViewController.m in Sources */,
+				264C85F417EC7A8100E2A09E /* UnderplanBarBackgroundView.m in Sources */,
 				26EA952017B65429003E31CA /* UnderplanViewController.m in Sources */,
 				26018CFB17CE300600D766A4 /* UnderplanItemDetailsView.m in Sources */,
 				26848EF917B871B90021E247 /* UITabBarController+ShowHideTabBar.m in Sources */,

@@ -87,20 +87,23 @@
     self.tableView.backgroundColor = [UIColor underplanBgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    // Fix the scrollview being behind tabbar
-    if (self.tabBarController) {
-        UIEdgeInsets inset = self.tableView.contentInset;
-        inset.bottom = self.tabBarController.tabBar.frame.size.height;
-        self.tableView.contentInset = inset;
-    }
-    
-    if (self.navigationController) {
-        UIEdgeInsets inset = self.tableView.contentInset;
-        inset.top = self.navigationController.navigationBar.frame.size.height + 20.0f; // 20.0f for the status bar
-        self.tableView.contentInset = inset;
+    if ([self.tabBarController.tabBar respondsToSelector:@selector(barStyle)])
+    {
+        // Fix the scrollview being behind tabbar
+        if (self.tabBarController) {
+            UIEdgeInsets inset = self.tableView.contentInset;
+            inset.bottom = self.tabBarController.tabBar.frame.size.height;
+            self.tableView.contentInset = inset;
+        }
         
-        CGPoint topOffset = CGPointMake(0, -inset.top);
-        [self.tableView setContentOffset:topOffset animated:YES];
+        if (self.navigationController) {
+            UIEdgeInsets inset = self.tableView.contentInset;
+            inset.top = self.navigationController.navigationBar.frame.size.height + 20.0f; // 20.0f for the status bar
+            self.tableView.contentInset = inset;
+            
+            CGPoint topOffset = CGPointMake(0, -inset.top);
+            [self.tableView setContentOffset:topOffset animated:YES];
+        }
     }
     
     [self.view addSubview:self.tableView];

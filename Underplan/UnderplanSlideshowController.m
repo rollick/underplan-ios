@@ -9,6 +9,7 @@
 #import "UnderplanSlideshowController.h"
 #import "UIViewController+ShowHideBars.h"
 #import "UnderplanSlideshowButton.h"
+#import "UIViewController+BarColor.h"
 
 #import "UIColor+Underplan.h"
 
@@ -61,19 +62,16 @@
     [self.photoImage setHidden:NO];
     [self showControlsTemporarily];
     
-    if ([self.navigationController.navigationBar respondsToSelector:@selector(barStyle)])
-    {
-        [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-        [self.tabBarController.tabBar setBarStyle:UIBarStyleBlack];
-        
-        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-        [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
-    }
-    else
-    {
-        [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkMenuColor]];
-        [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkMenuColor]];
-    }
+    [self setDarkBarColor];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [_nextBtn setHidden:YES];
+    [_previousBtn setHidden:YES];
+    [self.photoImage setHidden:YES];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -84,25 +82,6 @@
         return NO;
     } else {
         return YES;
-    }
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [_nextBtn setHidden:YES];
-    [_previousBtn setHidden:YES];
-    [self showBars];
-    [self.photoImage setHidden:YES];
-    
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
-    [self.tabBarController.tabBar setBarStyle:UIBarStyleDefault];
-    
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
-    {
-        [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-        [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
     }
 }
 

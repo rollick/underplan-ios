@@ -12,6 +12,7 @@
 
 #import "UIViewController+UnderplanApiNotifications.h"
 #import "UIViewController+ShowHideBars.h"
+#import "UIViewController+BarColor.h"
 
 #import "UnderplanAppDelegate.h"
 #import "SharedApiClient.h"
@@ -51,6 +52,7 @@
     self.navigationItem.title = @"Underplan";
     
     [self hideBars];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     [self.tableView registerClass:[GroupItemViewCell class] forCellReuseIdentifier:@"Group"];
@@ -86,15 +88,6 @@
     }
 
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:bgName]];
-    
-    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-    [[UITabBar appearance] setTintColor:[UIColor underplanPrimaryColor]];
-    
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
-    {
-        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-        [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
-    }
     
     UIBarButtonItem *reconnectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reconnectSocket)];
     self.navigationItem.rightBarButtonItem = reconnectButton;

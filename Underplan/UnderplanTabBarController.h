@@ -24,6 +24,7 @@
 @property (strong, nonatomic) NSString *activityId;
 @property (strong, nonatomic) NSString *groupId;
 
+- (void)setBarBackgroundTint:(UIColor *)color;
 - (void)addNavBarAction:(NSString *)imageName aController:(UIViewController *)aController actionSelector:(SEL)actionSelector;
 - (void)clearNavBarActions;
 - (void)setBadgeValue:(NSString *)value onController:(id)controller;

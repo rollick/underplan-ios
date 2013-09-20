@@ -10,7 +10,12 @@
 
 #import "GalleryViewController.h"
 #import "UnderplanSlideshowController.h"
+
+#import "UnderplanBasicLabel.h"
+
 #import "UIViewController+ShowHideBars.h"
+#import "UIViewController+BarColor.h"
+
 #import "SharedApiClient.h"
 
 #import "GalleryViewCell.h"
@@ -55,7 +60,7 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
 {
     [super viewDidLoad];
     
-    [self showBars];
+//    [self showBars];
     
     if ([_delegate respondsToSelector:@selector(activity)])
         [self setActivity:[_delegate activity]];
@@ -97,34 +102,14 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
         [self setNeedsStatusBarAppearanceUpdate];
     [self.quiltView setHidden:NO];
-    
-    if ([self.navigationController.navigationBar respondsToSelector:@selector(barStyle)])
-    {
-        [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-        [self.tabBarController.tabBar setBarStyle:UIBarStyleBlack];
-        
-        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-        [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
-    }
-    else
-    {
-        [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkMenuColor]];
-        [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkMenuColor]];
-    }
+    [self showBars];
+
+    [self setDarkBarColor];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barStyle)])
-    {
-        [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
-        [self.tabBarController.tabBar setBarStyle:UIBarStyleDefault];
-    }
-    
-    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-    [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath

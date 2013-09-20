@@ -9,31 +9,70 @@
 #import "UnderplanStoryView.h"
 #import "BannerView.h"
 
-#import <UIColor+HexString.h>
+#import "UIColor+Underplan.h"
 
 @implementation UnderplanStoryView
 
-@synthesize banner;
+- (id)initWithStyle:(StoryStyle)aStyle
+{
+    if (self = [super init])
+    {
+        style = aStyle;
+
+        [self initView];
+    }
+    
+    return self;
+}
 
 - (void) initView
 {
     [super initView];
     
+    NSDictionary *viewsDictionary;
+    NSString *format;
+    
     UITextView *mainText = self.mainText;
     UnderplanItemDetailsView *detailsView = self.detailsView;
     
-    self.banner = [[BannerView alloc] init];
-    [self.banner setBannerBorder:0];
-    [self.banner setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _banner = [[BannerView alloc] init];
+    [_banner setBannerBorder:0];
+    [_banner setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    [self addSubview:self.banner];
+    [self addSubview:_banner];
+
+    _title = [[UILabel alloc] init];
+    NSNumber *titleHeight = @18;
+    _title.font = [UIFont fontWithName:@"OpenSans-Regular" size:[titleHeight integerValue]];
+    _title.text = @"          ......";
+    _title.textColor = [UIColor underplanPrimaryColor];
+    [_title setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView, banner);
+    [self addSubview:_title];
     
-    NSString *format = @"V:|-16-[detailsView]-16-[mainText]-(>=16)-|";
+    if (style == StoryStyleShort)
+    {
+        NSNumber *continueHeight = @14;
+        _continueLabel = [[UILabel alloc] init];
+        _continueLabel.font = [UIFont fontWithName:@"OpenSans-Light" size:[continueHeight integerValue]];
+        _continueLabel.text = @"Continue reading →";
+        _continueLabel.textColor = [UIColor underplanPrimaryColor];
+        [_continueLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        
+        [self addSubview:_continueLabel];
+
+        viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView, _banner, _title, _continueLabel);
+        format = @"V:|-16-[detailsView]-18-[_title(titleHeight)]-6-[mainText]-[_continueLabel]-(>=16)-|";
+    }
+    else
+    {
+        viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView, _banner, _title);
+        format = @"V:|-16-[detailsView]-16-[_title(titleHeight)]-5-[mainText]-(>=16)-|";
+    }
+    
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                  options:NSLayoutFormatAlignAllLeft
-                                                                 metrics:nil
+                                                                 metrics:@{@"titleHeight": titleHeight}
                                                                    views:viewsDictionary]];
 }
 

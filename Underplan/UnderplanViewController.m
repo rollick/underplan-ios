@@ -8,8 +8,10 @@
 
 #import "UnderplanViewController.h"
 #import "UIViewController+UnderplanApiNotifications.h"
+#import "UIViewController+BarColor.h"
 
 #import "UnderplanApiClient.h"
+#import "UIColor+Underplan.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -47,6 +49,7 @@
 
     [self configureStandardApiNotifications];
     [self resetNavigationBarPosition];
+    [self setDefaultBarColor];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

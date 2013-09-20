@@ -16,6 +16,7 @@
 #import "UITabBarController+ShowHideTabBar.h"
 #import "UIViewController+UnderplanApiNotifications.h"
 #import "SharedApiClient.h"
+#import "UnderplanBasicLabel.h"
 
 #import "User.h"
 #import "Activity.h"
@@ -71,6 +72,11 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
                                                      name:@"feedActivities_ready"
                                                    object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveApiUpdate:)
+                                                     name:@"activities_removed"
+                                                   object:nil];
+        
         [self addObserver:self
                forKeyPath:@"loading"
                   options:NSKeyValueObservingOptionNew
@@ -82,6 +88,11 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 
 -(void)reloadData
 {
+    if ([self.computedList count] > 0)
+        [UnderplanBasicLabel removeFrom:self.view];
+    else
+        [UnderplanBasicLabel addTo:self.view text:@"No Activities :-("];
+    
     [self.tableView reloadData];
 }
 
@@ -164,7 +175,13 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 
 - (void)didReceiveApiUpdate:(NSNotification *)notification
 {
-    if([[notification name] isEqualToString:@"feedActivities_ready"])
+    // If the feed subscription is ready or an activity is added/removed/changed for the current group
+    if (([[notification name] isEqualToString:@"feedActivities_ready"]) ||
+        (
+          [[notification userInfo][@"group"] isEqualToString:_group.remoteId] &&
+          [@[@"changed", @"added"] containsObject:[notification name]]
+        ) ||
+        [[notification name] isEqualToString:@"activities_removed"])
     {
         if (limit > [self.computedList count]) {
             complete = YES;
@@ -249,6 +266,9 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     // Set the owners name as the title
     cell.detailsView.title.text = owner.profile[@"name"];
 
+    if ([activity.type isEqualToString:@"story"])
+        [cell.title setText:activity.title];
+    
     // Set the owners profile picture
     NSString *profileImageUrl = [owner profileImageUrl:@75];
     

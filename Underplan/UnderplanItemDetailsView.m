@@ -10,8 +10,6 @@
 
 @implementation UnderplanItemDetailsView
 
-@synthesize image, subTitle, title;
-
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if(self = [super initWithCoder:aDecoder]) {
@@ -31,30 +29,30 @@
 
 - (void)initView
 {
-    image = [[UIImageView alloc] init];
-    [image setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _image = [[UIImageView alloc] init];
+    [_image setTranslatesAutoresizingMaskIntoConstraints:NO];
 //    self.image.backgroundColor = [UIColor yellowColor];
     
-    [self addSubview:image];
+    [self addSubview:_image];
     
-    title = [[UILabel alloc] init];
-    [subTitle setFont:[UIFont fontWithName:@"Roboto-Medium" size:14]];
-    [title setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _title = [[UILabel alloc] init];
+    [_subTitle setFont:[UIFont fontWithName:@"Roboto-Medium" size:14]];
+    [_title setTranslatesAutoresizingMaskIntoConstraints:NO];
 //    self.title.backgroundColor = [UIColor blueColor];
     
-    [self addSubview:title];
+    [self addSubview:_title];
 
-    subTitle = [[UILabel alloc] init];
-    [subTitle setFont:[UIFont fontWithName:@"Roboto-Light" size:12]];
-    [subTitle setTranslatesAutoresizingMaskIntoConstraints:NO];
-    subTitle.textColor = [UIColor grayColor];
+    _subTitle = [[UILabel alloc] init];
+    [_subTitle setFont:[UIFont fontWithName:@"Roboto-Light" size:12]];
+    [_subTitle setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _subTitle.textColor = [UIColor grayColor];
 
-    [self addSubview:subTitle];
+    [self addSubview:_subTitle];
     
     // Get the views dictionary
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(image, title, subTitle);
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_image, _subTitle, _title);
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:image
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_image
                                                      attribute:NSLayoutAttributeHeight
                                                      relatedBy:NSLayoutRelationEqual
                                                         toItem:nil
@@ -62,7 +60,7 @@
                                                     multiplier:1
                                                       constant:52]];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:image
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_image
                                                      attribute:NSLayoutAttributeWidth
                                                      relatedBy:NSLayoutRelationEqual
                                                         toItem:nil
@@ -70,11 +68,11 @@
                                                     multiplier:1
                                                       constant:52]];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[image]-8-[title]-0-|"
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[_image]-8-[_title]-0-|"
                                                                  options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil
                                                                    views:viewsDictionary]];
 
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:title
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_title
                                                      attribute:NSLayoutAttributeHeight
                                                      relatedBy:NSLayoutRelationEqual
                                                         toItem:nil
@@ -82,7 +80,7 @@
                                                     multiplier:1
                                                       constant:28]];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:subTitle
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_subTitle
                                                      attribute:NSLayoutAttributeHeight
                                                      relatedBy:NSLayoutRelationEqual
                                                         toItem:nil
@@ -90,12 +88,12 @@
                                                     multiplier:1
                                                       constant:18]];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(2)-[title]-(2)-[subTitle]-(2)-|"
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(2)-[_title]-(2)-[_subTitle]-(2)-|"
                                                                  options:NSLayoutFormatAlignAllLeft|NSLayoutFormatAlignAllRight
                                                                  metrics:nil
                                                                    views:viewsDictionary]];
 
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[image]-(8)-[title]-|"
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[_image]-(8)-[_title]-|"
                                                                  options:NSLayoutFormatAlignAllTop
                                                                  metrics:nil
                                                                    views:viewsDictionary]];

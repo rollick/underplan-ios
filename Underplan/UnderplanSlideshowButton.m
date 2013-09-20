@@ -46,13 +46,11 @@
     
     self = [self initWithFrame:frame];
 
-    self.layer.backgroundColor = [UIColor underplanBgColor].CGColor;
+    self.layer.backgroundColor = [UIColor underplanGroupCellColor].CGColor;
     [image applyExtraLightEffect];
     self.image = image;
-//    self.tintColor = [UIColor underplanPrimaryColor];
     self.opaque = NO;
-    self.opaque = NO;
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor underplanGroupCellColor];
     // Make it invisible for now
     self.alpha = 0.8f;
     self.contentMode = UIViewContentModeScaleAspectFill;

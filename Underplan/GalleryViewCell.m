@@ -7,6 +7,7 @@
 //
 
 #import "GalleryViewCell.h"
+//#import "UITableViewCell+FixUITableViewCellAutoLayout.h"
 
 #import "UIColor+Underplan.h"
 
@@ -21,7 +22,7 @@ const CGFloat kTMPhotoQuiltViewMargin = 2;
 {
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor underplanCellBgColor];
+        self.backgroundColor = [UIColor underplanDarkMenuColor];
     }
     return self;
 }
@@ -50,6 +51,8 @@ const CGFloat kTMPhotoQuiltViewMargin = 2;
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
+    
     self.photoView.frame = CGRectInset(self.bounds, 2, 2);
     self.titleLabel.frame = CGRectMake(kTMPhotoQuiltViewMargin, self.bounds.size.height - 20 - kTMPhotoQuiltViewMargin,
                                        self.bounds.size.width - 2 * kTMPhotoQuiltViewMargin, 20);

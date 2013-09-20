@@ -7,8 +7,14 @@
 //
 
 #import "UnderplanTabBarController.h"
+
+#import "UnderplanBarBackgroundView.h"
+
 #import "UIViewController+UnderplanApiNotifications.h"
 #import "UIViewController+ShowHideBars.h"
+#import "UIViewController+BarColor.h"
+
+#import "UIColor+Underplan.h"
 
 @interface UnderplanTabBarController ()
 
@@ -75,8 +81,29 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+	// Add nicer translucent tint
+    [self setBarBackgroundTint:[UIColor underplanDarkMenuColor]];
+
     [self showBars];
+}
+
+- (void)setBarBackgroundTint:(UIColor *)color
+{
+    [self setBarBackgroundTint:color withFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height)];
+}
+
+- (void)setBarBackgroundTint:(UIColor *)color withFrame:(CGRect)frame
+{
+    UnderplanBarBackgroundView *colourView = [[UnderplanBarBackgroundView alloc] initWithFrame:frame];
+    
+    colourView.opaque = NO;
+    colourView.alpha = .7f;
+    UIColor *barColour = color;
+    colourView.backgroundColor = color;
+    self.tabBar.barTintColor = barColour;
+
+    [self.tabBar.layer insertSublayer:colourView.layer atIndex:1];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -86,8 +113,9 @@
     // Configure api notifications manually as this class
     // isn't extending the UnderplanViewController class
     [self configureStandardApiNotifications];
-    
     [self configureApiSubscriptions];
+    
+//    [self setDefaultBarColor];
 }
 
 - (void)didReceiveMemoryWarning

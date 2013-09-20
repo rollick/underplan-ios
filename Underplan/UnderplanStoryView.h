@@ -9,8 +9,20 @@
 #import "UnderplanUserItemView.h"
 #import "BannerView.h"
 
+typedef enum StoryStyle {
+    StoryStyleLong,
+    StoryStyleShort,
+} StoryStyle;
+
 @interface UnderplanStoryView : UnderplanUserItemView
+{
+    StoryStyle style;
+}
 
 @property (retain, nonatomic) BannerView *banner;
+@property (retain, nonatomic) UILabel *title;
+@property (retain, nonatomic) UILabel *continueLabel;
+
+- (id)initWithStyle:(StoryStyle)aStyle;
 
 @end

@@ -7,8 +7,9 @@
 //
 
 #import "UnderplanStoryItemCell.h"
-
 #import "UnderplanStoryView.h"
+
+#import "UIColor+Underplan.h"
 
 @implementation UnderplanStoryItemCell
 
@@ -16,11 +17,12 @@
 {
     [super initView];
     
-    self.mainView = [[UnderplanStoryView alloc] init];
+    self.mainView = [[UnderplanStoryView alloc] initWithStyle:StoryStyleShort];
     self.contentImage = self.mainView.contentImage;
     self.detailsView = self.mainView.detailsView;
     self.mainText = self.mainView.mainText;
-        
+    self.title = self.mainView.title;
+    
     [self.containerView addSubview:self.mainView];
 }
 
@@ -62,6 +64,7 @@
             height + // self.mainText.frame.size.height +
             16 +
             80 +
+            36 +
             BOTTOM_BORDER_SIZE;
 }
 

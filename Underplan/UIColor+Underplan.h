@@ -24,5 +24,7 @@
 + (UIColor *)underplanPrimaryDarkColor;
 + (UIColor *)underplanDarkMenuColor;
 + (UIColor *)underplanDarkMenuFontColor;
++ (UIColor *)underplanDarkTextColor;
++ (UIColor *)underplanPrimaryTextColor;
 
 @end
