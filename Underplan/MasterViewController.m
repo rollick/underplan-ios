@@ -77,18 +77,18 @@
     
     self.view = [[UIView alloc] init];
     NSString *bgName;
-//    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
-//    if (screenHeight > 480)
-//    {
-//        bgName = @"bg_iphone5.png";
-//    }
-//    else
-//    {
-//        bgName = @"bg_iphone4.png";
-//    }
-//
-//    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:bgName]];
-//    
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    if (screenHeight > 480)
+    {
+        bgName = @"bg_iphone5.png";
+    }
+    else
+    {
+        bgName = @"bg_iphone4.png";
+    }
+
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:bgName]];
+    
     UIBarButtonItem *reconnectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reconnectSocket)];
     self.navigationItem.rightBarButtonItem = reconnectButton;
     
