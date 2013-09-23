@@ -1,5 +1,5 @@
 platform :ios, '6.1'
-pod 'ObjectiveDDP', :git => 'https://github.com/rollick/ObjectiveDDP.git', :commit => '71365bb'
+pod 'ObjectiveDDP', :git => 'https://github.com/rollick/ObjectiveDDP.git', :commit => '57d2154'
 pod 'SocketRocket', :head
 pod 'FlatUIKit'
 pod 'SDWebImage'
@@ -8,6 +8,7 @@ pod 'SBJson', '3.1'
 pod 'UIColor-HexString'
 pod 'TMQuiltView'
 pod 'MBProgressHUD'
+pod 'MosaicLayout', :git => 'https://github.com/rollick/MosaicLayout.git'
 
 #pod 'ShareKit/Facebook'
 #pod 'ASMediaFocusManager', :git => 'https://github.com/rollick/ASMediaFocusManager.git'

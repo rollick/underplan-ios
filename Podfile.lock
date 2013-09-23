@@ -1,4 +1,5 @@
 PODS:
+  - AFNetworking (1.3.2)
   - ASIHTTPRequest (1.8.1):
     - ASIHTTPRequest/ASIWebPageRequest
     - ASIHTTPRequest/CloudFiles
@@ -20,7 +21,9 @@ PODS:
   - libwebp/dsp (0.3.0-rc7)
   - libwebp/utils (0.3.0-rc7)
   - libwebp/webp (0.3.0-rc7)
-  - MBProgressHUD (0.7)
+  - MBProgressHUD (0.8)
+  - MosaicLayout (0.0.1):
+    - AFNetworking (~> 1.3.2)
   - ObjectiveDDP (0.0.26)
   - Reachability (3.1.1)
   - SBJson (3.1)
@@ -37,6 +40,7 @@ DEPENDENCIES:
   - ASIHTTPRequest
   - FlatUIKit
   - MBProgressHUD
+  - MosaicLayout (from `https://github.com/rollick/MosaicLayout.git`)
   - ObjectiveDDP (from `https://github.com/rollick/ObjectiveDDP.git`, commit `57d2154`)
   - SBJson (= 3.1)
   - SDWebImage
@@ -45,15 +49,19 @@ DEPENDENCIES:
   - UIColor-HexString
 
 EXTERNAL SOURCES:
+  MosaicLayout:
+    :git: https://github.com/rollick/MosaicLayout.git
   ObjectiveDDP:
     :commit: 57d2154
     :git: https://github.com/rollick/ObjectiveDDP.git
 
 SPEC CHECKSUMS:
+  AFNetworking: 7f9bcd7c287a75476cd5c61e82fd3380e93e4c54
   ASIHTTPRequest: a411b8d0f006ed8fc24248be6a0c4ad2abc9b101
   FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
   libwebp: 40517fa1fd3716eded73b4696c45fc0b66e4b414
-  MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
+  MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
+  MosaicLayout: 39425652bcc33265b42ad5ea67386800c61acb16
   ObjectiveDDP: 0c1544bb4478494911b1e6a54b257ae48b7c7a50
   Reachability: 2be6bc2fd2bd31d97f5db33e75e4b29c79e95883
   SBJson: 0c76c1e4ec7c4fbf9c9c0d9fa78cb3c5743cbe9a
