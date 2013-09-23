@@ -22,10 +22,10 @@
 @property (retain, nonatomic) UIView *containerView;
 @property (retain, nonatomic) UIView *underLineView;
 
-@property (assign, nonatomic) UnderplanItemDetailsView *detailsView;
-@property (assign, nonatomic) UITextView *mainText;
-@property (assign, nonatomic) UIImageView *contentImage;
-@property (assign, nonatomic) UILabel *title;
+@property (retain, nonatomic) UnderplanItemDetailsView *detailsView;
+@property (retain, nonatomic) UITextView *mainText;
+@property (retain, nonatomic) UIImageView *contentImage;
+@property (retain, nonatomic) UILabel *title;
 
 - (void)initView;
 - (int)cellHeight:(NSString *)text;

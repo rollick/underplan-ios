@@ -25,6 +25,11 @@
     return true;
 }
 
+//- (User *)profile
+//{
+//    return [[Profile alloc] initWithData:self.profile];
+//}
+
 - (NSString *)profileImageUrl:(NSNumber *)size
 {
     // Set the owners profile picture

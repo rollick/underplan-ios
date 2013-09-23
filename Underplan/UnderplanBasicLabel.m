@@ -8,6 +8,8 @@
 
 #import "UnderplanBasicLabel.h"
 
+#import "UIColor+Underplan.h"
+
 @implementation UnderplanBasicLabel
 
 + (id)addTo:(UIView *)aView text:(NSString *)someText
@@ -17,9 +19,12 @@
     
     UnderplanBasicLabel *label = [[self alloc] init];
     label.text = someText;
-//    label.frame = CGRectMake(0, 0, 100, 20);
+    
+    CGColorRef blackColorRef = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f].CGColor;
+    CGColorRef layerColor = aView.layer.backgroundColor;
+    if (CGColorEqualToColor(layerColor, blackColorRef))
+        label.textColor = [UIColor whiteColor];
 
-//    label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [label setTranslatesAutoresizingMaskIntoConstraints:NO];
 
     [aView addSubview:label];

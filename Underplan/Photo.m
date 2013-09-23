@@ -47,4 +47,9 @@
     self.fitWidth = data[[NSString stringWithFormat: @"path%.fx%.f", screenWidth, screenWidth]];
 }
 
+- (NSDictionary *)mosaicData
+{
+    return @{@"title": self.title, @"imageFilename": self.small};
+}
+
 @end

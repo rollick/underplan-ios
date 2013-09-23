@@ -8,20 +8,30 @@
 
 #import <UIKit/UIKit.h>
 
-#import "TMQuiltViewController.h"
-#import "TMQuiltView.h"
+#import "MosaicLayoutDelegate.h"
+
 #import "UnderplanGalleryDelegate.h"
 
 #import "Activity.h"
 #import "Group.h"
 #import "Gallery.h"
+#import "GalleryDataSource.h"
 
-@interface GalleryViewController : TMQuiltViewController <UIPopoverControllerDelegate, UnderplanGalleryDelegate>
+#import <MosaicLayout.h>
+
+#define kColumnsiPadLandscape 5
+#define kColumnsiPadPortrait 4
+#define kColumnsiPhoneLandscape 3
+#define kColumnsiPhonePortrait 2
+
+@interface GalleryViewController : UIViewController <UICollectionViewDelegate, MosaicLayoutDelegate, UnderplanGalleryDelegate>
 
 @property (retain, nonatomic) UIPopoverController *aPopoverController;
 @property (copy, nonatomic) NSString *searchTags;
 @property (retain, nonatomic) Gallery *gallery;
-//@property (strong, nonatomic) ASMediaFocusManager *mediaFocusManager;
 @property (assign, nonatomic) id delegate;
+@property (strong, nonatomic) MosaicLayout *collectionViewLayout;
+@property (retain, nonatomic) UICollectionView *collectionView;
+@property (retain, nonatomic) GalleryDataSource *galleryDataSource;
 
 @end

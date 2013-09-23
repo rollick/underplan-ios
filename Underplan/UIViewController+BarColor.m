@@ -16,18 +16,13 @@
 {
     if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)])
     {
+//        [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
         [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkTextColor]];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor underplanDarkMenuColor]];
+
+//        [self.tabBarController.tabBar setBarStyle:UIBarStyleDefault];
         [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkTextColor]];
-
-        if ([self.navigationController respondsToSelector:@selector(setBarBackgroundTint:)])
-            [self.navigationController performSelector:@selector(setBarBackgroundTint:) withObject:[UIColor underplanDarkMenuColor] afterDelay:0];
-        else
-            [self.navigationController.navigationBar setBarTintColor:[UIColor underplanDarkMenuColor]];
-
-        if ([self.tabBarController respondsToSelector:@selector(setBarBackgroundTint:)])
-            [self.tabBarController performSelector:@selector(setBarBackgroundTint:) withObject:[UIColor underplanDarkMenuColor] afterDelay:0];
-        else
-            [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
+        [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
         
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     }
@@ -42,20 +37,15 @@
 {
     if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)])
     {
+//        [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
         [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryTextColor]];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor underplanPrimaryColor]];
+
+//        [self.tabBarController.tabBar setBarStyle:UIBarStyleDefault];
         [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkTextColor]];
-
-        if ([self.navigationController respondsToSelector:@selector(setBarBackgroundTint:)])
-            [self.navigationController performSelector:@selector(setBarBackgroundTint:) withObject:[UIColor underplanPrimaryColor] afterDelay:0];
-        else
-            [self.navigationController.navigationBar setBarTintColor:[UIColor underplanPrimaryColor]];
-
-        if ([self.tabBarController respondsToSelector:@selector(setBarBackgroundTint:)])
-            [self.tabBarController performSelector:@selector(setBarBackgroundTint:) withObject:[UIColor underplanDarkMenuColor] afterDelay:0];
-        else
-            [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
+        [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
         
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     }
     else
     {

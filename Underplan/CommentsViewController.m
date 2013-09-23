@@ -8,6 +8,7 @@
 
 #import "CommentsViewController.h"
 #import "SharedApiClient.h"
+#import "UnderplanBasicLabel.h"
 
 #import "UnderplanCommentItemCell.h"
 #import "UIViewController+UnderplanApiNotifications.h"
@@ -70,12 +71,6 @@
 {
     [super viewDidLoad];
     
-    if (_delegate)
-    {
-        _activity = [_delegate currentActivity];
-        [self setCommentsByActivityId:_activity.remoteId];
-    }
-    
     self.view = [[UIView alloc] init];
     self.tableView = [[UITableView alloc] init];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -107,6 +102,12 @@
     }
     
     [self.view addSubview:self.tableView];
+    
+    if (_delegate)
+    {
+        _activity = [_delegate currentActivity];
+        [self setCommentsByActivityId:_activity.remoteId];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -165,6 +166,12 @@
     }];
     
     [_delegate updateBadgeCount:self count:[_comments count]];
+    
+    if ([_comments count] > 0)
+        [UnderplanBasicLabel removeFrom:self.view];
+    else
+        [UnderplanBasicLabel addTo:self.view text:@"No Comments"];
+
     [self.tableView reloadData];
 }
 

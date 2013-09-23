@@ -51,7 +51,7 @@
     url = [url stringByReplacingOccurrencesOfString:@"<albumKey>" withString:_trovebox[@"albumKey"]];
     url = [url stringByReplacingOccurrencesOfString:@"<returnSizes>" withString:@"180x180,320x320,640x640,1024x1024,1600x1600"];
     
-    if (tags && ![tags isEqualToString:@"-1"])
+    if (tags && ![tags isKindOfClass:[NSNull class]] && ![tags isEqualToString:@"-1"])
         url = [url stringByAppendingString:[[NSString alloc] initWithFormat:@"&tags=%@",tags]];
     
     if (page)
@@ -132,9 +132,9 @@
     }
     _numberOfPhotos = [_photos count];
     
-    // TODO: 10 is the default pageSize for Trovebox but this should be
+    // TODO: 30 is the default pageSize for Trovebox but this should be
     //       defined in the class / instance and used here
-    return [newResults count] < 10;
+    return [newResults count] < 30;
 }
 
 - (Boolean)loadNextPage

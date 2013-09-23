@@ -10,6 +10,8 @@
 
 #import "UnderplanGroupAwareDelegate.h"
 
+#import "UnderplanBarBackgroundView.h"
+
 #import "Activity.h"
 #import "Group.h"
 
@@ -18,13 +20,13 @@
     NSArray *tabBarImageNames;
 }
 
+@property (retain, nonatomic) UnderplanBarBackgroundView *colourView;
 @property (strong, nonatomic) Activity *activity;
 @property (strong, nonatomic) Group *group;
 @property (strong, nonatomic) NSArray *comments;
 @property (strong, nonatomic) NSString *activityId;
 @property (strong, nonatomic) NSString *groupId;
 
-- (void)setBarBackgroundTint:(UIColor *)color;
 - (void)addNavBarAction:(NSString *)imageName aController:(UIViewController *)aController actionSelector:(SEL)actionSelector;
 - (void)clearNavBarActions;
 - (void)setBadgeValue:(NSString *)value onController:(id)controller;

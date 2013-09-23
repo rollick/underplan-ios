@@ -35,31 +35,31 @@
     UITextView *mainText = self.mainText;
     UnderplanItemDetailsView *detailsView = self.detailsView;
     
-    _banner = [[BannerView alloc] init];
-    [_banner setBannerBorder:0];
-    [_banner setTranslatesAutoresizingMaskIntoConstraints:NO];
+    self.banner = [[BannerView alloc] init];
+    [self.banner setBannerBorder:0];
+    [self.banner setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     [self addSubview:_banner];
 
-    _title = [[UILabel alloc] init];
+    self.title = [[UILabel alloc] init];
     NSNumber *titleHeight = @18;
-    _title.font = [UIFont fontWithName:@"OpenSans-Regular" size:[titleHeight integerValue]];
-    _title.text = @"          ......";
-    _title.textColor = [UIColor underplanPrimaryColor];
-    [_title setTranslatesAutoresizingMaskIntoConstraints:NO];
+    self.title.font = [UIFont fontWithName:@"OpenSans-Regular" size:[titleHeight integerValue]];
+    self.title.text = @"          ......";
+    self.title.textColor = [UIColor underplanPrimaryColor];
+    [self.title setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    [self addSubview:_title];
+    [self addSubview:self.title];
     
     if (style == StoryStyleShort)
     {
         NSNumber *continueHeight = @14;
-        _continueLabel = [[UILabel alloc] init];
-        _continueLabel.font = [UIFont fontWithName:@"OpenSans-Light" size:[continueHeight integerValue]];
-        _continueLabel.text = @"Continue reading →";
-        _continueLabel.textColor = [UIColor underplanPrimaryColor];
-        [_continueLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        self.continueLabel = [[UILabel alloc] init];
+        self.continueLabel.font = [UIFont fontWithName:@"OpenSans-Light" size:[continueHeight integerValue]];
+        self.continueLabel.text = @"Continue reading →";
+        self.continueLabel.textColor = [UIColor underplanPrimaryColor];
+        [self.continueLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
         
-        [self addSubview:_continueLabel];
+        [self addSubview:self.continueLabel];
 
         viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView, _banner, _title, _continueLabel);
         format = @"V:|-16-[detailsView]-18-[_title(titleHeight)]-6-[mainText]-[_continueLabel]-(>=16)-|";

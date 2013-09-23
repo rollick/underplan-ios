@@ -91,9 +91,9 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     if ([self.computedList count] > 0)
         [UnderplanBasicLabel removeFrom:self.view];
     else
-        [UnderplanBasicLabel addTo:self.view text:@"No Activities :-("];
+        [UnderplanBasicLabel addTo:self.view text:@"No Activities"];
     
-    [self.tableView reloadData];
+    [_tableView reloadData];
 }
 
 - (void)viewDidLoad
@@ -104,17 +104,17 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
         _group = [_delegate currentGroup];
     
     self.view = [[UIView alloc] init];
-    self.tableView = [[UITableView alloc] init];
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    self.tableView.showsVerticalScrollIndicator = NO;
-    self.tableView.showsHorizontalScrollIndicator = NO;
+    _tableView = [[UITableView alloc] init];
+    _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    _tableView.showsVerticalScrollIndicator = NO;
+    _tableView.showsHorizontalScrollIndicator = NO;
     
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
 
     self.view.backgroundColor = [UIColor underplanBgColor];
-    self.tableView.backgroundColor = [UIColor underplanBgColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.backgroundColor = [UIColor underplanBgColor];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
@@ -122,14 +122,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
         self.automaticallyAdjustsScrollViewInsets = YES;
     
-    // Fix the scrollview being behind tabbar
-    if (self.tabBarController) {
-        UIEdgeInsets inset = self.tableView.contentInset;
-        inset.bottom = self.tabBarController.tabBar.frame.size.height;
-        self.tableView.contentInset = inset;
-    }
-    
-    [self.view addSubview:self.tableView];
+    [self.view addSubview:_tableView];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -147,7 +140,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 }
 
 - (NSArray *)computedList {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", self.group.remoteId];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", _group.remoteId];
 
     // Filter for current group
     NSArray *filteredList = [[SharedApiClient getClient].collections[@"activities"] filteredArrayUsingPredicate:pred];
@@ -166,11 +159,11 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     self.navigationItem.title = @"Activities";
     [self configureApiSubscriptions];
     
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:YES];
     
     // Register cell classes
-    [self.tableView registerClass:[UnderplanShortItemCell class] forCellReuseIdentifier:@"Short"];
-    [self.tableView registerClass:[UnderplanStoryItemCell class] forCellReuseIdentifier:@"Story"];
+    [_tableView registerClass:[UnderplanShortItemCell class] forCellReuseIdentifier:@"Short"];
+    [_tableView registerClass:[UnderplanStoryItemCell class] forCellReuseIdentifier:@"Story"];
 }
 
 - (void)didReceiveApiUpdate:(NSNotification *)notification
@@ -214,7 +207,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 
 -(void)dealloc
 {
-    self.tableView.delegate = nil;
+    _tableView.delegate = nil;
     
     [self removeObserver:self forKeyPath:@"loading"];
 }
@@ -235,13 +228,21 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     NSDictionary *activityData = self.computedList[indexPath.row];
     Activity *activity = [[Activity alloc] initWithId:activityData[@"_id"]];
     
-    if ([activity.type isEqualToString:@"story"]) {
-        UnderplanStoryItemCell *tempCell = [[UnderplanStoryItemCell alloc] init];
-        return [tempCell cellHeight:activity.summaryText];
-    } else
+    // If activity has fully loaded
+    if (activity.summaryText)
     {
-        UnderplanShortItemCell *tempCell = [[UnderplanShortItemCell alloc] init];
-        return [tempCell cellHeight:activity.summaryText];
+        if ([activity.type isEqualToString:@"story"]) {
+            UnderplanStoryItemCell *tempCell = [[UnderplanStoryItemCell alloc] init];
+            return [tempCell cellHeight:activity.summaryText];
+        } else
+        {
+            UnderplanShortItemCell *tempCell = [[UnderplanShortItemCell alloc] init];
+            return [tempCell cellHeight:activity.summaryText];
+        }
+    }
+    else
+    {
+        return 0;
     }
 }
 
@@ -325,7 +326,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    NSArray *visibleCells = [self.tableView visibleCells];
+    NSArray *visibleCells = [_tableView visibleCells];
     [visibleCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UnderplanTableViewCell *cell = (UnderplanTableViewCell *)obj;
         Activity *activity = [[Activity alloc] initWithId:cell.itemId];
@@ -345,7 +346,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showActivity"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSIndexPath *indexPath = [_tableView indexPathForSelectedRow];
         NSDictionary *object = self.computedList[indexPath.row];
 
         id controller = [segue destinationViewController];

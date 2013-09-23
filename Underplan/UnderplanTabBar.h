@@ -1,5 +1,5 @@
 //
-//  UnderplanNavigationController.h
+//  UnderplanTabBar.h
 //  Underplan
 //
 //  Created by Mark Gallop on 20/09/13.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "UnderplanBarBackgroundView.h"
-
-@interface UnderplanNavigationController : UINavigationController
+@interface UnderplanTabBar : UITabBar
 
 @end

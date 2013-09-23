@@ -8,7 +8,10 @@
 
 #import "ActivityMapViewController.h"
 #import "ActivityFeedAnnotation.h"
+#import "ActivityTabBarController.h"
+
 #import "UIViewController+UnderplanApiNotifications.h"
+
 #import "SharedApiClient.h"
 
 #import "UIColor+Underplan.h"
@@ -39,7 +42,8 @@
                                                    object:nil];
         
         MKCoordinateRegion worldRegion = MKCoordinateRegionForMapRect(MKMapRectWorld);
-        _feedMapView.region = worldRegion;
+        self.feedMapView.region = worldRegion;
+        
     }
     
     return self;
@@ -93,7 +97,7 @@
 //    UIBarButtonItem *zoomToFitButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"arrow_out.png"] style:UIBarButtonItemStylePlain target:self action:@selector(zoomMapViewToFitAnnotations)];
 //    self.navigationItem.rightBarButtonItem = zoomToFitButton;
     
-    [self zoomMapViewToFitAnnotations:_feedMapView animated:YES];
+//    [self zoomMapViewToFitAnnotations:_feedMapView animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -164,48 +168,87 @@
 -(void)reloadData
 {
     // TODO: do this once loading subscription has completed
-    if([self.computedList count] != 0) {
-        
+    for(NSDictionary *activityData in self.computedList)
+    {
         // Annotate the map
-        NSMutableArray * activityLocations = [[NSMutableArray alloc] init];
-        CLLocationCoordinate2D activityLocation;
-        ActivityFeedAnnotation * activityAnnotation;
-        NSString *title;
-        NSString *subtitle;
-        
-        for(NSDictionary *activity in self.computedList)
+        Activity *activity = [[Activity alloc] initWithId:activityData[@"_id"]];
+        ActivityFeedAnnotation *activityAnnotation = [[ActivityFeedAnnotation alloc] initWithActivity:activity];
+            
+        [self.feedMapView addAnnotation:activityAnnotation];
+    }
+}
+
+#pragma mark - MKMapViewDelegate
+
+// user tapped the disclosure button in the callout
+//
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    // here we illustrate how to detect which annotation type was clicked on for its callout
+    id <MKAnnotation> annotation = [view annotation];
+    if ([annotation isKindOfClass:[ActivityFeedAnnotation class]])
+    {
+        [self performSegueWithIdentifier:@"showActivity" sender:annotation];
+    }
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(ActivityFeedAnnotation <MKAnnotation>*)annotation
+{
+//    CLLocationCoordinate2D activityLocation;
+    // try to dequeue an existing pin view first
+    static NSString *FeedAnnotationIdentifier = @"feedAnnotationIdentifier";
+    
+    MKPinAnnotationView *pinView =
+    (MKPinAnnotationView *) [_feedMapView dequeueReusableAnnotationViewWithIdentifier:FeedAnnotationIdentifier];
+    if (pinView == nil)
+    {
+        // if an existing pin view was not available, create one
+        MKPinAnnotationView *customPinView = [[MKPinAnnotationView alloc]
+                                              initWithAnnotation:annotation reuseIdentifier:FeedAnnotationIdentifier];
+        if ([[annotation activity].type isEqualToString:@"story"]) {
+            customPinView.pinColor = MKPinAnnotationColorGreen;
+        }
+        else
         {
-            activityAnnotation = [[ActivityFeedAnnotation alloc] init];
-            
-            activityLocation.latitude = [activity[@"lat"] floatValue];
-            activityLocation.longitude = [activity[@"lng"] floatValue];
-            
-            activityAnnotation.coordinate = activityLocation;
-            
-            if([activity[@"title"] isKindOfClass:[NSString class]])
-            {
-                title = activity[@"title"];
-                activityAnnotation.title = title;
-            }
-            else
-            {
-                activityAnnotation.title = @"Testing";
-            }
-            
-            if([activity[@"city"] isKindOfClass:[NSString class]])
-            {
-                subtitle = activity[@"city"];
-                activityAnnotation.subtitle = subtitle;
-            }
-            else
-            {
-                activityAnnotation.subtitle = @"Sub Testing";
-            }
-            
-            [activityLocations addObject:activityAnnotation];
+            customPinView.pinColor = MKPinAnnotationColorRed;
         }
         
-        [self.feedMapView addAnnotations:activityLocations];
+        customPinView.animatesDrop = YES;
+        customPinView.canShowCallout = YES;
+        
+        // add a detail disclosure button to the callout which will open a new view controller page
+        //
+        // note: when the detail disclosure button is tapped, we respond to it via:
+        //       calloutAccessoryControlTapped delegate method
+        //
+        // by using "calloutAccessoryControlTapped", it's a convenient way to find out which annotation was tapped
+        //
+        UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        [rightButton addTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+        customPinView.rightCalloutAccessoryView = rightButton;
+        
+        return customPinView;
+    }
+    else
+    {
+        pinView.annotation = annotation;
+    }
+    
+    return pinView;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showActivity"]) {
+        Activity *activity = [sender activity];
+        
+        id controller = [segue destinationViewController];
+        if ([controller respondsToSelector:@selector(activity)]) {
+            [controller setValue:activity forKey:@"activity"];
+        }
+        if ([controller respondsToSelector:@selector(group)]) {
+            [controller setValue:activity.group forKey:@"group"];
+        }
     }
 }
 

@@ -16,7 +16,7 @@
 #import "Group.h"
 #import "Activity.h"
 
-@interface ActivityMapViewController : UnderplanViewController
+@interface ActivityMapViewController : UnderplanViewController <MKMapViewDelegate>
 
 @property (retain, nonatomic) Group *group;
 @property (retain, nonatomic) Activity *activity;

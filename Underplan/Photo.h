@@ -20,5 +20,6 @@
 
 - (id)initWithFirstMatchByTagAndTrovebox:(NSString *)tags trovebox:(NSDictionary *)trovebox;
 - (id)initWithData:(NSDictionary *)data;
+- (NSDictionary *)mosaicData;
 
 @end

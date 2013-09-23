@@ -29,6 +29,13 @@
     self.groupId = data_[@"group"];
     self.type = data_[@"type"];
     self.title = data_[@"title"];
+    self.latitude = data_[@"lat"];
+
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    self.latitude = [formatter numberFromString:data_[@"lat"]];
+    self.longitude = [formatter numberFromString:data_[@"lng"]];
+
     self.text = data_[@"text"];
     self.city = data_[@"city"];
     self.region = data_[@"region"];

@@ -10,6 +10,9 @@
 
 #import "GalleryViewController.h"
 #import "UnderplanSlideshowController.h"
+#import "MosaicLayout.h"
+#import "MosaicData.h"
+#import "MosaicCell.h"
 
 #import "UnderplanBasicLabel.h"
 
@@ -34,6 +37,8 @@
 @property BOOL loading;
 
 @end
+
+#define kDoubleColumnProbability 40
 
 @implementation GalleryViewController {
     BOOL forceReload;
@@ -68,24 +73,26 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     if ([_delegate respondsToSelector:@selector(group)])
         [self setGroup:[_delegate group]];
     
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barStyle)])
-    {
-        // Fix the scrollview being behind tabbar
-        if (self.tabBarController) {
-            UIEdgeInsets inset = self.quiltView.contentInset;
-            inset.bottom = self.tabBarController.tabBar.frame.size.height;
-            self.quiltView.contentInset = inset;
-        }
-        
-        if (self.navigationController) {
-            UIEdgeInsets inset = self.quiltView.contentInset;
-            inset.top = self.navigationController.navigationBar.frame.size.height + 20.0f; // 20.0f for the status bar
-            self.quiltView.contentInset = inset;
-            
-            CGPoint topOffset = CGPointMake(0, -inset.top);
-            [self.quiltView setContentOffset:topOffset animated:YES];
-        }
-    }
+    _collectionViewLayout = [[MosaicLayout alloc] init];
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:_collectionViewLayout];
+
+    [_collectionView registerClass:[MosaicCell class] forCellWithReuseIdentifier:@"cell"];
+    
+    [(MosaicLayout *)_collectionView.collectionViewLayout setDelegate:self];
+    
+    _galleryDataSource = [[GalleryDataSource alloc] init];
+    _collectionView.dataSource = _galleryDataSource;
+    _collectionView.delegate = self;
+    
+    [self.view addSubview:_collectionView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    [self showBars];
+    [self setDarkBarColor];
     
     // FIXME: ugly but need to ensure the tab / nav bars have animated into place
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
@@ -93,18 +100,6 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
                                                 selector:@selector(createGallery)
                                                 userInfo:nil
                                                  repeats:NO];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
-        [self setNeedsStatusBarAppearanceUpdate];
-    [self.quiltView setHidden:NO];
-    [self showBars];
-
-    [self setDarkBarColor];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -131,7 +126,7 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     // FIXME:   this is a temp fix for a
     //              scrollViewDidScroll: message sent to deallocated instance
     //          issue with ios7
-    self.quiltView.delegate = nil;
+    _collectionView.delegate = nil;
     
     [self removeObserver:self forKeyPath:@"loading"];
 }
@@ -141,8 +136,6 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - QuiltViewControllerDataSource
 
 - (void)createGallery
 {
@@ -158,10 +151,21 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     dispatch_queue_t troveQueue = dispatch_queue_create("Trovebox Request Queue", NULL);
     dispatch_async(troveQueue, ^{
         _gallery = [[Gallery alloc] initTrovebox:_group.trovebox withOptions:options];
-
+        NSMutableArray *indexPath = [_galleryDataSource loadGalleryData:_gallery];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.quiltView reloadData];
             [self setLoading:NO];
+            
+            if ([indexPath count] > 0)
+            {
+                [UnderplanBasicLabel removeFrom:self.view];
+                [_collectionView insertItemsAtIndexPaths:indexPath];
+            }
+            else
+            {
+                [UnderplanBasicLabel addTo:self.view text:@"No Photos"];
+            }
+            
         });
     });
 }
@@ -177,10 +181,13 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     dispatch_async(troveQueue, ^{
         Boolean allPhotosLoaded = [_gallery loadNextPage];
         
+        NSMutableArray *indexPath = [_galleryDataSource loadGalleryData:_gallery];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.quiltView reloadData];
             [self setLoading:NO];
             complete = allPhotosLoaded;
+
+            [_collectionView insertItemsAtIndexPaths:indexPath];
         });
     });
 }
@@ -201,91 +208,130 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     return [self.gallery.photos objectAtIndex:i][@"path1024x1024"];
 }
 
-- (NSInteger)quiltViewNumberOfCells:(TMQuiltView *)TMQuiltView {
-    return self.gallery.numberOfPhotos;
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    MosaicLayout *layout = (MosaicLayout *)_collectionView.collectionViewLayout;
+    [layout invalidateLayout];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+#pragma mark - MosaicLayoutDelegate
+
+-(float)collectionView:(UICollectionView *)collectionView relativeHeightForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [self showBars];
+    //  Base relative height for simple layout type. This is 1.0 (height equals to width)
+    float retVal = 1.0;
     
+    MosaicData *aMosaicModule = [_galleryDataSource.elements objectAtIndex:indexPath.row];
+    
+    if (aMosaicModule.relativeHeight != 0){
+        
+        //  If the relative height was set before, return it
+        retVal = aMosaicModule.relativeHeight;
+        
+    }else{
+        
+        BOOL isDoubleColumn = [self collectionView:collectionView isDoubleColumnAtIndexPath:indexPath];
+        if (isDoubleColumn){
+            //  Base relative height for double layout type. This is 0.75 (height equals to 75% width)
+            retVal = 0.75;
+        }
+        
+        /*  Relative height random modifier. The max height of relative height is 25% more than
+         *  the base relative height */
+        
+        float extraRandomHeight = arc4random() % 25;
+        retVal = retVal + (extraRandomHeight / 100);
+        
+        /*  Persist the relative height on MosaicData so the value will be the same every time
+         *  the mosaic layout invalidates */
+        
+        aMosaicModule.relativeHeight = retVal;
+    }
+    
+    return retVal;
+}
+
+-(BOOL)collectionView:(UICollectionView *)collectionView isDoubleColumnAtIndexPath:(NSIndexPath *)indexPath
+{
+    MosaicData *aMosaicModule = [_galleryDataSource.elements objectAtIndex:indexPath.row];
+    
+    if (aMosaicModule.layoutType == kMosaicLayoutTypeUndefined){
+        
+        /*  First layout. We have to decide if the MosaicData should be
+         *  double column (if possible) or not. */
+        
+        NSUInteger random = arc4random() % 100;
+        if (random < kDoubleColumnProbability){
+            aMosaicModule.layoutType = kMosaicLayoutTypeDouble;
+        }else{
+            aMosaicModule.layoutType = kMosaicLayoutTypeSingle;
+        }
+    }
+    
+    BOOL retVal = aMosaicModule.layoutType == kMosaicLayoutTypeDouble;
+    
+    return retVal;
+    
+}
+
+-(NSUInteger)numberOfColumnsInCollectionView:(UICollectionView *)collectionView
+{
+    UIInterfaceOrientation anOrientation = self.interfaceOrientation;
+    
+    //  Set the quantity of columns according of the device and interface orientation
+    NSUInteger retVal = 0;
+    if (UIInterfaceOrientationIsLandscape(anOrientation)){
+        
+        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad){
+            retVal = kColumnsiPadLandscape;
+        }else{
+            retVal = kColumnsiPhoneLandscape;
+        }
+        
+    }else{
+        
+        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad){
+            retVal = kColumnsiPadPortrait;
+        }else{
+            retVal = kColumnsiPhonePortrait;
+        }
+    }
+    
+    return retVal;
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)collectionView
+{
     // If last section is about to be shown...
-    if(scrollView.contentOffset.y < 0){
+    if(collectionView.contentOffset.y < 0){
         //it means table view is pulled down like refresh
         //NSLog(@"refresh!");
+//        [self showBars];
     }
-    else if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.bounds.size.height))
+    else if (collectionView.contentOffset.y >= (collectionView.contentSize.height - collectionView.bounds.size.height))
     {
         [self loadNextPage];
     }
+    else
+    {
+//        [self hideBars];
+    }
 }
 
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-//{
-//    [self showBars];
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    [self hideBars];
-//}
-
-- (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
 	UnderplanSlideshowController *photoController = [[UnderplanSlideshowController alloc] initWithDelegate:self index:[[NSNumber alloc] initWithUnsignedInteger:indexPath.row]];
 
-    [self hideBars];
-    [self.quiltView setHidden:YES];
-    [self.navigationController pushViewController:photoController animated:YES];
-}
-
-- (TMQuiltViewCell *)quiltView:(TMQuiltView *)quiltView cellAtIndexPath:(NSIndexPath *)indexPath
-{
-    GalleryViewCell *cell = (GalleryViewCell *)[quiltView dequeueReusableCellWithReuseIdentifier:@"PhotoCell"];
-    if (!cell) {
-        cell = [[GalleryViewCell alloc] initWithReuseIdentifier:@"PhotoCell"];
-    }
-    
-    Photo *photo = [_gallery photoAtIndex:indexPath.row];
-    
-    cell.photoView.tag = indexPath.row + 1;
-    [cell.photoView setImageWithURL:[NSURL URLWithString:photo.small]
-                   placeholderImage:nil
-                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType){
-                              if (error){
-//                                  PhotoAlertView *alert = [[PhotoAlertView alloc] initWithMessage:NSLocalizedString(@"Couldn't download the image",nil) duration:5000];
-//                                  [alert showAlert];
-                              } else {
-                              }
-                          }];
-    if ([photo.title isEqualToString:@""])
-    {
-        [cell.titleLabel setHidden:YES];
-    } else
-    {
-        [cell.titleLabel setHidden:NO];
-        cell.titleLabel.text = photo.title;
-    }
-
-    return cell;
-}
-
-#pragma mark - TMQuiltViewDelegate
-
-- (NSInteger)quiltViewNumberOfColumns:(TMQuiltView *)quiltView
-{
-    if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft
-        || [[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeRight) {
-        return 3;
-    } else {
-        return 2;
-    }
-}
-
-- (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
-{
-//    return [self imageUrlAtIndexPath:indexPath].size.height / [self quiltViewNumberOfColumns:quiltView];
-    return 96;
+//    [self hideBars];
+    [UIView animateWithDuration:0.75
+                     animations:^{
+                         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+                         [self.navigationController pushViewController:photoController animated:NO];
+                         [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:self.navigationController.view cache:NO];
+                     }];
+//    [self.navigationController pushViewController:photoController animated:YES];
 }
 
 @end
