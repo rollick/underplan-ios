@@ -20,5 +20,6 @@
 @property (retain, nonatomic) UIView *addGroupView;
 @property (retain, nonatomic) UILabel *connectionStatusText;
 @property (retain, nonatomic) UILabel *exploreLabel;
+@property (retain, nonatomic) UILabel *productLabel;
 
 @end

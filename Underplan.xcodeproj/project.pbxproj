@@ -67,9 +67,6 @@
 		2665905D179EE51E001EFABF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2665905B179EE51E001EFABF /* InfoPlist.strings */; };
 		2665905F179EE51E001EFABF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2665905E179EE51E001EFABF /* main.m */; };
 		26659063179EE51E001EFABF /* UnderplanAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659062179EE51E001EFABF /* UnderplanAppDelegate.m */; };
-		26659065179EE51E001EFABF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 26659064179EE51E001EFABF /* Default.png */; };
-		26659067179EE51E001EFABF /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26659066179EE51E001EFABF /* Default@2x.png */; };
-		26659069179EE51E001EFABF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26659068179EE51E001EFABF /* Default-568h@2x.png */; };
 		2665906C179EE51E001EFABF /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2665906A179EE51E001EFABF /* MainStoryboard_iPhone.storyboard */; };
 		2665906F179EE51E001EFABF /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2665906D179EE51E001EFABF /* MainStoryboard_iPad.storyboard */; };
 		26659072179EE51E001EFABF /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26659071179EE51E001EFABF /* MasterViewController.m */; };
@@ -143,6 +140,12 @@
 		26AAAB0417D9043D00944DAC /* bg_iphone4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26AAAB0217D9043D00944DAC /* bg_iphone4@2x.png */; };
 		26AAAB0517D9043D00944DAC /* bg_iphone5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26AAAB0317D9043D00944DAC /* bg_iphone5@2x.png */; };
 		26AAAB0817DDBDD300944DAC /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26AAAB0717DDBDD300944DAC /* MessageUI.framework */; };
+		26C0A0D317F0463D005A96FE /* GalleryDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0A0D117F0463D005A96FE /* GalleryDataSource.m */; };
+		26C0A0D617F04AA7005A96FE /* Icon-iPad-Settings-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 26C0A0D417F04AA7005A96FE /* Icon-iPad-Settings-29.png */; };
+		26C0A0D717F04AA7005A96FE /* Icon-iPad-Settings-29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26C0A0D517F04AA7005A96FE /* Icon-iPad-Settings-29@2x.png */; };
+		26C0A0D917F04E8A005A96FE /* LilyScriptOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26C0A0D817F04CB5005A96FE /* LilyScriptOne-Regular.ttf */; };
+		26C0A0DE17F05077005A96FE /* UnderplanNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0A0DB17F05077005A96FE /* UnderplanNavigationBar.m */; };
+		26C0A0DF17F05077005A96FE /* UnderplanTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0A0DD17F05077005A96FE /* UnderplanTabBar.m */; };
 		26EA950717B5121F003E31CA /* ActivityMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EA950617B5121E003E31CA /* ActivityMapViewController.m */; };
 		26EA950F17B52014003E31CA /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EA950E17B52013003E31CA /* GroupViewController.m */; };
 		26EA951217B54220003E31CA /* transparent-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EA951117B54220003E31CA /* transparent-bg.png */; };
@@ -153,8 +156,6 @@
 		26EE72F617CF9F280028639E /* chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EE72F417CF9F280028639E /* chat@2x.png */; };
 		26EE72F717CF9F280028639E /* chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EE72F517CF9F280028639E /* chat.png */; };
 		26EE730617CFA2A80028639E /* GalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EE730517CFA2A80028639E /* GalleryViewController.m */; };
-		26EE731517CFB4D30028639E /* bg_iphone5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 26EE731317CFB4D30028639E /* bg_iphone5.jpg */; };
-		26EE731617CFB4D30028639E /* bg_iphone4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 26EE731417CFB4D30028639E /* bg_iphone4.jpg */; };
 		26EE731917CFBDB70028639E /* GalleryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EE731817CFBDB70028639E /* GalleryViewCell.m */; };
 		26EE732117CFC3020028639E /* Gallery.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EE732017CFC3020028639E /* Gallery.m */; };
 		26EE738217D175F20028639E /* ActivityTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EE738117D175F20028639E /* ActivityTabBarController.m */; };
@@ -257,9 +258,6 @@
 		26659060179EE51E001EFABF /* Underplan-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Underplan-Prefix.pch"; sourceTree = "<group>"; };
 		26659061179EE51E001EFABF /* UnderplanAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnderplanAppDelegate.h; sourceTree = "<group>"; };
 		26659062179EE51E001EFABF /* UnderplanAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnderplanAppDelegate.m; sourceTree = "<group>"; };
-		26659064179EE51E001EFABF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		26659066179EE51E001EFABF /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		26659068179EE51E001EFABF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2665906B179EE51E001EFABF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		2665906E179EE51E001EFABF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		26659070179EE51E001EFABF /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
@@ -352,6 +350,15 @@
 		26AAAB0217D9043D00944DAC /* bg_iphone4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_iphone4@2x.png"; sourceTree = "<group>"; };
 		26AAAB0317D9043D00944DAC /* bg_iphone5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_iphone5@2x.png"; sourceTree = "<group>"; };
 		26AAAB0717DDBDD300944DAC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		26C0A0D117F0463D005A96FE /* GalleryDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryDataSource.m; sourceTree = "<group>"; };
+		26C0A0D217F0463D005A96FE /* GalleryDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryDataSource.h; sourceTree = "<group>"; };
+		26C0A0D417F04AA7005A96FE /* Icon-iPad-Settings-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPad-Settings-29.png"; sourceTree = "<group>"; };
+		26C0A0D517F04AA7005A96FE /* Icon-iPad-Settings-29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPad-Settings-29@2x.png"; sourceTree = "<group>"; };
+		26C0A0D817F04CB5005A96FE /* LilyScriptOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LilyScriptOne-Regular.ttf"; sourceTree = "<group>"; };
+		26C0A0DA17F05077005A96FE /* UnderplanNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanNavigationBar.h; sourceTree = "<group>"; };
+		26C0A0DB17F05077005A96FE /* UnderplanNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanNavigationBar.m; sourceTree = "<group>"; };
+		26C0A0DC17F05077005A96FE /* UnderplanTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanTabBar.h; sourceTree = "<group>"; };
+		26C0A0DD17F05077005A96FE /* UnderplanTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanTabBar.m; sourceTree = "<group>"; };
 		26EA950517B5121E003E31CA /* ActivityMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityMapViewController.h; sourceTree = "<group>"; };
 		26EA950617B5121E003E31CA /* ActivityMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityMapViewController.m; sourceTree = "<group>"; };
 		26EA950D17B52013003E31CA /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
@@ -369,8 +376,6 @@
 		26EE72F517CF9F280028639E /* chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chat.png; sourceTree = "<group>"; };
 		26EE730417CFA2A80028639E /* GalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryViewController.h; sourceTree = "<group>"; };
 		26EE730517CFA2A80028639E /* GalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryViewController.m; sourceTree = "<group>"; };
-		26EE731317CFB4D30028639E /* bg_iphone5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_iphone5.jpg; sourceTree = "<group>"; };
-		26EE731417CFB4D30028639E /* bg_iphone4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_iphone4.jpg; sourceTree = "<group>"; };
 		26EE731717CFBDB70028639E /* GalleryViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryViewCell.h; sourceTree = "<group>"; };
 		26EE731817CFBDB70028639E /* GalleryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryViewCell.m; sourceTree = "<group>"; };
 		26EE731F17CFC3020028639E /* Gallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gallery.h; sourceTree = "<group>"; };
@@ -463,6 +468,7 @@
 		264C85DE17EA15ED00E2A09E /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				26C0A0D817F04CB5005A96FE /* LilyScriptOne-Regular.ttf */,
 				264C85DB17EA15E600E2A09E /* Roboto-Light.ttf */,
 				264C85DC17EA15E600E2A09E /* Roboto-Medium.ttf */,
 				264C85DD17EA15E600E2A09E /* Roboto-Regular.ttf */,
@@ -557,9 +563,6 @@
 				2665905B179EE51E001EFABF /* InfoPlist.strings */,
 				2665905E179EE51E001EFABF /* main.m */,
 				26659060179EE51E001EFABF /* Underplan-Prefix.pch */,
-				26659064179EE51E001EFABF /* Default.png */,
-				26659066179EE51E001EFABF /* Default@2x.png */,
-				26659068179EE51E001EFABF /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -601,6 +604,8 @@
 		26A1D5D517A16EE500526060 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				26C0A0D117F0463D005A96FE /* GalleryDataSource.m */,
+				26C0A0D217F0463D005A96FE /* GalleryDataSource.h */,
 				26A12C1517CBC876006B619E /* SharedApiClient.h */,
 				26A12C1617CBC876006B619E /* SharedApiClient.m */,
 				260CFC8517B2803F00FC7787 /* MeteorModel.h */,
@@ -630,6 +635,10 @@
 				26AAAAD617D2129C00944DAC /* Cells */,
 				266590B4179FC5BC001EFABF /* ActivityFeedAnnotation.h */,
 				266590B5179FC5BC001EFABF /* ActivityFeedAnnotation.m */,
+				26C0A0DA17F05077005A96FE /* UnderplanNavigationBar.h */,
+				26C0A0DB17F05077005A96FE /* UnderplanNavigationBar.m */,
+				26C0A0DC17F05077005A96FE /* UnderplanTabBar.h */,
+				26C0A0DD17F05077005A96FE /* UnderplanTabBar.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -682,8 +691,6 @@
 		26AAAB0617D9044800944DAC /* Splash */ = {
 			isa = PBXGroup;
 			children = (
-				26EE731317CFB4D30028639E /* bg_iphone5.jpg */,
-				26EE731417CFB4D30028639E /* bg_iphone4.jpg */,
 				26AAAB0217D9043D00944DAC /* bg_iphone4@2x.png */,
 				26AAAB0317D9043D00944DAC /* bg_iphone5@2x.png */,
 			);
@@ -718,6 +725,8 @@
 		26EE736A17D1527F0028639E /* Logos */ = {
 			isa = PBXGroup;
 			children = (
+				26C0A0D417F04AA7005A96FE /* Icon-iPad-Settings-29.png */,
+				26C0A0D517F04AA7005A96FE /* Icon-iPad-Settings-29@2x.png */,
 				26AAAAE417D8EB2600944DAC /* Icon-30@2x.png */,
 				26AAAAE517D8EB2600944DAC /* Icon-60@2x.png */,
 				26AAAAE617D8EB2600944DAC /* Icon-72.png */,
@@ -910,7 +919,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26C0A0D917F04E8A005A96FE /* LilyScriptOne-Regular.ttf in Resources */,
 				264C85E917EB8E9B00E2A09E /* OpenSans-Bold.ttf in Resources */,
+				26C0A0D717F04AA7005A96FE /* Icon-iPad-Settings-29@2x.png in Resources */,
 				264C85EA17EB8E9B00E2A09E /* OpenSans-Light.ttf in Resources */,
 				264C85EB17EB8E9B00E2A09E /* OpenSans-Regular.ttf in Resources */,
 				264C85DF17EA194400E2A09E /* Roboto-Light.ttf in Resources */,
@@ -925,16 +936,13 @@
 				26AAAAF917D8EB2600944DAC /* Icon-Small@2x.png in Resources */,
 				26AAAABF17D1F11900944DAC /* calendar@2x.png in Resources */,
 				26AAAAC817D1F14D00944DAC /* camera@2x.png in Resources */,
-				26659065179EE51E001EFABF /* Default.png in Resources */,
 				26AAAAC217D1F11900944DAC /* comments@2x.png in Resources */,
 				26AAAAC117D1F11900944DAC /* comment-btn@2x.png in Resources */,
 				264C85BF17E7375800E2A09E /* chevron-right-large.png in Resources */,
-				26659067179EE51E001EFABF /* Default@2x.png in Resources */,
 				26AAAAFC17D8EB2600944DAC /* Icon-Spotlight-40@2x.png in Resources */,
 				263DCD1417E314E90077DD15 /* previous@2x.png in Resources */,
 				264C85BD17E7375800E2A09E /* chevron-left-large@2x.png in Resources */,
 				26AAAACC17D1F1F600944DAC /* comment-btn.png in Resources */,
-				26659069179EE51E001EFABF /* Default-568h@2x.png in Resources */,
 				26AAAAB017D1F07300944DAC /* comments.png in Resources */,
 				263DCD1117E314E90077DD15 /* next.png in Resources */,
 				26AAAAF817D8EB2600944DAC /* Icon-Small.png in Resources */,
@@ -942,6 +950,7 @@
 				264C855F17E4BF7800E2A09E /* leftLarge.png in Resources */,
 				26AAAB0517D9043D00944DAC /* bg_iphone5@2x.png in Resources */,
 				263DCD0317E0BF8E0077DD15 /* chevron-left@2x.png in Resources */,
+				26C0A0D617F04AA7005A96FE /* Icon-iPad-Settings-29.png in Resources */,
 				264C854817E4A20C00E2A09E /* activity.png in Resources */,
 				26AAAAC517D1F11900944DAC /* photos@2x.png in Resources */,
 				26AAAAC617D1F11900944DAC /* pin@2x.png in Resources */,
@@ -955,7 +964,6 @@
 				263DCD0217E0BF8E0077DD15 /* chevron-left.png in Resources */,
 				26AAAAAA17D1F01D00944DAC /* camera.png in Resources */,
 				26AAAAC017D1F11900944DAC /* camera_full@2x.png in Resources */,
-				26EE731617CFB4D30028639E /* bg_iphone4.jpg in Resources */,
 				26AAAAAE17D1F06400944DAC /* pin.png in Resources */,
 				26AAAABE17D1F11900944DAC /* calendar_full@2x.png in Resources */,
 				26A1D5CB17A060B300526060 /* dash_bg_3.jpg in Resources */,
@@ -991,7 +999,6 @@
 				264C85D217E75DE800E2A09E /* chevron-white-left-large@2x.png in Resources */,
 				26AAAAA617D1F00700944DAC /* calendar_full.png in Resources */,
 				26AAAAF517D8EB2600944DAC /* Icon-72.png in Resources */,
-				26EE731517CFB4D30028639E /* bg_iphone5.jpg in Resources */,
 				263DCD1317E314E90077DD15 /* previous.png in Resources */,
 				26AAAAA117D1EFE200944DAC /* photos30_full.png in Resources */,
 				26AAAAB217D1F07F00944DAC /* album.png in Resources */,
@@ -1070,6 +1077,7 @@
 				26EE72F017CF86450028639E /* UnderplanStoryView.m in Sources */,
 				26EE72ED17CF43170028639E /* GroupItemViewCell.m in Sources */,
 				26A12C0E17C7825C006B619E /* UnderplanApiClient.m in Sources */,
+				26C0A0DE17F05077005A96FE /* UnderplanNavigationBar.m in Sources */,
 				26659063179EE51E001EFABF /* UnderplanAppDelegate.m in Sources */,
 				26659072179EE51E001EFABF /* MasterViewController.m in Sources */,
 				26EE738217D175F20028639E /* ActivityTabBarController.m in Sources */,
@@ -1091,6 +1099,7 @@
 				26A1D5D417A12F3C00526060 /* User.m in Sources */,
 				26A1D5D817A1B5E300526060 /* CommentsViewController.m in Sources */,
 				26AAAAE017D349F200944DAC /* UnderplanView.m in Sources */,
+				26C0A0DF17F05077005A96FE /* UnderplanTabBar.m in Sources */,
 				26EE72F317CF97440028639E /* BannerView.m in Sources */,
 				260CFC8117B1543800FC7787 /* Activity.m in Sources */,
 				26018D0517CECF0900D766A4 /* Comment.m in Sources */,
@@ -1102,6 +1111,7 @@
 				26EA950F17B52014003E31CA /* GroupViewController.m in Sources */,
 				26A12C1717CBC876006B619E /* SharedApiClient.m in Sources */,
 				2621FAF917DF50EA00E20D85 /* UnderplanSlideshowController.m in Sources */,
+				26C0A0D317F0463D005A96FE /* GalleryDataSource.m in Sources */,
 				264C85DA17E9FA1300E2A09E /* WebViewController.m in Sources */,
 				264C85F417EC7A8100E2A09E /* UnderplanBarBackgroundView.m in Sources */,
 				26EA952017B65429003E31CA /* UnderplanViewController.m in Sources */,

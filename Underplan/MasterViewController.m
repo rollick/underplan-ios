@@ -108,8 +108,44 @@
     self.tableView.delegate = self;
     
     [self.view addSubview:self.tableView];
+    
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    // Add product name
+    NSNumber *labelHeight = @50;
+    NSNumber *labelPositionY = @60;
+    self.productLabel = [[UILabel alloc] init];
+    self.productLabel.text = @"underplan";
+    self.productLabel.textAlignment = NSTextAlignmentCenter;
+    self.productLabel.textColor = [UIColor underplanPrimaryDarkColor];
+    self.productLabel.font = [UIFont fontWithName:@"LilyScriptOne-Regular" size:[labelHeight integerValue]];
+    self.productLabel.backgroundColor = [UIColor clearColor];
+    [self.productLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+    [self.view addSubview:self.productLabel];
+    
+    NSString *format = @"H:|-(>=0)-[productName]-(>=0)-|";
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                      options:NSLayoutFormatAlignAllCenterX
+                                                                      metrics:nil
+                                                                        views:@{@"productName": self.productLabel}]];
+    
+    format = @"V:|-(lblPositionY)-[productName(lblHeight)]-(>=0)-|";
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                      options:NSLayoutFormatAlignAllCenterX
+                                                                      metrics:@{@"lblHeight": labelHeight,
+                                                                                @"lblPositionY": labelPositionY}
+                                                                        views:@{@"productName": self.productLabel}]];
+    
+    // Center the button horizontally with the parent view
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.productLabel
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.0f
+                                                           constant:0.0f]];
 }
 
 - (void)setupGroupView
@@ -256,10 +292,45 @@
     if (!scrollView || !self.exploreLabel)
         return;
     
+    [self setFadeForGroupAddView:scrollView.contentOffset.y];
+    [self setFadeForProductLabel:scrollView.contentOffset.y];
+}
+
+- (void)setFadeForProductLabel:(int)scrollViewYOffset
+{
     // Fade in / out group button and labels
-    int yOffset = scrollView.contentOffset.y;
+    int lblOffset = self.productLabel.frame.origin.y + self.productLabel.frame.size.height;
+    int diff = scrollViewYOffset + lblOffset;
+    int proximity = -40;
+    
+    // return if exploreLabel at 0 => layout not complete
+    if (!lblOffset)
+        return;
+    
+    if (diff > proximity)
+    {
+        if (diff < 0)
+        {
+            float a = diff/(float)proximity;
+            self.productLabel.alpha = a;
+        }
+        else
+        {
+            self.productLabel.alpha = 0.0f;
+        }
+    }
+    else
+    {
+        self.productLabel.alpha = 1.0f;
+    }
+}
+
+- (void)setFadeForGroupAddView:(int)scrollViewYOffset
+{
+    // Fade in / out group button and labels
+//    int yOffset = scrollView.contentOffset.y;
     int lblOffset = self.exploreLabel.frame.origin.y + self.exploreLabel.frame.size.height;
-    int diff = yOffset + lblOffset;
+    int diff = scrollViewYOffset + lblOffset;
     int proximity = -40;
     
     // return if exploreLabel at 0 => layout not complete
