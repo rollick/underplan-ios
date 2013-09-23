@@ -52,7 +52,7 @@
     self.opaque = NO;
     self.backgroundColor = [UIColor underplanGroupCellColor];
     // Make it invisible for now
-    self.alpha = 0.8f;
+    self.alpha = 0.9f;
     self.contentMode = UIViewContentModeScaleAspectFill;
     self.clipsToBounds = NO;
     self.userInteractionEnabled = YES;

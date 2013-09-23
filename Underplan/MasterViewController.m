@@ -40,7 +40,7 @@
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
 //        self.clearsSelectionOnViewWillAppear = NO;
-        self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+        self.preferredContentSize = CGSizeMake(320.0, 600.0);
     }
     [super awakeFromNib];
 }
@@ -98,7 +98,7 @@
 
 - (void)setupTableView
 {
-    tableOffset = 150;
+    tableOffset = 130;
     
     // Table View
     self.tableView = [[UITableView alloc] init];
@@ -114,7 +114,7 @@
     
     // Add product name
     NSNumber *labelHeight = @50;
-    NSNumber *labelPositionY = @60;
+    NSNumber *labelPositionY = @50;
     self.productLabel = [[UILabel alloc] init];
     self.productLabel.text = @"underplan";
     self.productLabel.textAlignment = NSTextAlignmentCenter;
@@ -301,7 +301,7 @@
     // Fade in / out group button and labels
     int lblOffset = self.productLabel.frame.origin.y + self.productLabel.frame.size.height;
     int diff = scrollViewYOffset + lblOffset;
-    int proximity = -40;
+    int proximity = -15;
     
     // return if exploreLabel at 0 => layout not complete
     if (!lblOffset)
@@ -309,19 +309,13 @@
     
     if (diff > proximity)
     {
-        if (diff < 0)
-        {
-            float a = diff/(float)proximity;
-            self.productLabel.alpha = a;
-        }
-        else
-        {
-            self.productLabel.alpha = 0.0f;
-        }
+        if (self.productLabel.alpha == 1.0f)
+            [self fadeOutLabel:self.productLabel];
     }
     else
     {
-        self.productLabel.alpha = 1.0f;
+        if (self.productLabel.alpha == 0.0f)
+            [self fadeInLabel:self.productLabel];
     }
 }
 
@@ -331,7 +325,7 @@
 //    int yOffset = scrollView.contentOffset.y;
     int lblOffset = self.exploreLabel.frame.origin.y + self.exploreLabel.frame.size.height;
     int diff = scrollViewYOffset + lblOffset;
-    int proximity = -40;
+    int proximity = -15;
     
     // return if exploreLabel at 0 => layout not complete
     if (!lblOffset)
@@ -356,6 +350,30 @@
         self.addGroupView.alpha = 1.0f;
         self.exploreLabel.alpha = 1.0f;
     }
+}
+
+- (void)fadeOutLabel:(UILabel *)label
+{
+    // Fade out the label right away
+    [UIView animateWithDuration:0.15
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         label.alpha = 0.0;
+                     }
+                     completion:nil];
+}
+
+- (void)fadeInLabel:(UILabel *)label
+{
+    // Fade out the label right away
+    [UIView animateWithDuration:0.15
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         label.alpha = 1.0;
+                     }
+                     completion:nil];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

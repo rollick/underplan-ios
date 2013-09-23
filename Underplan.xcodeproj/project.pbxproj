@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		20A272A5EC7E48D3AC3D25C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F923E2DB94994B0ABF43E5B3 /* libPods.a */; };
 		26018CFB17CE300600D766A4 /* UnderplanItemDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26018CFA17CE300600D766A4 /* UnderplanItemDetailsView.m */; };
-		26018CFF17CE781F00D766A4 /* UILabel+VerticalAlign.m in Sources */ = {isa = PBXBuildFile; fileRef = 26018CFE17CE781F00D766A4 /* UILabel+VerticalAlign.m */; };
 		26018D0217CEAA7300D766A4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26018D0117CEAA7300D766A4 /* QuartzCore.framework */; };
 		26018D0517CECF0900D766A4 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 26018D0417CECF0900D766A4 /* Comment.m */; };
 		26072D0317CF3CBB0073B74B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26072D0217CF3CBB0073B74B /* Images.xcassets */; };
@@ -146,6 +145,8 @@
 		26C0A0D917F04E8A005A96FE /* LilyScriptOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26C0A0D817F04CB5005A96FE /* LilyScriptOne-Regular.ttf */; };
 		26C0A0DE17F05077005A96FE /* UnderplanNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0A0DB17F05077005A96FE /* UnderplanNavigationBar.m */; };
 		26C0A0DF17F05077005A96FE /* UnderplanTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0A0DD17F05077005A96FE /* UnderplanTabBar.m */; };
+		26C0A0E217F05A16005A96FE /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 26C0A0E017F05A16005A96FE /* Icon-76.png */; };
+		26C0A0E317F05A16005A96FE /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26C0A0E117F05A16005A96FE /* Icon-76@2x.png */; };
 		26EA950717B5121F003E31CA /* ActivityMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EA950617B5121E003E31CA /* ActivityMapViewController.m */; };
 		26EA950F17B52014003E31CA /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EA950E17B52013003E31CA /* GroupViewController.m */; };
 		26EA951217B54220003E31CA /* transparent-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EA951117B54220003E31CA /* transparent-bg.png */; };
@@ -175,8 +176,6 @@
 /* Begin PBXFileReference section */
 		26018CF917CE300600D766A4 /* UnderplanItemDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanItemDetailsView.h; sourceTree = "<group>"; };
 		26018CFA17CE300600D766A4 /* UnderplanItemDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanItemDetailsView.m; sourceTree = "<group>"; };
-		26018CFD17CE781F00D766A4 /* UILabel+VerticalAlign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+VerticalAlign.h"; sourceTree = "<group>"; };
-		26018CFE17CE781F00D766A4 /* UILabel+VerticalAlign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+VerticalAlign.m"; sourceTree = "<group>"; };
 		26018D0117CEAA7300D766A4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		26018D0317CECF0900D766A4 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		26018D0417CECF0900D766A4 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
@@ -359,6 +358,8 @@
 		26C0A0DB17F05077005A96FE /* UnderplanNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanNavigationBar.m; sourceTree = "<group>"; };
 		26C0A0DC17F05077005A96FE /* UnderplanTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanTabBar.h; sourceTree = "<group>"; };
 		26C0A0DD17F05077005A96FE /* UnderplanTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanTabBar.m; sourceTree = "<group>"; };
+		26C0A0E017F05A16005A96FE /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-76.png"; path = "Icons/Icon-76.png"; sourceTree = "<group>"; };
+		26C0A0E117F05A16005A96FE /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-76@2x.png"; path = "Icons/Icon-76@2x.png"; sourceTree = "<group>"; };
 		26EA950517B5121E003E31CA /* ActivityMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityMapViewController.h; sourceTree = "<group>"; };
 		26EA950617B5121E003E31CA /* ActivityMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityMapViewController.m; sourceTree = "<group>"; };
 		26EA950D17B52013003E31CA /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
@@ -457,10 +458,10 @@
 				2621FAF817DF50EA00E20D85 /* UnderplanSlideshowController.m */,
 				26EA951E17B65429003E31CA /* UnderplanViewController.h */,
 				26EA951F17B65429003E31CA /* UnderplanViewController.m */,
-				264C853817E44E7800E2A09E /* UnderplanTabBarController.h */,
-				264C853917E44E7800E2A09E /* UnderplanTabBarController.m */,
 				264C85EF17EC512200E2A09E /* UnderplanNavigationController.h */,
 				264C85F017EC512200E2A09E /* UnderplanNavigationController.m */,
+				264C853817E44E7800E2A09E /* UnderplanTabBarController.h */,
+				264C853917E44E7800E2A09E /* UnderplanTabBarController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -725,6 +726,8 @@
 		26EE736A17D1527F0028639E /* Logos */ = {
 			isa = PBXGroup;
 			children = (
+				26C0A0E017F05A16005A96FE /* Icon-76.png */,
+				26C0A0E117F05A16005A96FE /* Icon-76@2x.png */,
 				26C0A0D417F04AA7005A96FE /* Icon-iPad-Settings-29.png */,
 				26C0A0D517F04AA7005A96FE /* Icon-iPad-Settings-29@2x.png */,
 				26AAAAE417D8EB2600944DAC /* Icon-30@2x.png */,
@@ -832,8 +835,6 @@
 				264C85E517EB834E00E2A09E /* SystemVersionInfo.h */,
 				26A12C0C17C7825C006B619E /* UnderplanApiClient.h */,
 				26A12C0D17C7825C006B619E /* UnderplanApiClient.m */,
-				26018CFD17CE781F00D766A4 /* UILabel+VerticalAlign.h */,
-				26018CFE17CE781F00D766A4 /* UILabel+VerticalAlign.m */,
 				26AAAACD17D1FEAB00944DAC /* UIColor+Underplan.h */,
 				26AAAACE17D1FEAB00944DAC /* UIColor+Underplan.m */,
 			);
@@ -929,6 +930,7 @@
 				264C85E117EA194400E2A09E /* Roboto-Regular.ttf in Resources */,
 				26AAAAFF17D8EB2600944DAC /* Icon.png in Resources */,
 				26AAAB0017D8EB2600944DAC /* Icon@2x.png in Resources */,
+				26C0A0E317F05A16005A96FE /* Icon-76@2x.png in Resources */,
 				2665905D179EE51E001EFABF /* InfoPlist.strings in Resources */,
 				26072D0317CF3CBB0073B74B /* Images.xcassets in Resources */,
 				264C855717E4B19600E2A09E /* activity_full@2x.png in Resources */,
@@ -966,6 +968,7 @@
 				26AAAAC017D1F11900944DAC /* camera_full@2x.png in Resources */,
 				26AAAAAE17D1F06400944DAC /* pin.png in Resources */,
 				26AAAABE17D1F11900944DAC /* calendar_full@2x.png in Resources */,
+				26C0A0E217F05A16005A96FE /* Icon-76.png in Resources */,
 				26A1D5CB17A060B300526060 /* dash_bg_3.jpg in Resources */,
 				264C855E17E4BF7800E2A09E /* rightLarge@2x.png in Resources */,
 				26AAAB0117D8EB2600944DAC /* logo.png in Resources */,
@@ -1068,7 +1071,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26018CFF17CE781F00D766A4 /* UILabel+VerticalAlign.m in Sources */,
 				2665905F179EE51E001EFABF /* main.m in Sources */,
 				26AAAACF17D1FEAB00944DAC /* UIColor+Underplan.m in Sources */,
 				26A12C1417C9F852006B619E /* UIViewController+UnderplanApiNotifications.m in Sources */,
@@ -1247,7 +1249,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Underplan/Underplan-Prefix.pch";
 				INFOPLIST_FILE = "Underplan/Underplan-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lcrypto",
@@ -1289,7 +1291,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Underplan/Underplan-Prefix.pch";
 				INFOPLIST_FILE = "Underplan/Underplan-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lcrypto",

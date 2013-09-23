@@ -24,7 +24,7 @@
         [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkTextColor]];
         [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
         
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }
     else
     {
@@ -45,7 +45,7 @@
         [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkTextColor]];
         [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
         
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }
     else
     {

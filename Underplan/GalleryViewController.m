@@ -95,11 +95,14 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     [self setDarkBarColor];
     
     // FIXME: ugly but need to ensure the tab / nav bars have animated into place
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                                  target:self
-                                                selector:@selector(createGallery)
-                                                userInfo:nil
-                                                 repeats:NO];
+    if (_gallery == nil)
+    {
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                      target:self
+                                                    selector:@selector(createGallery)
+                                                    userInfo:nil
+                                                    repeats:NO];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -329,7 +332,7 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
                      animations:^{
                          [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
                          [self.navigationController pushViewController:photoController animated:NO];
-                         [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:self.navigationController.view cache:NO];
+                         [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.navigationController.view cache:NO];
                      }];
 //    [self.navigationController pushViewController:photoController animated:YES];
 }

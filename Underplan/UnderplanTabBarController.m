@@ -50,15 +50,8 @@
                 UIImage *selectedImage = [UIImage imageNamed:tabBarImageNames[i][@"selected"]];
                 UIImage *unselectedImage = [UIImage imageNamed:tabBarImageNames[i][@"unselected"]];
                 
-                if ([controller.tabBarItem respondsToSelector:@selector(selectedImage)])
-                {
-                    [controller.tabBarItem setSelectedImage:selectedImage];
-                    [controller.tabBarItem setImage:unselectedImage];
-                }
-                else
-                {
-                    [controller.tabBarItem setFinishedSelectedImage:selectedImage withFinishedUnselectedImage:unselectedImage];
-                }
+                [controller.tabBarItem setSelectedImage:selectedImage];
+                [controller.tabBarItem setImage:unselectedImage];
             }
         }
         

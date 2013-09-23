@@ -261,6 +261,15 @@
     
     [self loadImageAtIndex:_photoIndex];
     
+    // change the back button to cancel and add an event handler
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                                   style:UIBarButtonItemStyleDone
+                                                                  target:self
+                                                                  action:@selector(handleBack:)];
+    
+    self.navigationItem.rightBarButtonItem = backButton;
+    [self.navigationItem setHidesBackButton:YES animated:NO];
+    
     canvas.userInteractionEnabled = YES;
     canvas.multipleTouchEnabled = YES;
     
@@ -310,6 +319,16 @@
     [self.view addSubview:self.canvas];
     [self.view addSubview:_nextBtn];
     [self.view addSubview:_previousBtn];
+}
+
+- (void)handleBack:(id)sender
+{
+    [UIView animateWithDuration:0.75
+                     animations:^{
+                         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+                         [self.navigationController popViewControllerAnimated:NO];
+                         [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.navigationController.view cache:NO];
+                     }];
 }
 
 - (void)setButtonVisibility
@@ -371,6 +390,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return NO;
 }
+
 
 #pragma mark UIGestureRecognizerDelegate
 
