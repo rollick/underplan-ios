@@ -95,15 +95,19 @@
 {
     [super activityWasSet];
     
-    if ([_activity.type isEqualToString:@"short"])
+    for (id controller in [self viewControllers])
     {
-        for (id controller in [self viewControllers])
+        if([controller isKindOfClass:[GalleryViewController class]])
         {
-            if([controller isKindOfClass:[GalleryViewController class]])
+            UITabBarItem *tabBarItem = [self.tabBar.items objectAtIndex:[self.viewControllers indexOfObject:controller]];
+            
+            if (!_activity.tags)
             {
-                UITabBarItem *tabBarItem = [self.tabBar.items objectAtIndex:[self.viewControllers indexOfObject:controller]];
-                
                 [tabBarItem setEnabled:NO];
+            }
+            else
+            {
+                [tabBarItem setEnabled:YES];
             }
         }
     }

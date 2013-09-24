@@ -34,10 +34,10 @@
             </objects>
             <point key="canvasLocation" x="-810" y="724"/>
         </scene>
-        <!--Activity List View Controller - Group Detail-->
+        <!--Activity List View Controller - Feed-->
         <scene sceneID="24">
             <objects>
-                <viewController title="Group Detail" extendedLayoutIncludesOpaqueBars="YES" providesPresentationContextTransitionStyle="YES" hidesBottomBarWhenPushed="YES" id="21" customClass="ActivityListViewController" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" providesPresentationContextTransitionStyle="YES" hidesBottomBarWhenPushed="YES" id="21" customClass="ActivityListViewController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Feed" image="calendar.png" id="1fP-OB-Q1u"/>
                     <navigationItem key="navigationItem" id="uuY-SA-3Qb"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -72,7 +72,7 @@
         <!--Gallery View Controller - Photos-->
         <scene sceneID="VtH-o8-lMl">
             <objects>
-                <viewController id="aIL-X4-YXd" customClass="GalleryViewController" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" providesPresentationContextTransitionStyle="YES" hidesBottomBarWhenPushed="YES" id="aIL-X4-YXd" customClass="GalleryViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JpW-DU-97K">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -152,7 +152,7 @@
         <!--Comments View Controller - Comments-->
         <scene sceneID="WV4-UX-36P">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="bI7-nE-ml9" customClass="CommentsViewController" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" providesPresentationContextTransitionStyle="YES" hidesBottomBarWhenPushed="YES" id="bI7-nE-ml9" customClass="CommentsViewController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Comments" image="comments_full.png" id="ERF-fF-mD4"/>
                     <navigationItem key="navigationItem" title="Comments" id="KdH-GX-mTs"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>

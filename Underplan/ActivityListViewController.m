@@ -57,9 +57,6 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     
     NSArray *params = @[@{@"groupId":_group.remoteId, @"limit":[NSNumber numberWithInt:limit]}];
     [[SharedApiClient getClient] addSubscription:@"feedActivities" withParameters:params];
-    
-    // Update the user interface for the group.
-    _activities = [SharedApiClient getClient].collections[@"activities"];
 }
 
 #pragma mark - Managing the activity details
@@ -178,7 +175,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     self.navigationItem.title = @"Activities";
     [self configureApiSubscriptions];
     
-    [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:YES];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)didReceiveApiUpdate:(NSNotification *)notification
@@ -201,7 +198,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
             [self setLoading:NO];
         }
         
-        if (! _loading)
+        if (!self.loading)
         {
             [self reloadData];
         }
@@ -252,9 +249,16 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
         if ([activity.type isEqualToString:@"story"]) {
             UnderplanStoryItemCell *tempCell = [[UnderplanStoryItemCell alloc] init];
             return [tempCell cellHeight:activity.summaryText];
-        } else
+        }
+        else
         {
-            UnderplanShortItemCell *tempCell = [[UnderplanShortItemCell alloc] init];
+            ShortStyle _style;
+            if (activity.tags && [activity.tags length] > 0)
+                _style = ShortStyleWithImage;
+            else
+                _style = ShortStyleDefault;
+            
+            UnderplanShortItemCell *tempCell = [[UnderplanShortItemCell alloc] initWithStyle:_style];
             return [tempCell cellHeight:activity.summaryText];
         }
     }

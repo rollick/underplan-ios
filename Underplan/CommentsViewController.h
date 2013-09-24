@@ -13,7 +13,7 @@
 
 #import "UnderplanGroupAwareDelegate.h"
 
-@interface CommentsViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate>
+@interface CommentsViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 @property (retain, nonatomic) UITableView *tableView;
 @property (assign, nonatomic) id <UnderplanGroupAwareDelegate> delegate;

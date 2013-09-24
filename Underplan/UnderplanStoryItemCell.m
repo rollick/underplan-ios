@@ -20,7 +20,7 @@
 {
     [super initView];
     
-    self.mainView = [[UnderplanStoryView alloc] initWithStyle:StoryStyleShort];    
+    self.mainView = [[UnderplanStoryView alloc] initWithStyle:StoryStyleShort];
     self.containerView.layer.backgroundColor = [UIColor brownColor].CGColor;
     
     [self.containerView addSubview:self.mainView];

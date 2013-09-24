@@ -13,6 +13,6 @@
 
 #import "UnderplanTabBarController.h"
 
-@interface ActivityTabBarController : UnderplanTabBarController
+@interface ActivityTabBarController : UnderplanTabBarController <UITabBarControllerDelegate>
 
 @end

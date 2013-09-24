@@ -25,7 +25,7 @@ typedef enum ScrollDirection {
     ScrollDirectionCrazy,
 } ScrollDirection;
 
-@interface ActivityListViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIScrollViewDelegate>
+@interface ActivityListViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) ActivityViewController *activityViewController;
 

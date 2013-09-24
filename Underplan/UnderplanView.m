@@ -12,13 +12,13 @@
 
 @implementation UnderplanView
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    if(self = [super initWithCoder:aDecoder]) {
-        [self initView];
-    }
-    return self;
-}
+//- (id)initWithCoder:(NSCoder *)aDecoder
+//{
+//    if(self = [super initWithCoder:aDecoder]) {
+//        [self initView];
+//    }
+//    return self;
+//}
 
 - (id)initWithFrame:(CGRect)frame
 {

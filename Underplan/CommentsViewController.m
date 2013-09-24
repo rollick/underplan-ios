@@ -74,6 +74,8 @@
     self.view = [[UIView alloc] init];
     self.tableView = [[UITableView alloc] init];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.tableView.showsVerticalScrollIndicator = NO;
+    self.tableView.showsHorizontalScrollIndicator = NO;
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -81,6 +83,13 @@
     self.view.backgroundColor = [UIColor underplanBgColor];
     self.tableView.backgroundColor = [UIColor underplanBgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeRight;
+    
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
+        self.automaticallyAdjustsScrollViewInsets = YES;
+    
     
     if ([self.tabBarController.tabBar respondsToSelector:@selector(barStyle)])
     {
@@ -123,7 +132,6 @@
     self.navigationItem.title = @"Comments";
     [self configureApiSubscriptions];
 
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[UnderplanCommentItemCell class] forCellReuseIdentifier:@"Comment"];
 }
 

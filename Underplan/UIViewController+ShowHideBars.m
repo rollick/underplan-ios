@@ -33,11 +33,14 @@ static void * const TimerTagKey = (void*)&TimerTagKey;
                                                   target:self
                                                 selector:@selector(hideBars)
                                                 userInfo:nil
-                                                 repeats:YES];
+                                                 repeats:NO];
 }
 
 - (void)showBars
 {
+    if ([UIApplication sharedApplication].statusBarHidden)
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    
     if (self.navigationController.navigationBar.hidden)
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     
@@ -50,12 +53,15 @@ static void * const TimerTagKey = (void*)&TimerTagKey;
 
 - (void)hideBars
 {
+    if (! [UIApplication sharedApplication].statusBarHidden)
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
     if (! self.navigationController.navigationBar.hidden)
         [self.navigationController setNavigationBarHidden:YES animated:YES];
 
     if (self.tabBarController)
         [self.tabBarController hideTabBar];
-
+    
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
         [self setNeedsStatusBarAppearanceUpdate];
 }

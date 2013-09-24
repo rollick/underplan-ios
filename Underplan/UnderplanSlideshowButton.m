@@ -38,10 +38,10 @@
     
     if (_direction == SlideshowDirectionLeft) {
         image = [UIImage imageNamed:@"chevron-white-left-large"];
-        frame = CGRectMake(padding, screenRect.size.height / 2 - image.size.height / 2, image.size.width*2/3, image.size.height*2/3);
+        frame = CGRectMake(padding, screenRect.size.height / 2 - image.size.width/3, image.size.width*2/3, image.size.height*2/3);
     } else {
         image = [UIImage imageNamed:@"chevron-white-right-large"];
-        frame = CGRectMake(screenRect.size.width - image.size.width - padding, screenRect.size.height / 2 - image.size.height / 2, image.size.width*2/3, image.size.height*2/3);
+        frame = CGRectMake(screenRect.size.width - image.size.width*2/3 - padding, screenRect.size.height / 2 - image.size.width/3, image.size.width*2/3, image.size.height*2/3);
     }
     
     self = [self initWithFrame:frame];

@@ -15,16 +15,24 @@
 
 @implementation UnderplanShortItemCell
 
+- (id)initWithStyle:(ShortStyle)aStyle
+{
+    _style = aStyle;
+    
+    self.mainView = [[UnderplanShortView alloc] initWithStyle:_style];
+    self.mainView.backgroundColor = [UIColor underplanCellBgColor];
+    [self.containerView addSubview:self.mainView];
+    
+    self = [super init];
+    
+    return self;
+}
+
 - (void)initView
 {
     [super initView];
-    
-    self.mainView = [[UnderplanShortView alloc] init];
-    self.mainView.backgroundColor = [UIColor underplanCellBgColor];
 
     self.containerView.layer.backgroundColor = [UIColor brownColor].CGColor;
-
-    [self.containerView addSubview:self.mainView];
 }
 
 - (void)layoutSubviews
@@ -42,6 +50,18 @@
     self.itemId = activity.remoteId;
     User *owner = [[User alloc] initWithId:activity.ownerId];
     
+    if (activity.tags && [activity.tags length] > 0)
+        _style = ShortStyleWithImage;
+    else
+        _style = ShortStyleDefault;
+
+    if (!self.mainView)
+    {
+        self.mainView = [[UnderplanShortView alloc] initWithStyle:_style];
+        self.mainView.backgroundColor = [UIColor underplanCellBgColor];
+        [self.containerView addSubview:self.mainView];
+    }
+    
     // Set the owners name as the title
     self.mainView.detailsView.title.text = owner.profile[@"name"];
     self.mainView.detailsView.subTitle.text = [activity summaryInfo];
@@ -54,6 +74,9 @@
         [self.mainView.detailsView.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
                                placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     }
+    
+//    self.mainView.mainText.layer.borderWidth = 1.0;
+//    self.mainView.mainText.layer.borderColor = [UIColor orangeColor].CGColor;
     
     self.loaded = YES;
 }
@@ -78,24 +101,27 @@
                                                                  attributes:[NSDictionary dictionaryWithObject:self.mainView.mainText.font forKey:NSFontAttributeName]];
     
     CGFloat fontSize = self.mainView.mainText.font.pointSize;
-
-    CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], 21, 21);
+    
+    CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], 32, 32);
     CGFloat screenWidth = screenRect.size.width;
     float height;
     
-    CGRect rect = [string boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+    CGRect rect = [string boundingRectWithSize:CGSizeMake(200, 2000)
                                        options:NSStringDrawingUsesLineFragmentOrigin
                                        context:nil];
     
     height = rect.size.height < fontSize+10 ? fontSize+10 : rect.size.height;
     
-    return  BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE +
+    int cellHeight = BOTTOM_BORDER_SIZE*2 + CELL_BORDER_SIZE*2 +
             16 +
             52 + // self.detailsView.frame.size.height +
             16 +
-            height + // self.mainText.frame.size.height +
-            150 + // self.contentImage.frame.size.height +
-            BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE;
+            height; // self.mainText.frame.size.height +
+    
+    if (_style == ShortStyleWithImage)
+        cellHeight += 150;
+    
+    return cellHeight;
 }
 
 @end

@@ -15,14 +15,8 @@
 
 - (id)initWithStyle:(StoryStyle)aStyle
 {
-    if (self = [super init])
-    {
-        style = aStyle;
-
-        [self initView];
-    }
-    
-    return self;
+    style = aStyle;
+    return [super init];
 }
 
 - (void) initView
@@ -41,7 +35,7 @@
     self.title = [[UILabel alloc] init];
     NSNumber *titleHeight = @18;
     self.title.font = [UIFont fontWithName:@"OpenSans-Regular" size:[titleHeight integerValue]];
-//    self.title.text = @"          ......";
+    self.title.text = @"          ......";
     self.title.textColor = [UIColor underplanPrimaryColor];
     [self.title setTranslatesAutoresizingMaskIntoConstraints:NO];
     

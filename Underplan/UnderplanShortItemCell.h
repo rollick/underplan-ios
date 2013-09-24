@@ -12,9 +12,13 @@
 #import "UnderplanShortView.h"
 
 @interface UnderplanShortItemCell : UnderplanTableViewCell
+{
+    ShortStyle _style;
+}
 
 @property (retain, nonatomic) UnderplanShortView *mainView;
 
+- (id)initWithStyle:(ShortStyle)aStyle;
 - (void)clearActivityImage;
 
 @end

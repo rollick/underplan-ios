@@ -8,6 +8,16 @@
 
 #import "UnderplanUserItemView.h"
 
+typedef enum ShortStyle {
+    ShortStyleDefault,
+    ShortStyleWithImage,
+} ShortStyle;
+
 @interface UnderplanShortView : UnderplanUserItemView
+{
+    ShortStyle style;
+}
+
+- (id)initWithStyle:(ShortStyle)aStyle;
 
 @end

@@ -19,6 +19,9 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
+    if (self.containerView)
+        return self;
+    
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self initView];
@@ -26,13 +29,13 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    if(self = [super initWithCoder:aDecoder]) {
-        [self initView];
-    }
-    return self;
-}
+//- (id)initWithCoder:(NSCoder *)aDecoder
+//{
+//    if(self = [super initWithCoder:aDecoder]) {
+//        [self initView];
+//    }
+//    return self;
+//}
 
 - (void)initView
 {

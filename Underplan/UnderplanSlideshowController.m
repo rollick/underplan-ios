@@ -60,7 +60,7 @@
     [super viewWillAppear:animated];
     
     [self.photoImage setHidden:NO];
-    [self showControlsTemporarily];
+//    [self showControlsTemporarily];
     
     [self setDarkBarColor];
 }
@@ -100,7 +100,7 @@
     
     _lastScale = [(UIPinchGestureRecognizer*)sender scale];
     
-    [self showControlsTemporarily];
+//    [self showControlsTemporarily];
 }
 
 -(void)rotate:(id)sender {
@@ -120,7 +120,7 @@
     
     _lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
 
-    [self showControlsTemporarily];
+//    [self showControlsTemporarily];
 }
 
 
@@ -137,11 +137,14 @@
     
     [photoImage setCenter:translatedPoint];
 
-    [self showControlsTemporarily];
+//    [self showControlsTemporarily];
 }
 
 -(void)tapped:(id)sender {
-    [self showControlsTemporarily];
+    if (self.navigationController.navigationBar.hidden)
+        [self showControls];
+    else
+        [self hideControls];
 }
 
 -(void)doubleTapped:(id)sender
@@ -234,6 +237,18 @@
                                                 selector:@selector(slideButtonsOut)
                                                 userInfo:nil
                                                  repeats:YES];
+}
+
+- (void)showControls
+{
+    [self showBars];
+    [self slideButtonsIn];
+}
+
+- (void)hideControls
+{
+    [self hideBars];
+    [self slideButtonsOut];
 }
 
 - (void)slideButtonsOut
@@ -333,18 +348,15 @@
 
 - (void)setButtonVisibility
 {
-    if ([_photoIndex isEqualToNumber:@0]) {
-        [_nextBtn setHidden:NO];
+    if ([_photoIndex isEqualToNumber:@0])
         [_previousBtn setHidden:YES];
-    }
-    else if ([delegate numberOfPhotos] == [_photoIndex integerValue] + 1) {
+    else
+        [_previousBtn setHidden:NO];
+    
+    if ([delegate numberOfPhotos] == [_photoIndex integerValue] + 1)
         [_nextBtn setHidden:YES];
-        [_previousBtn setHidden:NO];
-    }
-    else {
+    else
         [_nextBtn setHidden:NO];
-        [_previousBtn setHidden:NO];
-    }
 }
 
 - (void)loadImageAtIndex:(NSNumber *)index
