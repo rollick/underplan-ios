@@ -41,7 +41,7 @@
     
     self.thumbnail = data[@"path180x180"];
     self.small= data[@"path320x320"];
-    self.medium = data[@"path640x640"];
+    self.medium = data[@"path960x960"];
     self.large = data[@"path1024x1024"];
     self.xlarge = data[@"path1600x1600"];
     self.fitWidth = data[[NSString stringWithFormat: @"path%.fx%.f", screenWidth, screenWidth]];

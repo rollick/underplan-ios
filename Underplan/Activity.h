@@ -10,10 +10,11 @@
 #import <MapKit/MapKit.h>
 
 #import "MeteorModel.h"
+#import "UserItem.h"
 #import "Group.h"
 #import "User.h"
 
-@interface Activity : MeteorModel
+@interface Activity : UserItem
 
 @property (strong, nonatomic) NSString *ownerId;
 @property (strong, nonatomic) NSString *groupId;
@@ -24,7 +25,6 @@
 @property (strong, nonatomic) NSString *region;
 @property (strong, nonatomic) NSString *country;
 @property (strong, nonatomic) NSString *tags;
-@property (strong, nonatomic) NSMutableDictionary *created;
 @property (nonatomic, strong) NSNumber *latitude;
 @property (nonatomic, strong) NSNumber *longitude;
 @property (retain, nonatomic, readonly) User *owner;

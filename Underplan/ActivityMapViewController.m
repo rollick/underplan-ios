@@ -92,12 +92,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-//    [self reloadData];
-//    UIBarButtonItem *zoomToFitButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"arrow_out.png"] style:UIBarButtonItemStylePlain target:self action:@selector(zoomMapViewToFitAnnotations)];
-//    self.navigationItem.rightBarButtonItem = zoomToFitButton;
-    
-//    [self zoomMapViewToFitAnnotations:_feedMapView animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

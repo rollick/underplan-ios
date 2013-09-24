@@ -32,19 +32,16 @@
     NSDictionary *viewsDictionary;
     NSString *format;
     
-    UITextView *mainText = self.mainText;
-    UnderplanItemDetailsView *detailsView = self.detailsView;
-    
     self.banner = [[BannerView alloc] init];
     [self.banner setBannerBorder:0];
     [self.banner setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    [self addSubview:_banner];
+    [self addSubview:self.banner];
 
     self.title = [[UILabel alloc] init];
     NSNumber *titleHeight = @18;
     self.title.font = [UIFont fontWithName:@"OpenSans-Regular" size:[titleHeight integerValue]];
-    self.title.text = @"          ......";
+//    self.title.text = @"          ......";
     self.title.textColor = [UIColor underplanPrimaryColor];
     [self.title setTranslatesAutoresizingMaskIntoConstraints:NO];
     
@@ -61,19 +58,34 @@
         
         [self addSubview:self.continueLabel];
 
-        viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView, _banner, _title, _continueLabel);
-        format = @"V:|-16-[detailsView]-18-[_title(titleHeight)]-6-[mainText]-[_continueLabel]-(>=16)-|";
+        viewsDictionary = @{@"mainText": self.mainText,
+                            @"detailsView": self.detailsView,
+                            @"banner": self.banner,
+                            @"title": self.title,
+                            @"continueLabel": self.continueLabel};
+        
+        format = @"V:|-16-[detailsView]-18-[title(titleHeight)]-6-[mainText]-(-6)-[continueLabel]-(>=16)-|";
     }
     else
     {
-        viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView, _banner, _title);
-        format = @"V:|-16-[detailsView]-16-[_title(titleHeight)]-5-[mainText]-(>=16)-|";
+        viewsDictionary = @{@"mainText": self.mainText,
+                            @"detailsView": self.detailsView,
+                            @"banner": self.banner,
+                            @"title": self.title};
+        
+        format = @"V:|-16-[detailsView]-16-[title(titleHeight)]-5-[mainText]-(>=16)-|";
     }
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                  options:NSLayoutFormatAlignAllLeft
                                                                  metrics:@{@"titleHeight": titleHeight}
                                                                    views:viewsDictionary]];
+    
+    format = @"|-16-[title]-16-|";
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                 options:NSLayoutFormatAlignAllLeft
+                                                                 metrics:nil
+                                                                   views:@{@"title": self.title}]];
 }
 
 - (void)layoutSubviews

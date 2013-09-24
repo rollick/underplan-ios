@@ -26,11 +26,11 @@
         self.layer.borderWidth = VIEW_BORDER_SIZE;
     }
     
-//    self.backgroundColor = [UIColor purpleColor];
+//    self.layer.backgroundColor = [UIColor greenColor].CGColor;
     
     self.detailsView = [[UnderplanItemDetailsView alloc] init];
-
     [self.detailsView setTranslatesAutoresizingMaskIntoConstraints:NO];
+//    self.detailsView.layer.borderColor = [UIColor blueColor].CGColor;
     
     [self addSubview:detailsView];
     
@@ -39,8 +39,10 @@
     self.mainText.scrollEnabled = NO;
     self.mainText.contentMode = UIViewContentModeTop;
     self.mainText.contentInset = UIEdgeInsetsMake(-8,-4,-4,-4);
-
-//    self.mainText.backgroundColor = [UIColor purpleColor];
+    
+//    self.mainText.layer.borderColor = [UIColor purpleColor].CGColor;
+//    self.mainText.layer.borderWidth = 1.0f;
+//    self.mainText.layer.backgroundColor = [UIColor clearColor].CGColor;
 
     [self.mainText setFont:[UIFont fontWithName:@"Roboto-Light" size:14]];
     [self.mainText setTranslatesAutoresizingMaskIntoConstraints:NO];

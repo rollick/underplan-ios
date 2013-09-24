@@ -15,4 +15,6 @@
 
 @property (retain, nonatomic) UnderplanShortView *mainView;
 
+- (void)clearActivityImage;
+
 @end

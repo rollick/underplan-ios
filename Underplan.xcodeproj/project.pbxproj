@@ -147,6 +147,7 @@
 		26C0A0DF17F05077005A96FE /* UnderplanTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0A0DD17F05077005A96FE /* UnderplanTabBar.m */; };
 		26C0A0E217F05A16005A96FE /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 26C0A0E017F05A16005A96FE /* Icon-76.png */; };
 		26C0A0E317F05A16005A96FE /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26C0A0E117F05A16005A96FE /* Icon-76@2x.png */; };
+		26C0A0EC17F1B031005A96FE /* UserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0A0EB17F1B031005A96FE /* UserItem.m */; };
 		26EA950717B5121F003E31CA /* ActivityMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EA950617B5121E003E31CA /* ActivityMapViewController.m */; };
 		26EA950F17B52014003E31CA /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EA950E17B52013003E31CA /* GroupViewController.m */; };
 		26EA951217B54220003E31CA /* transparent-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 26EA951117B54220003E31CA /* transparent-bg.png */; };
@@ -360,6 +361,8 @@
 		26C0A0DD17F05077005A96FE /* UnderplanTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanTabBar.m; sourceTree = "<group>"; };
 		26C0A0E017F05A16005A96FE /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-76.png"; path = "Icons/Icon-76.png"; sourceTree = "<group>"; };
 		26C0A0E117F05A16005A96FE /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-76@2x.png"; path = "Icons/Icon-76@2x.png"; sourceTree = "<group>"; };
+		26C0A0EA17F1B031005A96FE /* UserItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserItem.h; sourceTree = "<group>"; };
+		26C0A0EB17F1B031005A96FE /* UserItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserItem.m; sourceTree = "<group>"; };
 		26EA950517B5121E003E31CA /* ActivityMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityMapViewController.h; sourceTree = "<group>"; };
 		26EA950617B5121E003E31CA /* ActivityMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityMapViewController.m; sourceTree = "<group>"; };
 		26EA950D17B52013003E31CA /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
@@ -605,12 +608,9 @@
 		26A1D5D517A16EE500526060 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				26C0A0E817F1AD96005A96FE /* Common */,
 				26C0A0D117F0463D005A96FE /* GalleryDataSource.m */,
 				26C0A0D217F0463D005A96FE /* GalleryDataSource.h */,
-				26A12C1517CBC876006B619E /* SharedApiClient.h */,
-				26A12C1617CBC876006B619E /* SharedApiClient.m */,
-				260CFC8517B2803F00FC7787 /* MeteorModel.h */,
-				260CFC8617B2803F00FC7787 /* MeteorModel.m */,
 				26EE731F17CFC3020028639E /* Gallery.h */,
 				26EE732017CFC3020028639E /* Gallery.m */,
 				260CFC8817B294C400FC7787 /* Photo.h */,
@@ -696,6 +696,19 @@
 				26AAAB0317D9043D00944DAC /* bg_iphone5@2x.png */,
 			);
 			name = Splash;
+			sourceTree = "<group>";
+		};
+		26C0A0E817F1AD96005A96FE /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				26A12C1517CBC876006B619E /* SharedApiClient.h */,
+				26A12C1617CBC876006B619E /* SharedApiClient.m */,
+				260CFC8517B2803F00FC7787 /* MeteorModel.h */,
+				260CFC8617B2803F00FC7787 /* MeteorModel.m */,
+				26C0A0EA17F1B031005A96FE /* UserItem.h */,
+				26C0A0EB17F1B031005A96FE /* UserItem.m */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 		26EA951017B5268B003E31CA /* Controllers */ = {
@@ -1074,6 +1087,7 @@
 				2665905F179EE51E001EFABF /* main.m in Sources */,
 				26AAAACF17D1FEAB00944DAC /* UIColor+Underplan.m in Sources */,
 				26A12C1417C9F852006B619E /* UIViewController+UnderplanApiNotifications.m in Sources */,
+				26C0A0EC17F1B031005A96FE /* UserItem.m in Sources */,
 				26EE731917CFBDB70028639E /* GalleryViewCell.m in Sources */,
 				264C856517E6F40100E2A09E /* UIViewController+ShowHideBars.m in Sources */,
 				26EE72F017CF86450028639E /* UnderplanStoryView.m in Sources */,

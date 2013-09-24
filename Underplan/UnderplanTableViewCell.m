@@ -10,6 +10,11 @@
 
 #import "UIColor+Underplan.h"
 
+#import "User.h"
+#import "Activity.h"
+
+#import <SDWebImage/UIImageView+WebCache.h>
+
 @implementation UnderplanTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -35,12 +40,6 @@
     [self.contentView addSubview:self.containerView];
     [self.contentView bringSubviewToFront:self.containerView];
     
-//    self.containerView.backgroundColor = [UIColor underplanGroupCellColor];
-//    self.containerView.layer.masksToBounds = YES;
-//    self.containerView.layer.cornerRadius = 3.0;
-//    self.containerView.layer.borderColor = [UIColor underplanDarkMenuColor].CGColor;
-//    self.containerView.layer.borderWidth = 1.0;
-    
     self.contentView.backgroundColor = [UIColor clearColor];
     self.backgroundView.backgroundColor = [UIColor clearColor];
     self.backgroundColor = [UIColor clearColor];
@@ -60,6 +59,16 @@
     }
 
     [self.underLineView setFrame:CGRectMake(0, self.containerView.bounds.size.height, self.containerView.bounds.size.width, BOTTOM_BORDER_SIZE)];
+}
+
+- (void)loadActivity:(Activity *)activity
+{
+    
+}
+
+- (void)loadActivityImage:(Activity *)activity
+{
+
 }
 
 - (int)cellHeight:(NSString *)text

@@ -65,7 +65,11 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
 {
     [super viewDidLoad];
     
-//    [self showBars];
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeRight;
+    
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
+        self.automaticallyAdjustsScrollViewInsets = YES;
     
     if ([_delegate respondsToSelector:@selector(activity)])
         [self setActivity:[_delegate activity]];
@@ -208,7 +212,7 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
 
 - (NSString *)fullImageUrlAtIndexPath:(NSNumber *)index {
     int i = [index intValue];
-    return [self.gallery.photos objectAtIndex:i][@"path1024x1024"];
+    return [self.gallery.photos objectAtIndex:i][@"path960x960"];
 }
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{

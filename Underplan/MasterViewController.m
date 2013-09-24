@@ -21,6 +21,7 @@
 #import "Group.h"
 
 #import "UIColor+Underplan.h"
+#import <MBProgressHUD.h>
 
 @interface MasterViewController ()
 
@@ -42,6 +43,12 @@
 //        self.clearsSelectionOnViewWillAppear = NO;
         self.preferredContentSize = CGSizeMake(320.0, 600.0);
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveApiUpdate:)
+                                                 name:@"groups_ready"
+                                               object:nil];
+    
     [super awakeFromNib];
 }
 
@@ -65,7 +72,9 @@
     self.connectionStatusText.text = @"Connected to Underplan!";
     self.connectedToMeteor = YES;
 
-    if ([[notification name] isEqualToString:@"added"]) {
+    if ([[notification name] isEqualToString:@"groups_ready"]) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
         self._groups = [SharedApiClient getClient].collections[@"groups"];
         [self.tableView reloadData];
     }
@@ -76,6 +85,8 @@
     [super viewDidLoad];
     
     self.view = [[UIView alloc] init];
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+
     NSString *bgName;
     int screenHeight = [[UIScreen mainScreen] bounds].size.height;
     if (screenHeight > 480)
@@ -92,37 +103,24 @@
     UIBarButtonItem *reconnectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reconnectSocket)];
     self.navigationItem.rightBarButtonItem = reconnectButton;
     
+    [self setupProductLabel];
     [self setupTableView];
     [self setupGroupView];
 }
 
-- (void)setupTableView
+- (void)setupProductLabel
 {
-    tableOffset = 130;
-    
-    // Table View
-    self.tableView = [[UITableView alloc] init];
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    
-    [self.view addSubview:self.tableView];
-    
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     // Add product name
     NSNumber *labelHeight = @50;
     NSNumber *labelPositionY = @50;
     self.productLabel = [[UILabel alloc] init];
-    self.productLabel.text = @"underplan";
+    self.productLabel.text = @"Underplan";
     self.productLabel.textAlignment = NSTextAlignmentCenter;
     self.productLabel.textColor = [UIColor underplanPrimaryDarkColor];
     self.productLabel.font = [UIFont fontWithName:@"LilyScriptOne-Regular" size:[labelHeight integerValue]];
     self.productLabel.backgroundColor = [UIColor clearColor];
     [self.productLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-
+    
     [self.view addSubview:self.productLabel];
     
     NSString *format = @"H:|-(>=0)-[productName]-(>=0)-|";
@@ -146,6 +144,23 @@
                                                           attribute:NSLayoutAttributeCenterX
                                                          multiplier:1.0f
                                                            constant:0.0f]];
+}
+
+- (void)setupTableView
+{
+    tableOffset = 130;
+    
+    // Table View
+    self.tableView = [[UITableView alloc] init];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    
+    [self.view addSubview:self.tableView];
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)setupGroupView
@@ -355,7 +370,7 @@
 - (void)fadeOutLabel:(UILabel *)label
 {
     // Fade out the label right away
-    [UIView animateWithDuration:0.15
+    [UIView animateWithDuration:0.1
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseIn
                      animations:^{
@@ -367,7 +382,7 @@
 - (void)fadeInLabel:(UILabel *)label
 {
     // Fade out the label right away
-    [UIView animateWithDuration:0.15
+    [UIView animateWithDuration:0.1
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseIn
                      animations:^{

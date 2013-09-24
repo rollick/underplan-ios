@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UnderplanItemDetailsView : UIView
+
 @property (retain, nonatomic) UIImageView *image;
 @property (retain, nonatomic) UILabel *title;
 @property (retain, nonatomic) UILabel *subTitle;

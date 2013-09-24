@@ -153,26 +153,32 @@
 
 - (void)setCommentsByActivityId:(NSString *)activityId
 {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", activityId];
-    
-    // Filter for comments related to the current activity
-    NSArray *filteredList = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
-    
-    // Sort by oldest to newest
-    _comments = [filteredList sortedArrayUsingComparator: ^(id a, id b) {
-        NSString *first = [[a objectForKey:@"created"] objectForKey:@"$date"];
-        NSString *second = [[b objectForKey:@"created"] objectForKey:@"$date"];
-        return [first compare:second];
-    }];
-    
-    [_delegate updateBadgeCount:self count:[_comments count]];
-    
-    if ([_comments count] > 0)
-        [UnderplanBasicLabel removeFrom:self.view];
-    else
-        [UnderplanBasicLabel addTo:self.view text:@"No Comments"];
-
-    [self.tableView reloadData];
+    dispatch_queue_t troveQueue = dispatch_queue_create("Comments Processing Queue", NULL);
+    dispatch_async(troveQueue, ^{
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", activityId];
+        
+        // Filter for comments related to the current activity
+        NSArray *filteredList = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
+        
+        // Sort by oldest to newest
+        _comments = [filteredList sortedArrayUsingComparator: ^(id a, id b) {
+            NSString *first = [[a objectForKey:@"created"] objectForKey:@"$date"];
+            NSString *second = [[b objectForKey:@"created"] objectForKey:@"$date"];
+            return [first compare:second];
+        }];
+        
+        // perform UI updates in the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate updateBadgeCount:self count:[_comments count]];
+            
+            if ([_comments count] > 0)
+                [UnderplanBasicLabel removeFrom:self.view];
+            else
+                [UnderplanBasicLabel addTo:self.view text:@"No Comments"];
+            
+            [self.tableView reloadData];
+        });
+    });
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -221,44 +227,8 @@
     NSDictionary *_comment = _comments[indexPath.row];
     
     Comment *comment = [[Comment alloc] initWithId:_comment[@"_id"]];
+    [cell loadComment:comment];
     
-    // Fetch owner
-    User *owner = [[User alloc] initWithId:comment.ownerId];
-    
-    // Set the profile image
-    // TODO: Maybe the activity cell needs to have a custom view which can
-    //       be notified when the owner details are available....
-    
-    // Set the owners name as the title
-    cell.detailsView.title.text = owner.profile[@"name"];
-    
-    // Set the owners profile picture
-    NSString *profileImageUrl = [owner profileImageUrl:@75];
-    
-    [cell.detailsView.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
-                 placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    
-    // Set the info field - date and location
-    NSString *created;
-    if([comment.created isKindOfClass:[NSMutableDictionary class]])
-    {
-        double dateDouble = [comment.created[@"$date"] doubleValue];
-        dateDouble = dateDouble/1000;
-        NSDate *dateCreated = [NSDate dateWithTimeIntervalSince1970:dateDouble];
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"dd MMM yyyy 'at' HH:mm"];
-        NSString *formattedDateString = [dateFormatter stringFromDate:dateCreated];
-        
-        created = formattedDateString;
-    }
-    else
-    {
-        created = @"-";
-    }
-    
-    cell.detailsView.subTitle.text = created;
-    cell.mainText.text = comment.text;
-
     self.tableView.backgroundColor = [UIColor underplanBgColor];
     
     return cell;

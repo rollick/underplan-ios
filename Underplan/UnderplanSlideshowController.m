@@ -267,8 +267,8 @@
                                                                   target:self
                                                                   action:@selector(handleBack:)];
     
-    self.navigationItem.rightBarButtonItem = backButton;
-    [self.navigationItem setHidesBackButton:YES animated:NO];
+    self.navigationItem.leftBarButtonItem = backButton;
+//    [self.navigationItem setHidesBackButton:YES animated:NO];
     
     canvas.userInteractionEnabled = YES;
     canvas.multipleTouchEnabled = YES;

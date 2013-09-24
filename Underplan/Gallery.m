@@ -49,7 +49,7 @@
     url = [url stringByReplacingOccurrencesOfString:@"<domain>" withString:_trovebox[@"domain"]];
     url = [url stringByReplacingOccurrencesOfString:@"<album>" withString:_trovebox[@"album"]];
     url = [url stringByReplacingOccurrencesOfString:@"<albumKey>" withString:_trovebox[@"albumKey"]];
-    url = [url stringByReplacingOccurrencesOfString:@"<returnSizes>" withString:@"180x180,320x320,640x640,1024x1024,1600x1600"];
+    url = [url stringByReplacingOccurrencesOfString:@"<returnSizes>" withString:@"180x180,320x320,640x640,960x960,1024x1024,1600x1600"];
     
     if (tags && ![tags isKindOfClass:[NSNull class]] && ![tags isEqualToString:@"-1"])
         url = [url stringByAppendingString:[[NSString alloc] initWithFormat:@"&tags=%@",tags]];

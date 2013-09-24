@@ -40,7 +40,10 @@
     self.city = data_[@"city"];
     self.region = data_[@"region"];
     self.country = data_[@"country"];
-    self.tags = data_[@"picasaTags"];
+    if ([data_[@"picasaTags"] isKindOfClass:[NSNull class]])
+        self.tags = nil;
+    else
+        self.tags = data_[@"picasaTags"];
     self.created = data_[@"created"];
     
     return true;
@@ -121,13 +124,23 @@
     
     // If the group has trovebox settings then check the tags for a photo to match this activity
     if ([group hasTrovebox]) {
-        // The tag is set based on the activity id
-        NSString *photoTag = @"underplan-*";
-        photoTag = [photoTag stringByReplacingOccurrencesOfString:@"*" withString:self.remoteId];
-        Photo *photo = [[Photo alloc] initWithFirstMatchByTagAndTrovebox:photoTag trovebox:group.trovebox];
-        
-        // TODO: return image size url based on device screen width
-        return photo.medium;
+        if (self.tags && [self.tags length])
+        {
+            // The tag is set based on the activity id
+            // TODO: should return all matches for the tags
+            Photo *photo = [[Photo alloc] initWithFirstMatchByTagAndTrovebox:self.tags trovebox:group.trovebox];
+            return photo.medium;
+        }
+        else
+        {
+            // The tag is set based on the activity id
+            NSString *photoTag = @"underplan-*";
+            photoTag = [photoTag stringByReplacingOccurrencesOfString:@"*" withString:self.remoteId];
+            Photo *photo = [[Photo alloc] initWithFirstMatchByTagAndTrovebox:photoTag trovebox:group.trovebox];
+            
+            // TODO: return image size url based on device screen width
+            return photo.medium;
+        }
     } else {
         return @"";
     }

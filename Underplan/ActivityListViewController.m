@@ -81,6 +81,11 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
                forKeyPath:@"loading"
                   options:NSKeyValueObservingOptionNew
                   context:ActivityListKVOContext];
+
+        [self addObserver:self
+               forKeyPath:@"group"
+                  options:NSKeyValueObservingOptionNew
+                  context:ActivityListKVOContext];
     }
     
     return self;
@@ -93,36 +98,43 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     else
         [UnderplanBasicLabel addTo:self.view text:@"No Activities"];
     
-    [_tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    if (_delegate)
-        _group = [_delegate currentGroup];
+    if (self.delegate)
+        self.group = [self.delegate currentGroup];
     
     self.view = [[UIView alloc] init];
-    _tableView = [[UITableView alloc] init];
-    _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    _tableView.showsVerticalScrollIndicator = NO;
-    _tableView.showsHorizontalScrollIndicator = NO;
+    self.tableView = [[UITableView alloc] init];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.tableView.showsVerticalScrollIndicator = NO;
+    self.tableView.showsHorizontalScrollIndicator = NO;
     
-    _tableView.dataSource = self;
-    _tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
 
     self.view.backgroundColor = [UIColor underplanBgColor];
-    _tableView.backgroundColor = [UIColor underplanBgColor];
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor underplanBgColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
+        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeRight;
     
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
         self.automaticallyAdjustsScrollViewInsets = YES;
     
-    [self.view addSubview:_tableView];
+    [self.view addSubview:self.tableView];
+    
+    [MBProgressHUD showHUDAddedTo:self.tableView animated:NO];
+    
+    
+    // Register cell classes
+    [self.tableView registerClass:[UnderplanShortItemCell class] forCellReuseIdentifier:@"Short"];
+    [self.tableView registerClass:[UnderplanStoryItemCell class] forCellReuseIdentifier:@"Story"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -130,12 +142,19 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-    if ([keyPath isEqual:@"loading"]) {
+    if ([keyPath isEqual:@"loading"] && self.tableView)
+    {
         if ([[change objectForKey:NSKeyValueChangeNewKey] isEqualToNumber:@1]) {
-            [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+            [MBProgressHUD showHUDAddedTo:self.tableView animated:NO];
         } else {
-            [MBProgressHUD hideHUDForView:self.view animated:NO];
+            [MBProgressHUD hideHUDForView:self.tableView animated:NO];
         }
+    }
+    else if ([keyPath isEqual:@"group"])
+    {
+        // If new group set then show loadin icon
+        if ([change objectForKey:NSKeyValueChangeNewKey])
+            [self setLoading:YES];
     }
 }
 
@@ -160,10 +179,6 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     [self configureApiSubscriptions];
     
     [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:YES];
-    
-    // Register cell classes
-    [_tableView registerClass:[UnderplanShortItemCell class] forCellReuseIdentifier:@"Short"];
-    [_tableView registerClass:[UnderplanStoryItemCell class] forCellReuseIdentifier:@"Story"];
 }
 
 - (void)didReceiveApiUpdate:(NSNotification *)notification
@@ -178,7 +193,9 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     {
         if (limit > [self.computedList count]) {
             complete = YES;
-        } else
+            [self setLoading:NO];
+        }
+        else
         {
             complete = NO;
             [self setLoading:NO];
@@ -207,9 +224,10 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 
 -(void)dealloc
 {
-    _tableView.delegate = nil;
+    self.tableView.delegate = nil;
     
     [self removeObserver:self forKeyPath:@"loading"];
+    [self removeObserver:self forKeyPath:@"group"];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -250,58 +268,34 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 {
     NSDictionary *activityData = self.computedList[indexPath.row];
     Activity *activity = [[Activity alloc] initWithId:activityData[@"_id"]];
-    
-    UnderplanTableViewCell *cell;
-    static NSString *cellIdentifier;
-    if ([activity.type isEqualToString:@"story"])
-        cellIdentifier = @"Story";
-    else
-        cellIdentifier = @"Short";
-
-    cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    
-    // Fetch owner and id for cell
-    cell.itemId = activity.remoteId;
-    User *owner = [[User alloc] initWithId:activity.ownerId];
-
-    // Set the owners name as the title
-    cell.detailsView.title.text = owner.profile[@"name"];
-
-    if ([activity.type isEqualToString:@"story"])
-        [cell.title setText:activity.title];
-    
-    // Set the owners profile picture
-    NSString *profileImageUrl = [owner profileImageUrl:@75];
-    
-    if ([profileImageUrl length]) {
-        [cell.detailsView.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
-                   placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    }
-
-    cell.detailsView.subTitle.text = [activity summaryInfo];
-    cell.mainText.text = activity.summaryText;
-    
-    // Set the shorty photo if available
-    if ([activity.type isEqual:@"short"])
-    {
-        if (!tableView.decelerating)
-        {
-            NSString *photoUrl = [activity photoUrl];
-            if (photoUrl && ![photoUrl isEqual:@""])
-            {
-                [cell.contentImage setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-            }
-        } else {
-            // table is scrolling...
-            cell.contentImage.image = nil;
-        }
-    }
-
-    cell.loaded = YES;
 
     self.view.backgroundColor = [UIColor underplanBgColor];
+    
+    if ([activity.type isEqualToString:@"story"])
+    {
+        UnderplanStoryItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Story" forIndexPath:indexPath];
+        [cell loadActivity:activity];
+        
+        return cell;
+    }
+    else
+    {
+        UnderplanShortItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Short" forIndexPath:indexPath];
+        [cell loadActivity:activity];
+        
+        if (!tableView.decelerating)
+        {
+            [cell loadActivityImage:activity];
+        }
+        else
+        {
+            [cell clearActivityImage];
+        }
+        
+        return cell;
+    }
 
-    return cell;
+    return nil;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -330,11 +324,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     [visibleCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UnderplanTableViewCell *cell = (UnderplanTableViewCell *)obj;
         Activity *activity = [[Activity alloc] initWithId:cell.itemId];
-        NSString *photoUrl = [activity photoUrl];
-        if (photoUrl && ![photoUrl isEqual:@""])
-        {
-            [cell.contentImage setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        }
+        [cell loadActivityImage:activity];
     }];
 }
 

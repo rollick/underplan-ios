@@ -9,14 +9,13 @@
 #import <Foundation/Foundation.h>
 
 #import "MeteorModel.h"
+#import "UserItem.h"
 #import "User.h"
 
-@interface Comment : MeteorModel
+@interface Comment : UserItem
 
-@property (strong, nonatomic) NSString *ownerId;
 @property (strong, nonatomic) NSString *activityId;
 @property (strong, nonatomic) NSString *groupId;
 @property (strong, nonatomic) NSString *text;
-@property (strong, nonatomic) NSMutableDictionary *created;
 
 @end

@@ -18,6 +18,8 @@
 {
     [super initView];
     
+//    self.layer.borderColor = [UIColor yellowColor].CGColor;
+    
     self.contentImage = [[UIImageView alloc] init];
     self.contentImage.translatesAutoresizingMaskIntoConstraints = NO;
     self.contentImage.contentMode = UIViewContentModeScaleAspectFill;
@@ -25,24 +27,15 @@
     
     [self addSubview:self.contentImage];
     
-    UITextView *mainText = self.mainText;
-    UnderplanItemDetailsView *detailsView = self.detailsView;
+    NSDictionary *viewsDictionary = @{@"mainText": self.mainText,
+                                      @"detailsView": self.detailsView,
+                                      @"contentImage": self.contentImage};
     
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView, contentImage);
-    
-    NSString *format = @"V:|-(16)-[detailsView]-(16)-[mainText]-(16)-[contentImage]-(0)-|";
+    NSString *format = @"V:|-(16)-[detailsView]-(16)-[mainText]-(>=0)-[contentImage(150)]-(0)-|";
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                  options:NSLayoutFormatAlignAllLeft
                                                                  metrics:nil
                                                                    views:viewsDictionary]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentImage
-                                                     attribute:NSLayoutAttributeHeight
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:nil
-                                                     attribute:NSLayoutAttributeNotAnAttribute
-                                                    multiplier:1
-                                                      constant:150]];
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[contentImage]-0-|"
                                                                  options:NSLayoutFormatAlignAllLeft

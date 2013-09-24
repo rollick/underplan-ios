@@ -10,8 +10,12 @@
 
 #import "UnderplanUserItemView.h"
 
+#import "Comment.h"
+
 @interface UnderplanCommentItemCell : UnderplanTableViewCell
 
 @property (retain, nonatomic) UnderplanUserItemView *mainView;
+
+- (void)loadComment:(Comment *)comment;
 
 @end

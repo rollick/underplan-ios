@@ -7,8 +7,11 @@
 //
 
 #import "UnderplanCommentItemCell.h"
-
 #import "UnderplanUserItemView.h"
+
+#include "Comment.h"
+
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @implementation UnderplanCommentItemCell
 
@@ -17,22 +20,37 @@
     [super initView];
     
     self.mainView = [[UnderplanUserItemView alloc] init];
-    self.contentImage = self.mainView.contentImage;
-    self.detailsView = self.mainView.detailsView;
-    self.mainText = self.mainView.mainText;
-
     [self.containerView addSubview:self.mainView];
     
-    UITextView *mainText = self.mainText;
-    UnderplanItemDetailsView *detailsView = self.detailsView;
-    
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView);
+    NSDictionary *viewsDictionary = @{@"mainText": self.mainView.mainText, @"detailsView": self.mainView.detailsView};
     
     NSString *format = @"V:|-16-[detailsView]-16-[mainText]-(>=16)-|";
     [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                               options:NSLayoutFormatAlignAllLeft
                                                                               metrics:nil
                                                                                 views:viewsDictionary]];
+}
+
+- (void)loadComment:(Comment *)comment
+{
+    // Fetch owner and id for cell
+    self.itemId = comment.remoteId;
+    User *owner = [[User alloc] initWithId:comment.ownerId];
+    
+    // Set the owners name as the title
+    self.mainView.detailsView.title.text = owner.profile[@"name"];
+    self.mainView.detailsView.subTitle.text = [comment summaryInfo];
+    self.mainView.mainText.text = comment.text;
+    
+    // Set the owners profile picture
+    NSString *profileImageUrl = [owner profileImageUrl:@75];
+    
+    if ([profileImageUrl length]) {
+        [self.mainView.detailsView.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
+                                        placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    }
+    
+    self.loaded = YES;
 }
 
 - (void)layoutSubviews
@@ -47,31 +65,36 @@
     if (!text)
         text = @"";
     
-    NSDictionary *stringAttributes = [NSDictionary dictionaryWithObject:self.mainText.font forKey: NSFontAttributeName];
+    NSDictionary *stringAttributes = [NSDictionary dictionaryWithObject:self.mainView.mainText.font forKey:NSFontAttributeName];
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:text attributes:[NSDictionary dictionaryWithObject:self.mainView.mainText.font forKey:NSFontAttributeName]];
+    
+    CGFloat fontSize = self.mainView.mainText.font.pointSize;
 
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], 21, 21);
     CGFloat screenWidth = screenRect.size.width;
     CGRect rect;
     float height;
     
     if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)])
     {
-        rect = [text boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX) options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin attributes:stringAttributes context:nil];
+        rect = [string boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                           context:nil];
     } else {
         NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text attributes:stringAttributes];
         
         rect = [attributedText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX) options:NSLineBreakByWordWrapping|NSStringDrawingUsesLineFragmentOrigin context:nil];
     }
     
-    height = rect.size.height < 50 ? 50 : rect.size.height;
+    height = rect.size.height < fontSize ? fontSize : rect.size.height;
     
-    return  16 +
+    return  BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE +
+            16 +
             52 + // self.detailsView.frame.size.height +
             16 +
             height + // self.mainText.frame.size.height +
-            24 + // fudge!
-            16 + 
-            BOTTOM_BORDER_SIZE;
+            16 +
+            BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE;
 }
 
 @end

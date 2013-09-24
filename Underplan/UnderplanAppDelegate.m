@@ -29,13 +29,19 @@
     [self.apiClient addSubscription:@"groups"];
     [self.apiClient addSubscription:@"directory"];
 
-    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://underplan.it/websocket" delegate:self.apiClient];
-//    ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.apiClient];
+    dispatch_queue_t meteorQueue = dispatch_queue_create("Meteor Connect Queue", NULL);
+    dispatch_async(meteorQueue, ^{
+//        ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://underplan.it/websocket" delegate:self.apiClient];
+        ObjectiveDDP *ddp = [[ObjectiveDDP alloc] initWithURLString:@"ws://localhost:3000/websocket" delegate:self.apiClient];
+        
+        self.apiClient.ddp = ddp;
+        [SharedApiClient setClient:self.apiClient];
+    });
+
+
+
     
-    self.apiClient.ddp = ddp;
-    
-    [SharedApiClient setClient:self.apiClient];
-        return YES;
+    return YES;
 }
 						
 - (void)applicationWillResignActive:(UIApplication *)application
