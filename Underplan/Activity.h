@@ -25,13 +25,14 @@
 @property (strong, nonatomic) NSString *region;
 @property (strong, nonatomic) NSString *country;
 @property (strong, nonatomic) NSString *tags;
+@property (strong, nonatomic, readonly) NSString *photoUrl;
 @property (nonatomic, strong) NSNumber *latitude;
 @property (nonatomic, strong) NSNumber *longitude;
 @property (retain, nonatomic, readonly) User *owner;
 @property (retain, nonatomic, readonly) Group *group;
 
 - (NSString *)summaryInfo;
-- (NSString *)photoUrl;
 - (NSString *)summaryText;
+- (BOOL)hasTags;
 
 @end

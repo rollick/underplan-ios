@@ -28,7 +28,7 @@
     self.label = [[UILabel alloc] init];
     self.label.text = @"Story";
     self.label.textColor = [UIColor whiteColor];
-    self.label.backgroundColor = [UIColor underplanPrimaryDarkColor];
+    self.label.backgroundColor = [[UIColor underplanPrimaryColor] colorWithAlphaComponent:0.7f];
     [self.label setFont:[UIFont fontWithName:@"Roboto-Light" size:14]];
     
     [self addSubview:self.label];

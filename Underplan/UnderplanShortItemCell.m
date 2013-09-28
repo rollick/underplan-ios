@@ -15,15 +15,36 @@
 
 @implementation UnderplanShortItemCell
 
-- (id)initWithStyle:(ShortStyle)aStyle
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    _style = aStyle;
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+
+    if ([reuseIdentifier isEqualToString:@"ShortWithImage"])
+    {
+        _style = ShortStyleWithImage;
+    }
+    else if ([reuseIdentifier isEqualToString:@"Short"])
+    {
+        _style = ShortStyleDefault;
+    }
     
     self.mainView = [[UnderplanShortView alloc] initWithStyle:_style];
     self.mainView.backgroundColor = [UIColor underplanCellBgColor];
+    [self.mainView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
     [self.containerView addSubview:self.mainView];
     
-    self = [super init];
+    NSDictionary *viewsDictionary = @{@"mainView": self.mainView};
+    
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mainView]|"
+                                                                               options:NSLayoutFormatAlignAllLeft
+                                                                               metrics:nil
+                                                                                 views:viewsDictionary]];
+    
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[mainView]|"
+                                                                               options:NSLayoutFormatAlignAllTop
+                                                                               metrics:nil
+                                                                                 views:viewsDictionary]];
     
     return self;
 }
@@ -38,8 +59,6 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
-    [self.mainView setFrame:CGRectMake(0, 0, self.containerView.bounds.size.width, self.containerView.bounds.size.height)];
 }
 
 - (void)loadActivity:(Activity *)activity
@@ -54,13 +73,6 @@
         _style = ShortStyleWithImage;
     else
         _style = ShortStyleDefault;
-
-    if (!self.mainView)
-    {
-        self.mainView = [[UnderplanShortView alloc] initWithStyle:_style];
-        self.mainView.backgroundColor = [UIColor underplanCellBgColor];
-        [self.containerView addSubview:self.mainView];
-    }
     
     // Set the owners name as the title
     self.mainView.detailsView.title.text = owner.profile[@"name"];
@@ -72,22 +84,19 @@
     
     if ([profileImageUrl length]) {
         [self.mainView.detailsView.image setImageWithURL:[NSURL URLWithString:profileImageUrl]
-                               placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                                        placeholderImage:[UIImage imageNamed:@"placeholder.png"]
+                                                 options:SDWebImageRefreshCached];
     }
-    
-//    self.mainView.mainText.layer.borderWidth = 1.0;
-//    self.mainView.mainText.layer.borderColor = [UIColor orangeColor].CGColor;
     
     self.loaded = YES;
 }
 
-- (void)loadActivityImage:(Activity *)activity
+- (void)loadActivityImage:(UIImage *)image
 {
-    NSString *photoUrl = [activity photoUrl];
-    if (photoUrl && ![photoUrl isEqual:@""])
-    {
-        [self.mainView.contentImage setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    }
+//    if (!self.mainView.contentImage)
+//        self.mainView.contentImage = [[UIImageView alloc] init];
+//    
+    [self.mainView.contentImage setImage:image];
 }
 
 - (void)clearActivityImage
@@ -102,21 +111,23 @@
     
     CGFloat fontSize = self.mainView.mainText.font.pointSize;
     
-    CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], 32, 32);
+    CGFloat offset = CELL_BORDER_SIZE + 16 + 15;
+    CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], offset, offset);
     CGFloat screenWidth = screenRect.size.width;
     float height;
     
-    CGRect rect = [string boundingRectWithSize:CGSizeMake(200, 2000)
+    CGRect rect = [string boundingRectWithSize:CGSizeMake(screenWidth, 2000)
                                        options:NSStringDrawingUsesLineFragmentOrigin
                                        context:nil];
     
     height = rect.size.height < fontSize+10 ? fontSize+10 : rect.size.height;
     
-    int cellHeight = BOTTOM_BORDER_SIZE*2 + CELL_BORDER_SIZE*2 +
-            16 +
+    int cellHeight = BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE*2 +
+            8 +
             52 + // self.detailsView.frame.size.height +
             16 +
-            height; // self.mainText.frame.size.height +
+            height + // self.mainText.frame.size.height +
+            16;
     
     if (_style == ShortStyleWithImage)
         cellHeight += 150;

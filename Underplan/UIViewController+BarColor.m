@@ -16,11 +16,9 @@
 {
     if ([self.navigationController.navigationBar respondsToSelector:@selector(barTintColor)])
     {
-//        [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
         [self.navigationController.navigationBar setTintColor:[UIColor underplanDarkTextColor]];
         [self.navigationController.navigationBar setBarTintColor:[UIColor underplanDarkMenuColor]];
 
-//        [self.tabBarController.tabBar setBarStyle:UIBarStyleDefault];
         [self.tabBarController.tabBar setTintColor:[UIColor underplanDarkTextColor]];
         [self.tabBarController.tabBar setBarTintColor:[UIColor underplanDarkMenuColor]];
         

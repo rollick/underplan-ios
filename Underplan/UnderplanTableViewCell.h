@@ -28,7 +28,7 @@
 
 - (void)initView;
 - (void)loadActivity:(Activity *)activity;
-- (void)loadActivityImage:(Activity *)activity;
+- (void)loadActivityImage:(UIImage *)image;
 - (int)cellHeight:(NSString *)text;
 
 @end

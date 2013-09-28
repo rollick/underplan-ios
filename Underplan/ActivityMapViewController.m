@@ -10,6 +10,8 @@
 #import "ActivityFeedAnnotation.h"
 #import "ActivityTabBarController.h"
 
+#import "UnderplanNavigationBar.h"
+
 #import "UIViewController+UnderplanApiNotifications.h"
 
 #import "SharedApiClient.h"
@@ -61,16 +63,17 @@
     [self configureApiSubscriptions];
     self.navigationItem.title = @"Map";
     
-    // FIXME:   This is a hack when the willdisappear of the gallery controller
-    //          wasn't re-setting the tabbar reliably
-//    [self.tabBarController.tabBar setTintColor:[UIColor redColor]];
-//    [self.navigationController.navigationBar setTintColor:[UIColor redColor]];
-//
-//    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
-//    {
-//        [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
-//        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-//    }
+    
+//    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+//                                                                      style:UIBarButtonItemStyleDone
+//                                                                     target:self
+//                                                                     action:@selector(zoomMapViewToFitAnnotations)];
+    UIBarButtonItem *myButton = [[UIBarButtonItem alloc] initWithTitle:@"Search Product"
+                                                                 style:UIBarButtonItemStylePlain
+                                                                target:self
+                                                                action:@selector(zoomMapViewToFitAnnotations)];
+    self.navigationItem.rightBarButtonItem = myButton;
+    [(UnderplanNavigationBar *)self.navigationController.navigationBar sortLayers];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -78,15 +81,6 @@
     [super viewDidDisappear:animated];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-//    [self.tabBarController.tabBar setTintColor:[UIColor underplanPrimaryColor]];
-//    [self.navigationController.navigationBar setTintColor:[UIColor underplanPrimaryColor]];
-//    
-//    if ([self.tabBarController.tabBar respondsToSelector:@selector(barTintColor)])
-//    {
-//        [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
-//        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-//    }
 }
 
 - (void)viewDidLoad
@@ -210,13 +204,6 @@
         customPinView.animatesDrop = YES;
         customPinView.canShowCallout = YES;
         
-        // add a detail disclosure button to the callout which will open a new view controller page
-        //
-        // note: when the detail disclosure button is tapped, we respond to it via:
-        //       calloutAccessoryControlTapped delegate method
-        //
-        // by using "calloutAccessoryControlTapped", it's a convenient way to find out which annotation was tapped
-        //
         UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         [rightButton addTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
         customPinView.rightCalloutAccessoryView = rightButton;

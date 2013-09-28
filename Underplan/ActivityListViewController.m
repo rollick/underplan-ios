@@ -1,3 +1,4 @@
+
 //
 //  ActivityListViewController.m
 //  Underplan
@@ -32,6 +33,8 @@
 @interface ActivityListViewController ()
 
 @property BOOL loading;
+@property NSMutableDictionary *activityIdToImageDownloadOperations;
+@property NSOperationQueue *imageLoadingOperationQueue;
 
 @end
 
@@ -102,6 +105,8 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 {
     [super viewDidLoad];
     
+    self.imageLoadingOperationQueue = [[NSOperationQueue alloc] init];
+    
     if (self.delegate)
         self.group = [self.delegate currentGroup];
     
@@ -126,11 +131,9 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     
     [self.view addSubview:self.tableView];
     
-    [MBProgressHUD showHUDAddedTo:self.tableView animated:NO];
-    
-    
     // Register cell classes
     [self.tableView registerClass:[UnderplanShortItemCell class] forCellReuseIdentifier:@"Short"];
+    [self.tableView registerClass:[UnderplanShortItemCell class] forCellReuseIdentifier:@"ShortWithImage"];
     [self.tableView registerClass:[UnderplanStoryItemCell class] forCellReuseIdentifier:@"Story"];
 }
 
@@ -155,14 +158,18 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     }
 }
 
-- (NSArray *)computedList {
+// Filter for current group
+- (NSArray *)filteredList
+{
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"(group like %@)", _group.remoteId];
-
-    // Filter for current group
-    NSArray *filteredList = [[SharedApiClient getClient].collections[@"activities"] filteredArrayUsingPredicate:pred];
     
-    // Sort by newest to oldest
-    return [filteredList sortedArrayUsingComparator: ^(id a, id b) {
+    return [[SharedApiClient getClient].collections[@"activities"] filteredArrayUsingPredicate:pred];
+}
+
+// Sort by newest to oldest
+- (NSArray *)computedList
+{
+    return [[self filteredList] sortedArrayUsingComparator: ^(id a, id b) {
         NSString *first = [[a objectForKey:@"created"] objectForKey:@"$date"];
         NSString *second = [[b objectForKey:@"created"] objectForKey:@"$date"];
         return [second compare:first];
@@ -188,7 +195,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
         ) ||
         [[notification name] isEqualToString:@"activities_removed"])
     {
-        if (limit > [self.computedList count]) {
+        if (limit > [[self filteredList] count]) {
             complete = YES;
             [self setLoading:NO];
         }
@@ -215,6 +222,13 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     [super viewWillDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [self.imageLoadingOperationQueue cancelAllOperations];
 }
 
 #pragma mark - Table View
@@ -252,13 +266,12 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
         }
         else
         {
-            ShortStyle _style;
-            if (activity.tags && [activity.tags length] > 0)
-                _style = ShortStyleWithImage;
+            UnderplanShortItemCell *tempCell;
+            if ([activity hasTags])
+                tempCell = [[UnderplanShortItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ShortWithImage"];
             else
-                _style = ShortStyleDefault;
+                tempCell = [[UnderplanShortItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Short"];
             
-            UnderplanShortItemCell *tempCell = [[UnderplanShortItemCell alloc] initWithStyle:_style];
             return [tempCell cellHeight:activity.summaryText];
         }
     }
@@ -277,24 +290,57 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     
     if ([activity.type isEqualToString:@"story"])
     {
-        UnderplanStoryItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Story" forIndexPath:indexPath];
+        UnderplanStoryItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Story"
+                                                                       forIndexPath:indexPath];
         [cell loadActivity:activity];
         
         return cell;
     }
-    else
+    else if ([activity hasTags])
     {
-        UnderplanShortItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Short" forIndexPath:indexPath];
+        UnderplanShortItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShortWithImage"
+                                                                       forIndexPath:indexPath];
         [cell loadActivity:activity];
         
-        if (!tableView.decelerating)
+        //Create a block operation for loading the image into the profile image view
+        NSBlockOperation *loadImageIntoCellOp = [[NSBlockOperation alloc] init];
+        //Define weak operation so that operation can be referenced from within the block without creating a retain cycle
+        __weak NSBlockOperation *weakOp = loadImageIntoCellOp;
+        [loadImageIntoCellOp addExecutionBlock:^(void)
         {
-            [cell loadActivityImage:activity];
+            //Some asynchronous work. Once the image is ready, it will load into view on the main queue
+            UIImage *profileImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:activity.photoUrl]]];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^(void)
+            {
+                //Check for cancelation before proceeding. We use cellForRowAtIndexPath to make sure we get nil for a non-visible cell
+                if (!weakOp.isCancelled)
+                {
+                    UnderplanShortItemCell *cell = (UnderplanShortItemCell *)[tableView cellForRowAtIndexPath:indexPath];
+                    [cell loadActivityImage:profileImage];
+                    [self.activityIdToImageDownloadOperations removeObjectForKey:activity.remoteId];
+                }
+            }];
+        }];
+        
+        //Save a reference to the operation in an NSMutableDictionary so that it can be cancelled later on
+        if (activity.remoteId) {
+            [self.activityIdToImageDownloadOperations setObject:loadImageIntoCellOp forKey:activity.remoteId];
         }
-        else
-        {
-            [cell clearActivityImage];
+        
+        //Add the operation to the designated background queue
+        if (loadImageIntoCellOp) {
+            [self.imageLoadingOperationQueue addOperation:loadImageIntoCellOp];
         }
+        
+        //Make sure cell doesn't contain any traces of data from reuse -
+        //This would be a good place to assign a placeholder image
+        cell.mainView.contentImage.image = [UIImage imageNamed:@"image_placeholder.png"];;
+        
+        return cell;
+    } else {
+        UnderplanShortItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Short"
+                                                                       forIndexPath:indexPath];
+        [cell loadActivity:activity];
         
         return cell;
     }
@@ -322,15 +368,36 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     }
 }
 
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *visibleCells = [_tableView visibleCells];
-    [visibleCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        UnderplanTableViewCell *cell = (UnderplanTableViewCell *)obj;
-        Activity *activity = [[Activity alloc] initWithId:cell.itemId];
-        [cell loadActivityImage:activity];
-    }];
+    if ([[self filteredList] count])
+    {
+        NSDictionary *activityData = self.computedList[indexPath.row];
+        Activity *activity = [[Activity alloc] initWithId:activityData[@"_id"]];
+        
+        //Fetch operation that doesn't need executing anymore
+        NSBlockOperation *ongoingDownloadOperation = [self.activityIdToImageDownloadOperations objectForKey:activity.remoteId];
+        if (ongoingDownloadOperation)
+        {
+            //Cancel operation and remove from dictionary
+            [ongoingDownloadOperation cancel];
+            [self.activityIdToImageDownloadOperations removeObjectForKey:activity.remoteId];
+        }
+    }
 }
+
+//-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    NSArray *visibleCells = [_tableView visibleCells];
+//    [visibleCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//        UnderplanShortItemCell *cell = (UnderplanShortItemCell *)obj;
+//        Activity *activity = [[Activity alloc] initWithId:cell.itemId];
+//        if ([activity hasTags])
+//        {
+//            [cell loadActivityImage:activity];
+//        }
+//    }];
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

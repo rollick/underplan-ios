@@ -21,9 +21,20 @@
     [super initView];
     
     self.mainView = [[UnderplanStoryView alloc] initWithStyle:StoryStyleShort];
+    [self.mainView setTranslatesAutoresizingMaskIntoConstraints:NO];
     self.containerView.layer.backgroundColor = [UIColor brownColor].CGColor;
     
     [self.containerView addSubview:self.mainView];
+    
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mainView]|"
+                                                                               options:NSLayoutFormatAlignAllLeft
+                                                                               metrics:nil
+                                                                                 views:@{@"mainView": self.mainView}]];
+    
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[mainView]|"
+                                                                               options:NSLayoutFormatAlignAllTop
+                                                                               metrics:nil
+                                                                                 views:@{@"mainView": self.mainView}]];
 }
 
 - (void)loadActivity:(Activity *)activity
@@ -55,8 +66,6 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    [self.mainView setFrame:CGRectMake(0, 0, self.containerView.bounds.size.width, self.containerView.bounds.size.height)];
 }
 
 - (int)cellHeight:(NSString *)text
@@ -70,7 +79,8 @@
     
     CGFloat fontSize = self.mainView.mainText.font.pointSize;
     
-    CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], 21, 21);
+    CGFloat offset = CELL_BORDER_SIZE + 16;
+    CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], offset, offset);
     CGFloat screenWidth = screenRect.size.width;
     
     CGRect rect = [string boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
@@ -81,13 +91,13 @@
     
     //@"V:|-16-[detailsView]-18-[_title(titleHeight)]-6-[mainText]-[_continueLabel]-(>=16)-|"
     return  BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE +
-            16 +
+            8 +
             52 + // self.detailsView.frame.size.height +
             18 +
             18 + // title height
             6 +
             height + // self.mainText.frame.size.height +
-            40 +
+            6 +
             14 + // continue height
             16 +
             BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE;

@@ -21,7 +21,6 @@
 
 #import "SharedApiClient.h"
 
-#import "GalleryViewCell.h"
 #import "Gallery.h"
 #import "Photo.h"
 

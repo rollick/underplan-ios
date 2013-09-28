@@ -17,6 +17,6 @@
 @property (retain, nonatomic) UILabel *title;
 @property (retain, nonatomic) UIView *containerView;
 
-- (int)cellHeight:(NSString *)text;
+- (int)cellHeight:(NSString *)description withTitle:(NSString *)title;
 
 @end

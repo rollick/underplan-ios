@@ -19,7 +19,7 @@
 @property (assign, nonatomic) BOOL loaded;
 @property (copy, nonatomic) NSString *itemId;
 @property (retain, nonatomic) UnderplanItemDetailsView *detailsView;
-@property (retain, nonatomic) UITextView *mainText;
+@property (retain, nonatomic) UILabel *mainText;
 @property (retain, nonatomic) UIImageView *contentImage;
 
 @end

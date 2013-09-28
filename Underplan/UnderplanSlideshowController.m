@@ -60,8 +60,6 @@
     [super viewWillAppear:animated];
     
     [self.photoImage setHidden:NO];
-//    [self showControlsTemporarily];
-    
     [self setDarkBarColor];
 }
 
@@ -372,21 +370,22 @@
         CGRect bounds = self.view.bounds;
         
         [MBProgressHUD showHUDAddedTo:mainView animated:YES];
+        __weak UIImageView *weakPhotoImage = photoImage;
+        __weak UIView *weakCanvas = canvas;
         [photoImage setImageWithURL:url
                    placeholderImage:nil
                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType){
                               [MBProgressHUD hideHUDForView:mainView animated:YES];
                               
-                              photoImage.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
-                              photoImage.opaque = YES;
-                              //    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
-                              photoImage.contentMode = UIViewContentModeScaleAspectFill;
-                              photoImage.clipsToBounds = NO;
+                              weakPhotoImage.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
+                              weakPhotoImage.opaque = YES;
+                              weakPhotoImage.contentMode = UIViewContentModeScaleAspectFill;
+                              weakPhotoImage.clipsToBounds = NO;
                               
                               // TODO:  Should create a view stack and push / pull the images rather than
                               //        re-adding them everytime.
-                              [canvas.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-                              [canvas addSubview:photoImage];
+                              [weakCanvas.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+                              [weakCanvas addSubview:weakPhotoImage];
                               
 //                              [self showControlsTemporarily];
                           }];

@@ -86,8 +86,6 @@
     // isn't extending the UnderplanViewController class
     [self configureStandardApiNotifications];
     [self configureApiSubscriptions];
-    
-//    [self setDefaultBarColor];
 }
 
 - (void)didReceiveMemoryWarning

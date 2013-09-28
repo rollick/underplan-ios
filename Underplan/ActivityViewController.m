@@ -125,7 +125,7 @@ static void * const ActivityViewKVOContext = (void*)&ActivityViewKVOContext;
     self.mainView.mainText.text = _activity.text;
     
     // Add some constraints
-    UITextView *mainText = self.mainView.mainText;
+    UILabel *mainText = self.mainView.mainText;
     UnderplanItemDetailsView *detailsView = self.mainView.detailsView;
     
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView);

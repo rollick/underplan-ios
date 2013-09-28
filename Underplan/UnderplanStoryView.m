@@ -58,7 +58,7 @@
                             @"title": self.title,
                             @"continueLabel": self.continueLabel};
         
-        format = @"V:|-16-[detailsView]-18-[title(titleHeight)]-6-[mainText]-(-6)-[continueLabel]-(>=16)-|";
+        format = @"V:|-16-[detailsView]-8-[title(titleHeight)]-6-[mainText]-(6)-[continueLabel]-(>=16)-|";
     }
     else
     {
@@ -67,7 +67,7 @@
                             @"banner": self.banner,
                             @"title": self.title};
         
-        format = @"V:|-16-[detailsView]-16-[title(titleHeight)]-5-[mainText]-(>=16)-|";
+        format = @"V:|-16-[detailsView]-8-[title(titleHeight)]-5-[mainText]-(>=16)-|";
     }
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format

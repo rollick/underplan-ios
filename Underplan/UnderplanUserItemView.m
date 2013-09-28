@@ -34,11 +34,13 @@
     
     [self addSubview:detailsView];
     
-    self.mainText = [[UITextView alloc] init];
+    self.mainText = [[UILabel alloc] init];
     self.mainText.userInteractionEnabled = NO;
-    self.mainText.scrollEnabled = NO;
+    self.mainText.lineBreakMode = NSLineBreakByWordWrapping;
     self.mainText.contentMode = UIViewContentModeTop;
-    self.mainText.contentInset = UIEdgeInsetsMake(-8,-4,-4,-4);
+    self.mainText.numberOfLines = 99;
+//    self.mainText.scrollEnabled = NO;
+//    self.mainText.contentInset = UIEdgeInsetsMake(-8,-4,-4,-4);
     
 //    self.mainText.layer.borderColor = [UIColor purpleColor].CGColor;
 //    self.mainText.layer.borderWidth = 1.0f;
@@ -64,7 +66,7 @@
                                                                  options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil
                                                                    views:viewsDictionary]];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[mainText]-16-|"
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(16)-[mainText]-(16)-|"
                                                                  options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil
                                                                    views:viewsDictionary]];
     

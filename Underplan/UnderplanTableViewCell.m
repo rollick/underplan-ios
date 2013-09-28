@@ -39,7 +39,11 @@
 
 - (void)initView
 {
+    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
     self.containerView = [[UIView alloc] init];
+    [self.containerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
     [self.contentView addSubview:self.containerView];
     [self.contentView bringSubviewToFront:self.containerView];
     
@@ -49,19 +53,35 @@
     
     self.underLineView = [[UIView alloc] init];
     self.underLineView.backgroundColor = [UIColor underplanPrimaryColor];
+    [self.underLineView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
     [self.containerView addSubview:self.underLineView];
+
+    [self.layer setCornerRadius:2.0f];
+    [self.layer setMasksToBounds:YES];
+    
+    NSDictionary *viewsDictionary = @{@"mainView": self.containerView,
+                                      @"border": self.underLineView};
+    
+    NSDictionary *metrics = @{@"padding": [[NSNumber alloc] initWithInt:CELL_BORDER_SIZE],
+                              @"borderSize": [[NSNumber alloc] initWithInt:BOTTOM_BORDER_SIZE]};
+    
+    [self.contentView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(padding)-[mainView]-(0)-[border(borderSize)]-(padding@500)-|"
+                                             options:NSLayoutFormatAlignAllLeft
+                                             metrics:metrics
+                                               views:viewsDictionary]];
+
+    [self.contentView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"|-(padding)-[mainView]-(padding)-|"
+                                             options:NSLayoutFormatAlignAllTop
+                                             metrics:metrics
+                                               views:viewsDictionary]];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
-    if (CELL_BORDER_SIZE) {
-        CGRect frame = self.contentView.frame;
-        self.containerView.frame = CGRectInset(frame, CELL_BORDER_SIZE, CELL_BORDER_SIZE);
-    }
-
-    [self.underLineView setFrame:CGRectMake(0, self.containerView.bounds.size.height, self.containerView.bounds.size.width, BOTTOM_BORDER_SIZE)];
 }
 
 - (void)loadActivity:(Activity *)activity

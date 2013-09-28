@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UnderplanNavigationBar : UINavigationBar
+@interface UnderplanNavigationBar : UINavigationBar <UINavigationBarDelegate>
+
+- (void)sortLayers;
 
 @end

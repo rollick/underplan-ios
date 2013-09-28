@@ -13,6 +13,12 @@
 
 #import "SharedApiClient.h"
 
+@interface Activity ()
+
+@property (retain, nonatomic) NSString *mainPhotoUrl;
+
+@end
+
 @implementation Activity
 
 // Override this in the subclass
@@ -118,10 +124,18 @@
     return [NSString stringWithFormat: @"%@ - %@, %@", created, city, country];
 }
 
+- (BOOL)hasTags
+{
+    return self.tags && [self.tags length] > 0;
+}
+
 - (NSString *)photoUrl
 {
-    Group *group = [[Group alloc] initWithId:self.groupId];
+    if ([self mainPhotoUrl])
+        return [self mainPhotoUrl];
     
+    Group *group = [[Group alloc] initWithId:self.groupId];
+    NSString *url;
     // If the group has trovebox settings then check the tags for a photo to match this activity
     if ([group hasTrovebox]) {
         if (self.tags && [self.tags length])
@@ -129,7 +143,7 @@
             // The tag is set based on the activity id
             // TODO: should return all matches for the tags
             Photo *photo = [[Photo alloc] initWithFirstMatchByTagAndTrovebox:self.tags trovebox:group.trovebox];
-            return photo.medium;
+            url = photo.medium;
         }
         else
         {
@@ -139,11 +153,15 @@
             Photo *photo = [[Photo alloc] initWithFirstMatchByTagAndTrovebox:photoTag trovebox:group.trovebox];
             
             // TODO: return image size url based on device screen width
-            return photo.medium;
+            url = photo.medium;
         }
     } else {
-        return @"";
+        url = @"";
     }
+    
+    [self setMainPhotoUrl:url];
+    
+    return url;
 }
 
 @end

@@ -112,7 +112,7 @@
 {
     // Add product name
     NSNumber *labelHeight = @50;
-    NSNumber *labelPositionY = @50;
+    NSNumber *labelPositionY = @45;
     self.productLabel = [[UILabel alloc] init];
     self.productLabel.text = @"Underplan";
     self.productLabel.textAlignment = NSTextAlignmentCenter;
@@ -403,10 +403,10 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO: calculate this based on cell content...
+    Group *group = [[Group alloc] initWithId:self._groups[indexPath.row][@"_id"]];
     GroupItemViewCell *item = [[GroupItemViewCell alloc] init];
     
-    return [item cellHeight:@""];
+    return [item cellHeight:group.details withTitle:group.name];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

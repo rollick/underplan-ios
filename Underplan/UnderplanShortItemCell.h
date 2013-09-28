@@ -18,7 +18,7 @@
 
 @property (retain, nonatomic) UnderplanShortView *mainView;
 
-- (id)initWithStyle:(ShortStyle)aStyle;
 - (void)clearActivityImage;
+
 
 @end

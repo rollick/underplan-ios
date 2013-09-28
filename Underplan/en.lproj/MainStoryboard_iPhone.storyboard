@@ -184,7 +184,6 @@
         <image name="calendar.png" width="30" height="30"/>
         <image name="comments_full.png" width="30" height="30"/>
         <image name="photos.png" width="30" height="30"/>
-        <image name="photos.png" width="30" height="30"/>
         <image name="pin.png" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

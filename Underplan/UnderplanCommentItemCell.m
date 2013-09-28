@@ -20,6 +20,8 @@
     [super initView];
     
     self.mainView = [[UnderplanUserItemView alloc] init];
+    [self.mainView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
     [self.containerView addSubview:self.mainView];
     
     NSDictionary *viewsDictionary = @{@"mainText": self.mainView.mainText, @"detailsView": self.mainView.detailsView};
@@ -89,7 +91,7 @@
     height = rect.size.height < fontSize ? fontSize : rect.size.height;
     
     return  BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE +
-            16 +
+            8 +
             52 + // self.detailsView.frame.size.height +
             16 +
             height + // self.mainText.frame.size.height +

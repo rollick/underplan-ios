@@ -22,6 +22,14 @@ static NSString *layerName = @"Navigation BG Layer";
 
 @implementation UnderplanNavigationBar
 
+-(id)init
+{
+    self = [self init];
+    self.delegate = self;
+    
+    return self;
+}
+
 - (void)setBarTintColor:(UIColor *)barTintColor
 {
     [super setBarTintColor:barTintColor];
@@ -38,16 +46,27 @@ static NSString *layerName = @"Navigation BG Layer";
     }
     else
     {
-        // Ensure the BG layer is at the back
-        for (CALayer *layer in self.layer.sublayers)
-        {
-            if ([layer.name isEqualToString:layerName])
-            {
-                layer.zPosition = -1.0f;
-            }
-        }
+        [self sortLayers];
     }
     self.extraColorLayer.backgroundColor = barTintColor.CGColor;
+}
+
+- (void)navigationBar:(UINavigationBar *)navigationBar didPushItem:(UINavigationItem *)item
+{
+    NSLog(@"Item Added");
+    //a asdasdas
+}
+
+- (void)sortLayers
+{
+    // Ensure the BG layer is at the back
+    for (CALayer *layer in self.layer.sublayers)
+    {
+        if ([layer.name isEqualToString:layerName])
+        {
+            layer.zPosition = -1.0f;
+        }
+    }
 }
 
 - (void)layoutSubviews

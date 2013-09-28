@@ -32,7 +32,7 @@
     if (style == ShortStyleWithImage)
     {
         self.contentImage = [[UIImageView alloc] init];
-        self.contentImage.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.contentImage setTranslatesAutoresizingMaskIntoConstraints:NO];
         self.contentImage.contentMode = UIViewContentModeScaleAspectFill;
         self.contentImage.clipsToBounds = YES;
         
@@ -42,25 +42,25 @@
                             @"detailsView": self.detailsView,
                             @"contentImage": self.contentImage};
         
-        format = @"V:|-(16)-[detailsView]-(16)-[mainText]-(>=0)-[contentImage(150)]-(0)-|";
+        format = @"V:|-(16)-[detailsView(52)]-(8)-[mainText]-(16)-[contentImage(150)]-(0)-|";
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
-                                                                     options:NSLayoutFormatAlignAllLeft
+                                                                     options:0
                                                                      metrics:nil
                                                                        views:viewsDictionary]];
         
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[contentImage]-0-|"
-                                                                     options:NSLayoutFormatAlignAllLeft
-                                                                     metrics:nil
-                                                                       views:viewsDictionary]];
+//        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[contentImage]-0-|"
+//                                                                     options:NSLayoutFormatAlignAllLeft
+//                                                                     metrics:nil
+//                                                                       views:viewsDictionary]];
     }
     else
     {
         viewsDictionary = @{@"mainText": self.mainText,
                             @"detailsView": self.detailsView};
         
-        format = @"V:|-(16)-[detailsView]-(16)-[mainText]-(0)-|";
+        format = @"V:|-(16)-[detailsView]-(8)-[mainText]-(16)-|";
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
-                                                                     options:NSLayoutFormatAlignAllLeft
+                                                                     options:0
                                                                      metrics:nil
                                                                        views:viewsDictionary]];
     }
