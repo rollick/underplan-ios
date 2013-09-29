@@ -7,6 +7,7 @@
 //
 
 #import "UnderplanStoryView.h"
+#import "UnderplanViewConstants.h"
 #import "BannerView.h"
 
 #import "UIColor+Underplan.h"
@@ -51,34 +52,37 @@
         [self.continueLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
         
         [self addSubview:self.continueLabel];
-
+        
         viewsDictionary = @{@"mainText": self.mainText,
                             @"detailsView": self.detailsView,
                             @"banner": self.banner,
                             @"title": self.title,
-                            @"continueLabel": self.continueLabel};
+                            @"continueLabel": self.continueLabel,
+                            @"padding": @STANDARD_PADDING};
         
-        format = @"V:|-16-[detailsView]-8-[title(titleHeight)]-6-[mainText]-(6)-[continueLabel]-(>=16)-|";
+        format = @"V:|-(padding)-[detailsView]-(padding)-[title(titleHeight)]-6-[mainText]-(6)-[continueLabel]-(padding)-|";
     }
     else
     {
         viewsDictionary = @{@"mainText": self.mainText,
                             @"detailsView": self.detailsView,
                             @"banner": self.banner,
-                            @"title": self.title};
+                            @"title": self.title,
+                            @"padding": @STANDARD_PADDING};
         
-        format = @"V:|-16-[detailsView]-8-[title(titleHeight)]-5-[mainText]-(>=16)-|";
+        format = @"V:|-(padding)-[detailsView]-8-[title(titleHeight)]-5-[mainText]-(padding)-|";
     }
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                  options:NSLayoutFormatAlignAllLeft
-                                                                 metrics:@{@"titleHeight": titleHeight}
+                                                                 metrics:@{@"titleHeight": titleHeight,
+                                                                           @"padding": @STANDARD_PADDING}
                                                                    views:viewsDictionary]];
     
-    format = @"|-16-[title]-16-|";
+    format = @"|-(padding)-[title]-(padding)-|";
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                  options:NSLayoutFormatAlignAllLeft
-                                                                 metrics:nil
+                                                                 metrics:@{@"padding": @STANDARD_PADDING}
                                                                    views:@{@"title": self.title}]];
 }
 

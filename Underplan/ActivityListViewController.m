@@ -1,4 +1,3 @@
-
 //
 //  ActivityListViewController.m
 //  Underplan
@@ -123,12 +122,6 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     self.tableView.backgroundColor = [UIColor underplanBgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeRight;
-    
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
-        self.automaticallyAdjustsScrollViewInsets = YES;
-    
     [self.view addSubview:self.tableView];
     
     // Register cell classes
@@ -181,7 +174,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     
     self.navigationItem.title = @"Activities";
     [self configureApiSubscriptions];
-    
+
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
@@ -334,7 +327,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
         
         //Make sure cell doesn't contain any traces of data from reuse -
         //This would be a good place to assign a placeholder image
-        cell.mainView.contentImage.image = [UIImage imageNamed:@"image_placeholder.png"];;
+        cell.mainView.contentImage.image = [UIImage imageNamed:@"placeholder_wide.png"];;
         
         return cell;
     } else {
@@ -370,11 +363,16 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[self filteredList] count])
+    NSArray *list = self.computedList;
+
+    // If the index of this cell exceeds the row count for the data source then
+    // there must have been a refresh of the data before this cell was displayed.
+    // => ignore this cell
+    if (indexPath.row > [list count])
     {
-        NSDictionary *activityData = self.computedList[indexPath.row];
+        NSDictionary *activityData = list[indexPath.row];
         Activity *activity = [[Activity alloc] initWithId:activityData[@"_id"]];
-        
+
         //Fetch operation that doesn't need executing anymore
         NSBlockOperation *ongoingDownloadOperation = [self.activityIdToImageDownloadOperations objectForKey:activity.remoteId];
         if (ongoingDownloadOperation)
@@ -382,6 +380,14 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
             //Cancel operation and remove from dictionary
             [ongoingDownloadOperation cancel];
             [self.activityIdToImageDownloadOperations removeObjectForKey:activity.remoteId];
+        }
+    }
+    else // clear any ongoing downloads
+    {
+        for (NSBlockOperation *ongoingDownloadOperation in self.activityIdToImageDownloadOperations) {
+            //Cancel operation and remove from dictionary
+            [ongoingDownloadOperation cancel];
+//            [self.activityIdToImageDownloadOperations removeObjectForKey:activity.remoteId];
         }
     }
 }

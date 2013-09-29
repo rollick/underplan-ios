@@ -20,9 +20,18 @@ static CGFloat const kDefaultColorLayerOpacity = 0.7f;
 
 @implementation UnderplanTabBar
 
+- (id)init
+{
+    self = [self init];
+    self.translucent = NO;
+    
+    return self;
+}
+
 - (void)setBarTintColor:(UIColor *)barTintColor
 {
     [super setBarTintColor:barTintColor];
+    
     if (self.extraColorLayer == nil) {
         UnderplanBarBackgroundView *colourView = [[UnderplanBarBackgroundView alloc] init];
         colourView.opaque = NO;
@@ -30,21 +39,25 @@ static CGFloat const kDefaultColorLayerOpacity = 0.7f;
         colourView.backgroundColor = barTintColor;
         
         self.extraColorLayer = colourView.layer;
-        //        self.extraColorLayer.opacity = kDefaultColorLayerOpacity;
         [self.layer insertSublayer:self.extraColorLayer atIndex:1];
     }
     else
     {
-        for (CALayer *layer in self.layer.sublayers)
-        {
-            if ([layer.delegate isKindOfClass:[UnderplanBarBackgroundView class]])
-            {
-                layer.zPosition = 0.5f;
-            }
-        }
+        [self sortLayers];
     }
     
     self.extraColorLayer.backgroundColor = barTintColor.CGColor;
+}
+
+- (void)sortLayers
+{
+    for (CALayer *layer in self.layer.sublayers)
+    {
+        if ([layer.delegate isKindOfClass:[UnderplanBarBackgroundView class]])
+        {
+            layer.zPosition = -1.0f;
+        }
+    }
 }
 
 - (void)layoutSubviews

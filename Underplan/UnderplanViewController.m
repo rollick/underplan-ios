@@ -50,6 +50,12 @@
     [self configureStandardApiNotifications];
     [self resetNavigationBarPosition];
     [self setDefaultBarColor];
+    
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeRight;
+    
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
+        self.automaticallyAdjustsScrollViewInsets = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated

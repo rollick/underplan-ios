@@ -10,6 +10,7 @@
 
 #import "UnderplanUserItemView.h"
 #import "UnderplanItemDetailsView.h"
+#import "UnderplanViewConstants.h"
 
 #import "UIColor+Underplan.h"
 
@@ -53,6 +54,7 @@
     
     // Get the views dictionary
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(mainText, detailsView);
+    NSDictionary *metrics = @{@"padding": @STANDARD_PADDING};
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:detailsView
                                                      attribute:NSLayoutAttributeHeight
@@ -62,18 +64,13 @@
                                                     multiplier:1
                                                       constant:52]];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(16)-[detailsView]-(16)-|"
-                                                                 options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(padding)-[detailsView]-(padding)-|"
+                                                                 options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics
                                                                    views:viewsDictionary]];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(16)-[mainText]-(16)-|"
-                                                                 options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(padding)-[mainText]-(padding)-|"
+                                                                 options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics
                                                                    views:viewsDictionary]];
-    
-//    format = @"V:|-(16)-[detailsView]-(16)-[mainText]-(16)-|";
-//    constraintsArray = [NSLayoutConstraint constraintsWithVisualFormat:format options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:viewsDictionary];
-//    
-//    [self addConstraints:constraintsArray];
 }
 
 @end

@@ -94,6 +94,18 @@ static int descriptionWidth = 280;
                                                                                metrics:@{@"padding" : @16}
                                                                                  views:viewsDictionary]];
     
+    [self.contentView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"|-(padding)-[container]-(padding)-|"
+                                             options:NSLayoutFormatAlignAllTop
+                                             metrics:@{@"padding": [[NSNumber alloc] initWithInt:CELL_PADDING]}
+                                               views:@{@"container": self.containerView}]];
+
+    [self.contentView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(padding)-[container]-(padding)-|"
+                                             options:NSLayoutFormatAlignAllLeft
+                                             metrics:@{@"padding": [[NSNumber alloc] initWithInt:CELL_PADDING]}
+                                               views:@{@"container": self.containerView}]];
+    
 //    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:self.title
 //                                                                   attribute:NSLayoutAttributeTop
 //                                                                   relatedBy:NSLayoutRelationEqual
@@ -145,9 +157,9 @@ static int descriptionWidth = 280;
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    CGRect frame = self.contentView.frame;
-    self.containerView.frame = CGRectInset(frame, CELL_PADDING, CELL_PADDING);
+//    
+//    CGRect frame = self.contentView.frame;
+//    self.containerView.frame = CGRectInset(frame, CELL_PADDING, CELL_PADDING);
 }
 
 - (int)cellHeight:(NSString *)description withTitle:(NSString *)title

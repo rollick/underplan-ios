@@ -8,6 +8,7 @@
 
 #import "UnderplanStoryItemCell.h"
 #import "UnderplanStoryView.h"
+#import "UnderplanViewConstants.h"
 
 #import "User.h"
 
@@ -79,7 +80,7 @@
     
     CGFloat fontSize = self.mainView.mainText.font.pointSize;
     
-    CGFloat offset = CELL_BORDER_SIZE + 16;
+    CGFloat offset = CELL_BORDER_SIZE + CELL_PADDING;
     CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], offset, offset);
     CGFloat screenWidth = screenRect.size.width;
     
@@ -90,8 +91,8 @@
     float height = rect.size.height < fontSize ? fontSize : rect.size.height;
     
     //@"V:|-16-[detailsView]-18-[_title(titleHeight)]-6-[mainText]-[_continueLabel]-(>=16)-|"
-    return  BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE +
-            8 +
+    return  CELL_PADDING +
+            STANDARD_PADDING +
             52 + // self.detailsView.frame.size.height +
             18 +
             18 + // title height
@@ -99,8 +100,8 @@
             height + // self.mainText.frame.size.height +
             6 +
             14 + // continue height
-            16 +
-            BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE;
+            STANDARD_PADDING +
+            CELL_BORDER_SIZE + CELL_PADDING;
 }
 
 @end

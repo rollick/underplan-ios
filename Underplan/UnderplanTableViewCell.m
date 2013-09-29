@@ -7,6 +7,7 @@
 //
 
 #import "UnderplanTableViewCell.h"
+#import "UnderplanViewConstants.h"
 
 #import "UIColor+Underplan.h"
 
@@ -63,17 +64,23 @@
     NSDictionary *viewsDictionary = @{@"mainView": self.containerView,
                                       @"border": self.underLineView};
     
-    NSDictionary *metrics = @{@"padding": [[NSNumber alloc] initWithInt:CELL_BORDER_SIZE],
-                              @"borderSize": [[NSNumber alloc] initWithInt:BOTTOM_BORDER_SIZE]};
+    NSDictionary *metrics = @{@"padding": @CELL_PADDING,
+                              @"borderSize": @CELL_BORDER_SIZE};
     
     [self.contentView addConstraints:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(padding)-[mainView]-(0)-[border(borderSize)]-(padding@500)-|"
-                                             options:NSLayoutFormatAlignAllLeft
+                                             options:0
                                              metrics:metrics
                                                views:viewsDictionary]];
 
     [self.contentView addConstraints:
      [NSLayoutConstraint constraintsWithVisualFormat:@"|-(padding)-[mainView]-(padding)-|"
+                                             options:NSLayoutFormatAlignAllTop
+                                             metrics:metrics
+                                               views:viewsDictionary]];
+
+    [self.contentView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[border]-0-|"
                                              options:NSLayoutFormatAlignAllTop
                                              metrics:metrics
                                                views:viewsDictionary]];

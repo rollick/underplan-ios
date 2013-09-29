@@ -22,8 +22,12 @@
 - (CLLocationCoordinate2D)coordinate;
 {
     CLLocationCoordinate2D theCoordinate;
+    if (! _activity.latitude || ! _activity.longitude)
+        return theCoordinate;
+    
     theCoordinate.latitude = [_activity.latitude doubleValue];
     theCoordinate.longitude = [_activity.longitude doubleValue];
+    
     return theCoordinate;
 }
 

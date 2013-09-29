@@ -12,7 +12,6 @@
 
 #import "UIViewController+UnderplanApiNotifications.h"
 #import "UIViewController+ShowHideBars.h"
-#import "UIViewController+BarColor.h"
 
 #import "UnderplanAppDelegate.h"
 #import "SharedApiClient.h"

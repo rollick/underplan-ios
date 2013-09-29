@@ -39,20 +39,52 @@
 
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    self.latitude = [formatter numberFromString:data_[@"lat"]];
-    self.longitude = [formatter numberFromString:data_[@"lng"]];
+    
+    if([self stringIsLatLng:data_[@"lat"]] && [self stringIsLatLng:data_[@"lng"]])
+    {
+        self.latitude = [formatter numberFromString:data_[@"lat"]];
+        self.longitude = [formatter numberFromString:data_[@"lng"]];
+    }
 
     self.text = data_[@"text"];
     self.city = data_[@"city"];
     self.region = data_[@"region"];
     self.country = data_[@"country"];
-    if ([data_[@"picasaTags"] isKindOfClass:[NSNull class]])
-        self.tags = nil;
-    else
-        self.tags = data_[@"picasaTags"];
+    self.tags = [self valueOrNil:data_[@"picasaTags"]];
     self.created = data_[@"created"];
     
     return true;
+}
+
+- (bool)stringIsLatLng:(NSString *)aString
+{
+    if (! [aString isKindOfClass:[NSString class]])
+        return NO;
+    
+    NSString *pattern = @"^([+-]?(((\\d+(\\.)?)|(\\d*\\.\\d+))([eE][+-]?\\d+)?))$";
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:nil];
+    
+    NSTextCheckingResult *match = [regex firstMatchInString:aString
+                                                    options:0
+                                                      range:NSMakeRange(0, [aString length])];
+
+    return match ? YES : NO;
+}
+
+- (id)valueOrNil:(NSString *)value
+{
+    if (value)
+    {
+        if([value isKindOfClass:[NSNull class]])
+            return nil;
+        else
+            return value;
+    }
+
+    return nil;
 }
 
 - (User *)owner

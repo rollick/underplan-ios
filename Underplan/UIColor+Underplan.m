@@ -59,7 +59,7 @@
 
 + (UIColor *)underplanPrimaryColor
 {
-    return [UIColor colorWithHexString:@"#004C00"];
+    return [UIColor colorWithHexString:@"#008000"];
 }
 
 + (UIColor *)underplanNoticeColor

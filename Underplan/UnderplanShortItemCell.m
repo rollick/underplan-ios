@@ -8,6 +8,7 @@
 
 #import "UnderplanShortItemCell.h"
 #import "UnderplanShortView.h"
+#import "UnderplanViewConstants.h"
 
 #import "UIColor+Underplan.h"
 
@@ -111,7 +112,7 @@
     
     CGFloat fontSize = self.mainView.mainText.font.pointSize;
     
-    CGFloat offset = CELL_BORDER_SIZE + 16 + 15;
+    CGFloat offset = STANDARD_PADDING + CELL_PADDING;
     CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], offset, offset);
     CGFloat screenWidth = screenRect.size.width;
     float height;
@@ -122,17 +123,17 @@
     
     height = rect.size.height < fontSize+10 ? fontSize+10 : rect.size.height;
     
-    int cellHeight = BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE*2 +
-            8 +
-            52 + // self.detailsView.frame.size.height +
-            16 +
-            height + // self.mainText.frame.size.height +
-            16;
+    int cellHeight = CELL_PADDING +
+                    STANDARD_PADDING +
+                    52 + // self.detailsView.frame.size.height +
+                    STANDARD_PADDING +
+                    height + // self.mainText.frame.size.height +
+                    STANDARD_PADDING;
     
     if (_style == ShortStyleWithImage)
         cellHeight += 150;
     
-    return cellHeight;
+    return cellHeight + CELL_BORDER_SIZE + CELL_PADDING;
 }
 
 @end

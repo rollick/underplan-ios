@@ -81,30 +81,24 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     _collectionView.dataSource = _galleryDataSource;
     _collectionView.delegate = self;
     
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeRight;
-    
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
-        self.automaticallyAdjustsScrollViewInsets = YES;
-    
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barStyle)])
-    {
-        // Fix the scrollview being behind tabbar
-        if (self.tabBarController) {
-            UIEdgeInsets inset = self.collectionView.contentInset;
-            inset.bottom = self.tabBarController.tabBar.frame.size.height;
-            self.collectionView.contentInset = inset;
-        }
-        
-        if (self.navigationController) {
-            UIEdgeInsets inset = self.collectionView.contentInset;
-            inset.top = self.navigationController.navigationBar.frame.size.height + 20.0f; // 20.0f for the status bar
-            self.collectionView.contentInset = inset;
-            
-            CGPoint topOffset = CGPointMake(0, -inset.top);
-            [self.collectionView setContentOffset:topOffset animated:YES];
-        }
-    }
+//    if ([self.tabBarController.tabBar respondsToSelector:@selector(barStyle)])
+//    {
+//        // Fix the scrollview being behind tabbar
+//        if (self.tabBarController) {
+//            UIEdgeInsets inset = self.collectionView.contentInset;
+//            inset.bottom = self.tabBarController.tabBar.frame.size.height;
+//            self.collectionView.contentInset = inset;
+//        }
+//        
+//        if (self.navigationController) {
+//            UIEdgeInsets inset = self.collectionView.contentInset;
+//            inset.top = self.navigationController.navigationBar.frame.size.height + 20.0f; // 20.0f for the status bar
+//            self.collectionView.contentInset = inset;
+//            
+//            CGPoint topOffset = CGPointMake(0, -inset.top);
+//            [self.collectionView setContentOffset:topOffset animated:YES];
+//        }
+//    }
     
     [self.view addSubview:_collectionView];
 }

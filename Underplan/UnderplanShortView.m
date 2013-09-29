@@ -7,6 +7,7 @@
 //
 
 #import "UnderplanShortView.h"
+#import "UnderplanViewConstants.h"
 
 #import "UIColor+Underplan.h"
 
@@ -42,26 +43,26 @@
                             @"detailsView": self.detailsView,
                             @"contentImage": self.contentImage};
         
-        format = @"V:|-(16)-[detailsView(52)]-(8)-[mainText]-(16)-[contentImage(150)]-(0)-|";
+        format = @"V:|-(padding)-[detailsView(52)]-(padding)-[mainText]-(padding)-[contentImage(150)]-(0)-|";
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                      options:0
-                                                                     metrics:nil
+                                                                     metrics:@{@"padding": @STANDARD_PADDING}
                                                                        views:viewsDictionary]];
         
-//        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[contentImage]-0-|"
-//                                                                     options:NSLayoutFormatAlignAllLeft
-//                                                                     metrics:nil
-//                                                                       views:viewsDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[contentImage]-0-|"
+                                                                     options:NSLayoutFormatAlignAllLeft
+                                                                     metrics:nil
+                                                                       views:viewsDictionary]];
     }
     else
     {
         viewsDictionary = @{@"mainText": self.mainText,
                             @"detailsView": self.detailsView};
         
-        format = @"V:|-(16)-[detailsView]-(8)-[mainText]-(16)-|";
+        format = @"V:|-(padding)-[detailsView]-(padding)-[mainText]-(padding)-|";
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                      options:0
-                                                                     metrics:nil
+                                                                     metrics:@{@"padding": @STANDARD_PADDING}
                                                                        views:viewsDictionary]];
     }
 }

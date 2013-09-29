@@ -152,7 +152,7 @@
         <!--Comments View Controller - Comments-->
         <scene sceneID="WV4-UX-36P">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" providesPresentationContextTransitionStyle="YES" hidesBottomBarWhenPushed="YES" id="bI7-nE-ml9" customClass="CommentsViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="bI7-nE-ml9" customClass="CommentsViewController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Comments" image="comments_full.png" id="ERF-fF-mD4"/>
                     <navigationItem key="navigationItem" title="Comments" id="KdH-GX-mTs"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -164,7 +164,7 @@
         <!--Gallery View Controller - Photos-->
         <scene sceneID="gfv-nL-4Bt">
             <objects>
-                <viewController id="hrc-2g-Ch1" customClass="GalleryViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="hrc-2g-Ch1" customClass="GalleryViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kou-IZ-UXO">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -184,6 +184,7 @@
         <image name="calendar.png" width="30" height="30"/>
         <image name="comments_full.png" width="30" height="30"/>
         <image name="photos.png" width="30" height="30"/>
+        <image name="photos.png" width="30" height="30"/>
         <image name="pin.png" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -192,6 +193,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="pqu-BT-VRl"/>
+        <segue reference="azx-Pd-h6G"/>
     </inferredMetricsTieBreakers>
 </document>

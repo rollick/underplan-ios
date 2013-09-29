@@ -12,6 +12,8 @@
 
 #import "UnderplanGalleryDelegate.h"
 
+#import "UnderplanViewController.h"
+
 #import "Activity.h"
 #import "Group.h"
 #import "Gallery.h"
@@ -24,7 +26,7 @@
 #define kColumnsiPhoneLandscape 3
 #define kColumnsiPhonePortrait 2
 
-@interface GalleryViewController : UIViewController <UICollectionViewDelegate, MosaicLayoutDelegate, UnderplanGalleryDelegate>
+@interface GalleryViewController : UnderplanViewController <UICollectionViewDelegate, MosaicLayoutDelegate, UnderplanGalleryDelegate>
 
 @property (retain, nonatomic) UIPopoverController *aPopoverController;
 @property (copy, nonatomic) NSString *searchTags;

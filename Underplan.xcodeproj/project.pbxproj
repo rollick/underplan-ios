@@ -83,8 +83,8 @@
 		266590B9179FEC8E001EFABF /* UnderplanUserItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590B8179FEC8E001EFABF /* UnderplanUserItemView.m */; };
 		266590BE17A01447001EFABF /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 266590BD17A01447001EFABF /* ActivityViewController.m */; };
 		26848EF917B871B90021E247 /* UITabBarController+ShowHideTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 26848EF717B871B90021E247 /* UITabBarController+ShowHideTabBar.m */; };
-		269C091917F50CAE00B01792 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 269C091817F50CAE00B01792 /* placeholder.png */; };
-		269C091B17F50E4700B01792 /* image_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 269C091A17F50E4700B01792 /* image_placeholder.png */; };
+		269C091B17F50E4700B01792 /* placeholder-wide.png in Resources */ = {isa = PBXBuildFile; fileRef = 269C091A17F50E4700B01792 /* placeholder-wide.png */; };
+		269C091E17F8B00200B01792 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 269C091D17F8B00200B01792 /* placeholder.png */; };
 		26A12C0E17C7825C006B619E /* UnderplanApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A12C0D17C7825C006B619E /* UnderplanApiClient.m */; };
 		26A12C1417C9F852006B619E /* UIViewController+UnderplanApiNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A12C1317C9F852006B619E /* UIViewController+UnderplanApiNotifications.m */; };
 		26A12C1717CBC876006B619E /* SharedApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A12C1617CBC876006B619E /* SharedApiClient.m */; };
@@ -283,8 +283,9 @@
 		266590BD17A01447001EFABF /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
 		26848EF717B871B90021E247 /* UITabBarController+ShowHideTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+ShowHideTabBar.m"; sourceTree = "<group>"; };
 		26848EF817B871B90021E247 /* UITabBarController+ShowHideTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+ShowHideTabBar.h"; sourceTree = "<group>"; };
-		269C091817F50CAE00B01792 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
-		269C091A17F50E4700B01792 /* image_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_placeholder.png; sourceTree = "<group>"; };
+		269C091A17F50E4700B01792 /* placeholder-wide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-wide.png"; sourceTree = "<group>"; };
+		269C091C17F8415F00B01792 /* UnderplanViewConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnderplanViewConstants.h; sourceTree = "<group>"; };
+		269C091D17F8B00200B01792 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		26A12C0C17C7825C006B619E /* UnderplanApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanApiClient.h; sourceTree = "<group>"; };
 		26A12C0D17C7825C006B619E /* UnderplanApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanApiClient.m; sourceTree = "<group>"; };
 		26A12C1217C9F852006B619E /* UIViewController+UnderplanApiNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+UnderplanApiNotifications.h"; sourceTree = "<group>"; };
@@ -598,8 +599,8 @@
 				26AAAB0617D9044800944DAC /* Splash */,
 				26EE736B17D152960028639E /* Icons */,
 				26EE736A17D1527F0028639E /* Logos */,
-				269C091A17F50E4700B01792 /* image_placeholder.png */,
-				269C091817F50CAE00B01792 /* placeholder.png */,
+				269C091D17F8B00200B01792 /* placeholder.png */,
+				269C091A17F50E4700B01792 /* placeholder-wide.png */,
 				26EA951117B54220003E31CA /* transparent-bg.png */,
 				260CFC8B17B29F7100FC7787 /* pano_image.jpg */,
 				26A1D5CA17A060B300526060 /* dash_bg_3.jpg */,
@@ -667,6 +668,7 @@
 		26AAAAD717D32BE200944DAC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				269C091C17F8415F00B01792 /* UnderplanViewConstants.h */,
 				263DCD0617E19C5E0077DD15 /* Delegates */,
 				26018CF917CE300600D766A4 /* UnderplanItemDetailsView.h */,
 				26018CFA17CE300600D766A4 /* UnderplanItemDetailsView.m */,
@@ -965,11 +967,12 @@
 				264C85D417E75DE800E2A09E /* chevron-white-right-large.png in Resources */,
 				264C855F17E4BF7800E2A09E /* leftLarge.png in Resources */,
 				26AAAB0517D9043D00944DAC /* bg_iphone5@2x.png in Resources */,
-				269C091B17F50E4700B01792 /* image_placeholder.png in Resources */,
+				269C091B17F50E4700B01792 /* placeholder-wide.png in Resources */,
 				263DCD0317E0BF8E0077DD15 /* chevron-left@2x.png in Resources */,
 				26C0A0D617F04AA7005A96FE /* Icon-iPad-Settings-29.png in Resources */,
 				264C854817E4A20C00E2A09E /* activity.png in Resources */,
 				26AAAAC517D1F11900944DAC /* photos@2x.png in Resources */,
+				269C091E17F8B00200B01792 /* placeholder.png in Resources */,
 				26AAAAC617D1F11900944DAC /* pin@2x.png in Resources */,
 				26AAAAF617D8EB2600944DAC /* Icon-72@2x.png in Resources */,
 				263DCD1217E314E90077DD15 /* next@2x.png in Resources */,
@@ -988,7 +991,6 @@
 				264C855E17E4BF7800E2A09E /* rightLarge@2x.png in Resources */,
 				26AAAB0117D8EB2600944DAC /* logo.png in Resources */,
 				26AAAABD17D1F11900944DAC /* album@2x.png in Resources */,
-				269C091917F50CAE00B01792 /* placeholder.png in Resources */,
 				26AAAAFD17D8EB2600944DAC /* Icon-Spotlight-50.png in Resources */,
 				263DCD0517E0BF8E0077DD15 /* chevron-right@2x.png in Resources */,
 				26AAAAA517D1F00700944DAC /* calendar.png in Resources */,

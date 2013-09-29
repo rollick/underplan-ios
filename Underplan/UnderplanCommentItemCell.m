@@ -8,6 +8,7 @@
 
 #import "UnderplanCommentItemCell.h"
 #import "UnderplanUserItemView.h"
+#import "UnderplanViewConstants.h"
 
 #include "Comment.h"
 
@@ -24,13 +25,23 @@
     
     [self.containerView addSubview:self.mainView];
     
-    NSDictionary *viewsDictionary = @{@"mainText": self.mainView.mainText, @"detailsView": self.mainView.detailsView};
+    NSDictionary *viewsDictionary = @{@"mainView": self.mainView, @"mainText": self.mainView.mainText, @"detailsView": self.mainView.detailsView};
     
-    NSString *format = @"V:|-16-[detailsView]-16-[mainText]-(>=16)-|";
-    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
-                                                                              options:NSLayoutFormatAlignAllLeft
-                                                                              metrics:nil
-                                                                                views:viewsDictionary]];
+    NSString *format = @"V:|-(padding)-[detailsView]-(padding)-[mainText]-(padding)-|";
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                 options:0
+                                                                 metrics:@{@"padding": @STANDARD_PADDING}
+                                                                   views:viewsDictionary]];
+
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mainView]|"
+                                                                               options:NSLayoutFormatAlignAllLeft
+                                                                               metrics:nil
+                                                                                 views:viewsDictionary]];
+    
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[mainView]|"
+                                                                               options:NSLayoutFormatAlignAllTop
+                                                                               metrics:nil
+                                                                                 views:viewsDictionary]];
 }
 
 - (void)loadComment:(Comment *)comment
@@ -67,36 +78,28 @@
     if (!text)
         text = @"";
     
-    NSDictionary *stringAttributes = [NSDictionary dictionaryWithObject:self.mainView.mainText.font forKey:NSFontAttributeName];
-    NSAttributedString *string = [[NSAttributedString alloc] initWithString:text attributes:[NSDictionary dictionaryWithObject:self.mainView.mainText.font forKey:NSFontAttributeName]];
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:text
+                                                                 attributes:[NSDictionary dictionaryWithObject:self.mainView.mainText.font forKey:NSFontAttributeName]];
     
     CGFloat fontSize = self.mainView.mainText.font.pointSize;
-
-    CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], 21, 21);
+    
+    CGFloat offset = CELL_BORDER_SIZE + STANDARD_PADDING;
+    CGRect screenRect = CGRectInset([[UIScreen mainScreen] bounds], offset, offset);
     CGFloat screenWidth = screenRect.size.width;
-    CGRect rect;
     float height;
     
-    if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)])
-    {
-        rect = [string boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX)
-                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                           context:nil];
-    } else {
-        NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text attributes:stringAttributes];
-        
-        rect = [attributedText boundingRectWithSize:CGSizeMake(screenWidth, CGFLOAT_MAX) options:NSLineBreakByWordWrapping|NSStringDrawingUsesLineFragmentOrigin context:nil];
-    }
+    CGRect rect = [string boundingRectWithSize:CGSizeMake(screenWidth, 2000)
+                                       options:NSStringDrawingUsesLineFragmentOrigin
+                                       context:nil];
     
-    height = rect.size.height < fontSize ? fontSize : rect.size.height;
+    height = rect.size.height < fontSize+10 ? fontSize+10 : rect.size.height;
     
-    return  BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE +
-            8 +
+    return  CELL_PADDING + STANDARD_PADDING +
             52 + // self.detailsView.frame.size.height +
-            16 +
+            STANDARD_PADDING +
             height + // self.mainText.frame.size.height +
-            16 +
-            BOTTOM_BORDER_SIZE + CELL_BORDER_SIZE;
+            STANDARD_PADDING +
+            CELL_BORDER_SIZE + CELL_PADDING;
 }
 
 @end

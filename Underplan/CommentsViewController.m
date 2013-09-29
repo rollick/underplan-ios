@@ -84,32 +84,6 @@
     self.tableView.backgroundColor = [UIColor underplanBgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeRight;
-    
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
-        self.automaticallyAdjustsScrollViewInsets = YES;
-    
-    
-    if ([self.tabBarController.tabBar respondsToSelector:@selector(barStyle)])
-    {
-        // Fix the scrollview being behind tabbar
-        if (self.tabBarController) {
-            UIEdgeInsets inset = self.tableView.contentInset;
-            inset.bottom = self.tabBarController.tabBar.frame.size.height;
-            self.tableView.contentInset = inset;
-        }
-        
-        if (self.navigationController) {
-            UIEdgeInsets inset = self.tableView.contentInset;
-            inset.top = self.navigationController.navigationBar.frame.size.height + 20.0f; // 20.0f for the status bar
-            self.tableView.contentInset = inset;
-            
-            CGPoint topOffset = CGPointMake(0, -inset.top);
-            [self.tableView setContentOffset:topOffset animated:YES];
-        }
-    }
-    
     [self.view addSubview:self.tableView];
     
     if (_delegate)
@@ -161,8 +135,8 @@
 
 - (void)setCommentsByActivityId:(NSString *)activityId
 {
-    dispatch_queue_t troveQueue = dispatch_queue_create("Comments Processing Queue", NULL);
-    dispatch_async(troveQueue, ^{
+    dispatch_queue_t commentsQueue = dispatch_queue_create("Comments Processing Queue", NULL);
+    dispatch_async(commentsQueue, ^{
         NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", activityId];
         
         // Filter for comments related to the current activity

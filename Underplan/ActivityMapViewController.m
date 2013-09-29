@@ -68,12 +68,11 @@
 //                                                                      style:UIBarButtonItemStyleDone
 //                                                                     target:self
 //                                                                     action:@selector(zoomMapViewToFitAnnotations)];
-    UIBarButtonItem *myButton = [[UIBarButtonItem alloc] initWithTitle:@"Search Product"
-                                                                 style:UIBarButtonItemStylePlain
-                                                                target:self
-                                                                action:@selector(zoomMapViewToFitAnnotations)];
-    self.navigationItem.rightBarButtonItem = myButton;
-    [(UnderplanNavigationBar *)self.navigationController.navigationBar sortLayers];
+//    UIBarButtonItem *myButton = [[UIBarButtonItem alloc] initWithTitle:@"Search Product"
+//                                                                 style:UIBarButtonItemStylePlain
+//                                                                target:self
+//                                                                action:@selector(zoomMapViewToFitAnnotations)];
+//    self.navigationItem.rightBarButtonItem = myButton;
 }
 
 - (void)viewDidDisappear:(BOOL)animated

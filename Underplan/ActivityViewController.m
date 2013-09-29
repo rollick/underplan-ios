@@ -99,12 +99,6 @@ static void * const ActivityViewKVOContext = (void*)&ActivityViewKVOContext;
     self.mainView = [[UnderplanUserItemView alloc] init];
     
     [self.view addSubview:self.mainView];
-    
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        self.edgesForExtendedLayout = UIRectEdgeLeft | UIRectEdgeBottom | UIRectEdgeRight;
-    
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
-        self.automaticallyAdjustsScrollViewInsets = YES;
 }
 
 - (void)reloadData

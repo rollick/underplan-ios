@@ -13,10 +13,6 @@
 
 #import "Activity.h"
 
-#define CELL_BORDER_SIZE 5
-#define BOTTOM_BORDER_SIZE 2
-#define CELL_CORDER_RADIUS 0
-
 @interface UnderplanTableViewCell : UITableViewCell
 
 @property (copy, nonatomic) NSString *itemId;
