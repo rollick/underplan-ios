@@ -81,6 +81,8 @@ static void * const GalleryKVOContext = (void*)&GalleryKVOContext;
     _collectionView.dataSource = _galleryDataSource;
     _collectionView.delegate = self;
     
+    [self.collectionView setContentInset:UIEdgeInsetsMake(44 + 20, 0, 0, 0)];
+    
 //    if ([self.tabBarController.tabBar respondsToSelector:@selector(barStyle)])
 //    {
 //        // Fix the scrollview being behind tabbar

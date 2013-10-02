@@ -91,6 +91,8 @@
         _activity = [_delegate currentActivity];
         [self setCommentsByActivityId:_activity.remoteId];
     }
+    
+    [self.tableView setContentInset:UIEdgeInsetsMake(44 + 20, 0, 0, 0)];
 }
 
 - (void)didReceiveMemoryWarning
