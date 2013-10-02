@@ -22,6 +22,18 @@
 #import "UIColor+Underplan.h"
 #import <MBProgressHUD.h>
 
+static NSInteger const tablePositionY = 245;
+
+static NSInteger const productNameHeight = 50;
+static NSInteger const productNamePositionY = 45;
+
+static NSInteger const btnWidth = 200;
+static NSInteger const btnHeight = 50;
+static NSInteger const btnPositionY = 135;
+static NSInteger const btnTextHeight = 16;
+
+static NSInteger const exploreLblHeight = 16;
+
 @interface MasterViewController ()
 
 @property (assign, nonatomic) BOOL connectedToMeteor;
@@ -30,9 +42,7 @@
 
 @end
 
-@implementation MasterViewController {
-    int tableOffset;
-}
+@implementation MasterViewController
 
 @synthesize tableView, addGroupView, exploreLabel;
 
@@ -62,8 +72,7 @@
     
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     [self.tableView registerClass:[GroupItemViewCell class] forCellReuseIdentifier:@"Group"];
-    [self.tableView setContentInset:UIEdgeInsetsMake(tableOffset, 0, 0, 0)];
-//    [self.tableView setBounces:NO];
+    [self.tableView setContentInset:UIEdgeInsetsMake(tablePositionY, 0, 0, 0)];
 }
 
 - (void)didReceiveApiUpdate:(NSNotification *)notification
@@ -110,13 +119,11 @@
 - (void)setupProductLabel
 {
     // Add product name
-    NSNumber *labelHeight = @50;
-    NSNumber *labelPositionY = @45;
     self.productLabel = [[UILabel alloc] init];
     self.productLabel.text = @"Underplan";
     self.productLabel.textAlignment = NSTextAlignmentCenter;
     self.productLabel.textColor = [UIColor underplanPrimaryDarkColor];
-    self.productLabel.font = [UIFont fontWithName:@"LilyScriptOne-Regular" size:[labelHeight integerValue]];
+    self.productLabel.font = [UIFont fontWithName:@"LilyScriptOne-Regular" size:productNameHeight];
     self.productLabel.backgroundColor = [UIColor clearColor];
     [self.productLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     
@@ -131,8 +138,8 @@
     format = @"V:|-(lblPositionY)-[productName(lblHeight)]-(>=0)-|";
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                       options:NSLayoutFormatAlignAllCenterX
-                                                                      metrics:@{@"lblHeight": labelHeight,
-                                                                                @"lblPositionY": labelPositionY}
+                                                                      metrics:@{@"lblHeight": [[NSNumber alloc] initWithInt:productNameHeight],
+                                                                                @"lblPositionY": [[NSNumber alloc] initWithInt:productNamePositionY]}
                                                                         views:@{@"productName": self.productLabel}]];
     
     // Center the button horizontally with the parent view
@@ -147,8 +154,6 @@
 
 - (void)setupTableView
 {
-    tableOffset = 130;
-    
     // Table View
     self.tableView = [[UITableView alloc] init];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -166,21 +171,17 @@
 {
     self.addGroupView = [[UIView alloc] init];
     
-    NSNumber *btnWidth = @200;
-    NSNumber *btnHeight = @50;
-    NSNumber *btnPositionY = @250;
-    
     self.addGroupView.backgroundColor = [UIColor underplanPrimaryColor];
     self.addGroupView.layer.borderColor = [UIColor underplanPrimaryDarkColor].CGColor;
     self.addGroupView.layer.borderWidth = 1;
     self.addGroupView.layer.masksToBounds = YES;
-    self.addGroupView.layer.cornerRadius = [btnHeight floatValue] / 2;
+    self.addGroupView.layer.cornerRadius = btnHeight/2;
     
     UITapGestureRecognizer *tapGesture =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openWebURL:)];
     [self.addGroupView addGestureRecognizer:tapGesture];
     [self.addGroupView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    self.addGroupView.alpha = 0.0f;
+    self.addGroupView.alpha = 1.0f;
     [self.view addSubview:self.addGroupView];
     
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(addGroupView);
@@ -188,7 +189,7 @@
     NSString *format = @"H:|-(>=0)-[addGroupView(width)]-(>=0)-|";
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                       options:NSLayoutFormatAlignAllCenterX
-                                                                      metrics:@{@"width": btnWidth}
+                                                                      metrics:@{@"width": [[NSNumber alloc] initWithInt:btnWidth]}
                                                                         views:viewsDictionary]];
 
     // Center the button horizontally with the parent view
@@ -200,12 +201,11 @@
                                                          multiplier:1.0f
                                                            constant:0.0f]];
     
-    NSNumber *textHeight = @16;
     UILabel *btnLabel = [[UILabel alloc] init];
     btnLabel.text = @"Create your journey";
     btnLabel.textAlignment = NSTextAlignmentCenter;
     btnLabel.textColor = [UIColor whiteColor];
-    btnLabel.font = [UIFont fontWithName:@"Roboto-Medium" size:[textHeight integerValue]];
+    btnLabel.font = [UIFont fontWithName:@"Roboto-Medium" size:btnTextHeight];
     btnLabel.backgroundColor = [UIColor clearColor];
     [btnLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
 
@@ -216,13 +216,13 @@
     format = @"H:|-(0)-[btnLabel(width)]-(0)-|";
     [self.addGroupView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                       options:NSLayoutFormatAlignAllCenterY
-                                                                      metrics:@{@"width": btnWidth}
+                                                                      metrics:@{@"width": [[NSNumber alloc] initWithInt:btnWidth]}
                                                                         views:viewsDictionary]];
 
     format = @"V:|-(>=0)-[btnLabel(height)]-(>=0)-|";
     [self.addGroupView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                       options:NSLayoutFormatAlignAllCenterX
-                                                                      metrics:@{@"height": textHeight}
+                                                                      metrics:@{@"height": [[NSNumber alloc] initWithInt:btnTextHeight]}
                                                                         views:viewsDictionary]];
     
     [self.addGroupView addConstraint:[NSLayoutConstraint constraintWithItem:btnLabel
@@ -239,18 +239,17 @@
                                                                      toItem:nil
                                                                   attribute:NSLayoutAttributeNotAnAttribute
                                                                  multiplier:1
-                                                                   constant:[textHeight floatValue]]];
+                                                                   constant:btnTextHeight]];
     
     // Explore Label
     exploreLabel = [[UILabel alloc] init];
-    NSNumber *lblHeight = @16;
     exploreLabel.text = @"Or, Explore";
     exploreLabel.textColor = [UIColor whiteColor];
-    exploreLabel.font = [UIFont fontWithName:@"Roboto-Medium" size:[lblHeight integerValue]];
+    exploreLabel.font = [UIFont fontWithName:@"Roboto-Medium" size:exploreLblHeight];
     exploreLabel.backgroundColor = [UIColor clearColor];
     [exploreLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    self.exploreLabel.alpha = 0.0f;
+//    self.exploreLabel.alpha = 0.0f;
     [self.view addSubview:exploreLabel];
     
     viewsDictionary = NSDictionaryOfVariableBindings(addGroupView, exploreLabel);
@@ -258,9 +257,9 @@
     format = @"V:|-(btnPositionY)-[addGroupView(btnHeight)]-(20)-[exploreLabel(lblHeight)]-(>=0)-|";
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
                                                                       options:NSLayoutFormatAlignAllCenterX
-                                                                      metrics:@{@"lblHeight": lblHeight,
-                                                                                @"btnHeight": btnHeight,
-                                                                                @"btnPositionY": btnPositionY}
+                                                                      metrics:@{@"lblHeight": [[NSNumber alloc] initWithInt:exploreLblHeight],
+                                                                                @"btnHeight": [[NSNumber alloc] initWithInt:btnHeight],
+                                                                                @"btnPositionY": [[NSNumber alloc] initWithInt:btnPositionY]}
                                                                         views:viewsDictionary]];
     
     // Center the label horizontally with the parent view
@@ -315,7 +314,7 @@
     // Fade in / out group button and labels
     int lblOffset = self.productLabel.frame.origin.y + self.productLabel.frame.size.height;
     int diff = scrollViewYOffset + lblOffset;
-    int proximity = -15;
+    int proximity = -10;
     
     // return if exploreLabel at 0 => layout not complete
     if (!lblOffset)
@@ -324,12 +323,12 @@
     if (diff > proximity)
     {
         if (self.productLabel.alpha == 1.0f)
-            [self fadeOutLabel:self.productLabel];
+            [self fadeOutElementWithAlpha:self.productLabel];
     }
     else
     {
         if (self.productLabel.alpha == 0.0f)
-            [self fadeInLabel:self.productLabel];
+            [self fadeInElementWithAlpha:self.productLabel];
     }
 }
 
@@ -339,7 +338,7 @@
 //    int yOffset = scrollView.contentOffset.y;
     int lblOffset = self.exploreLabel.frame.origin.y + self.exploreLabel.frame.size.height;
     int diff = scrollViewYOffset + lblOffset;
-    int proximity = -15;
+    int proximity = -10;
     
     // return if exploreLabel at 0 => layout not complete
     if (!lblOffset)
@@ -347,45 +346,58 @@
     
     if (diff > proximity)
     {
-        if (diff < 0)
-        {
-            float a = diff/(float)proximity;
-            self.addGroupView.alpha = a;
-            self.exploreLabel.alpha = a;
-        }
-        else
-        {
-            self.addGroupView.alpha = 0.0f;
-            self.exploreLabel.alpha = 0.0f;
-        }
+        if (self.exploreLabel.alpha == 1.0f)
+            [self fadeOutElementsWithAlpha:@[self.exploreLabel, self.addGroupView]];
     }
     else
     {
-        self.addGroupView.alpha = 1.0f;
-        self.exploreLabel.alpha = 1.0f;
+        if (self.exploreLabel.alpha == 0.0f)
+            [self fadeInElementsWithAlpha:@[self.exploreLabel, self.addGroupView]];
     }
 }
 
-- (void)fadeOutLabel:(UILabel *)label
+- (void)fadeOutElementsWithAlpha:(NSArray *)elements
+{
+    for (id element in elements)
+    {
+        [self fadeOutElementWithAlpha:element];
+    }
+}
+
+- (void)fadeOutElementWithAlpha:(id)element
 {
     // Fade out the label right away
     [UIView animateWithDuration:0.1
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         label.alpha = 0.0;
+                         if ([element respondsToSelector:@selector(alpha)])
+                         {
+                             [element setValue:@0 forKey:@"alpha"];
+                         }
                      }
                      completion:nil];
 }
 
-- (void)fadeInLabel:(UILabel *)label
+- (void)fadeInElementsWithAlpha:(NSArray *)elements
+{
+    for (id element in elements)
+    {
+        [self fadeInElementWithAlpha:element];
+    }
+}
+
+- (void)fadeInElementWithAlpha:(id)element
 {
     // Fade out the label right away
     [UIView animateWithDuration:0.1
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         label.alpha = 1.0;
+                         if ([element respondsToSelector:@selector(alpha)])
+                         {
+                             [element setValue:@1 forKey:@"alpha"];
+                         }
                      }
                      completion:nil];
 }
