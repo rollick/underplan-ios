@@ -163,8 +163,22 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 - (NSArray *)computedList
 {
     return [[self filteredList] sortedArrayUsingComparator: ^(id a, id b) {
-        NSString *first = [[a objectForKey:@"created"] objectForKey:@"$date"];
-        NSString *second = [[b objectForKey:@"created"] objectForKey:@"$date"];
+        NSString *first;
+        NSString *second;
+        // FIXME:   Hack! There is some data on the server which hasn't been converted
+        //          to a date correctly. It is a string like "2012-11-10T08:21:59". It
+        //          is still good for sorting 
+        if ([[a objectForKey:@"created"] isKindOfClass:[NSString class]])
+        {
+            first = [a objectForKey:@"created"];
+            second = [b objectForKey:@"created"];
+        }
+        else
+        {
+            first = [[a objectForKey:@"created"] objectForKey:@"$date"];
+            second = [[b objectForKey:@"created"] objectForKey:@"$date"];
+        }
+            
         return [second compare:first];
     }];
 }
@@ -327,7 +341,7 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
         
         //Make sure cell doesn't contain any traces of data from reuse -
         //This would be a good place to assign a placeholder image
-        cell.mainView.contentImage.image = [UIImage imageNamed:@"placeholder_wide.png"];;
+        cell.mainView.contentImage.image = [UIImage imageNamed:@"placeholder-wide.png"];;
         
         return cell;
     } else {
