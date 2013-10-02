@@ -7,7 +7,7 @@
 //
 
 #import "UnderplanStoryItemCell.h"
-#import "UnderplanStoryView.h"
+#import "UnderplanActivityView.h"
 #import "UnderplanViewConstants.h"
 
 #import "User.h"
@@ -21,7 +21,7 @@
 {
     [super initView];
     
-    self.mainView = [[UnderplanStoryView alloc] initWithStyle:StoryStyleShort];
+    self.mainView = [[UnderplanActivityView alloc] initWithStyle:StoryStyleShort];
     [self.mainView setTranslatesAutoresizingMaskIntoConstraints:NO];
     self.containerView.layer.backgroundColor = [UIColor brownColor].CGColor;
     

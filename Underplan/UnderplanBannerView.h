@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BannerView : UIView
+@interface UnderplanBannerView : UIView
 
 @property (retain, nonatomic) UIView *border;
 @property (retain, nonatomic) UILabel *label;

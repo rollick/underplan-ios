@@ -7,7 +7,7 @@
 //
 
 #import "UnderplanShortItemCell.h"
-#import "UnderplanShortView.h"
+#import "UnderplanActivityView.h"
 #import "UnderplanViewConstants.h"
 
 #import "UIColor+Underplan.h"
@@ -26,10 +26,10 @@
     }
     else if ([reuseIdentifier isEqualToString:@"Short"])
     {
-        _style = ShortStyleDefault;
+        _style = ShortStyle;
     }
     
-    self.mainView = [[UnderplanShortView alloc] initWithStyle:_style];
+    self.mainView = [[UnderplanActivityView alloc] initWithStyle:_style];
     self.mainView.backgroundColor = [UIColor underplanCellBgColor];
     [self.mainView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
@@ -73,7 +73,7 @@
     if (activity.tags && [activity.tags length] > 0)
         _style = ShortStyleWithImage;
     else
-        _style = ShortStyleDefault;
+        _style = ShortStyle;
     
     // Set the owners name as the title
     self.mainView.detailsView.title.text = owner.profile[@"name"];

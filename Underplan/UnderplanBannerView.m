@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Mark Gallop. All rights reserved.
 //
 
-#import "BannerView.h"
+#import "UnderplanBannerView.h"
 
 #import "UIColor+Underplan.h"
 
-@implementation BannerView
+@implementation UnderplanBannerView
 
 - (id)initWithFrame:(CGRect)frame
 {

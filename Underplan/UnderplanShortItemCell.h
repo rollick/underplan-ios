@@ -9,14 +9,14 @@
 #import "UnderplanTableViewCell.h"
 
 #import "UnderplanItemDetailsView.h"
-#import "UnderplanShortView.h"
+#import "UnderplanActivityView.h"
 
 @interface UnderplanShortItemCell : UnderplanTableViewCell
 {
-    ShortStyle _style;
+    UnderplanActivityViewStyle _style;
 }
 
-@property (retain, nonatomic) UnderplanShortView *mainView;
+@property (retain, nonatomic) UnderplanActivityView *mainView;
 
 - (void)clearActivityImage;
 

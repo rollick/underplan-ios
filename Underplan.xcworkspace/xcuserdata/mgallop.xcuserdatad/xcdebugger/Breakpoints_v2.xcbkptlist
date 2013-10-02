@@ -678,11 +678,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -778,11 +778,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -794,11 +794,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "-didReceiveMemoryWarning"
             landmarkType = "5">
          </BreakpointContent>
@@ -840,11 +840,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
             landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1708,11 +1708,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "483"
-            endingLineNumber = "483">
+            startingLineNumber = "484"
+            endingLineNumber = "484">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1876,11 +1876,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "-didReceiveMemoryWarning"
             landmarkType = "5">
          </BreakpointContent>
@@ -1892,11 +1892,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "465"
-            endingLineNumber = "465">
+            startingLineNumber = "466"
+            endingLineNumber = "466">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1906,11 +1906,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "462"
-            endingLineNumber = "462">
+            startingLineNumber = "463"
+            endingLineNumber = "463">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2176,11 +2176,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "@implementation CommentsViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -2192,11 +2192,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "473"
-            endingLineNumber = "473">
+            startingLineNumber = "474"
+            endingLineNumber = "474">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2205,7 +2205,7 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Underplan/BannerView.m"
+            filePath = "Underplan/UnderplanBannerView.m"
             timestampString = "399481793.192351"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -2718,11 +2718,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3166,11 +3166,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3198,11 +3198,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "-observeValueForKeyPath:ofObject:change:context:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3230,11 +3230,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "-didReceiveApiUpdate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3262,11 +3262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3278,11 +3278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "-didReceiveApiUpdate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3342,11 +3342,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "-didReceiveApiUpdate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3406,11 +3406,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "432"
-            endingLineNumber = "432"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
             landmarkName = "-prepareForSegue:sender:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3422,11 +3422,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "438"
-            endingLineNumber = "438"
+            startingLineNumber = "439"
+            endingLineNumber = "439"
             landmarkName = "-prepareForSegue:sender:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3438,11 +3438,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "-didReceiveApiUpdate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3550,11 +3550,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "-didReceiveApiUpdate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3566,11 +3566,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "-didReceiveApiUpdate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4265,6 +4265,36 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "11"
             endingLineNumber = "11">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[UnderplanSlideshowButton delegate]"
+                  moduleName = "Underplan"
+                  urlString = "file://localhost/Users/mgallop/Dev/underplan-mobile/Underplan-iOS/Underplan/UnderplanSlideshowButton.h"
+                  timestampString = "402434524.527419"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[UnderplanSlideshowButton setDelegate:]"
+                  moduleName = "Underplan"
+                  urlString = "file://localhost/Users/mgallop/Dev/underplan-mobile/Underplan-iOS/Underplan/UnderplanSlideshowButton.h"
+                  timestampString = "402434524.527862"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "31">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4880,11 +4910,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "-computedList"
             landmarkType = "5">
          </BreakpointContent>
@@ -4896,11 +4926,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
             landmarkName = "-computedList"
             landmarkType = "5">
          </BreakpointContent>
@@ -5149,6 +5179,36 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "9"
             endingLineNumber = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MasterViewController groupViewController]"
+                  moduleName = "Underplan"
+                  urlString = "file://localhost/Users/mgallop/Dev/underplan-mobile/Underplan-iOS/Underplan/MasterViewController.h"
+                  timestampString = "402434524.528352"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MasterViewController setGroupViewController:]"
+                  moduleName = "Underplan"
+                  urlString = "file://localhost/Users/mgallop/Dev/underplan-mobile/Underplan-iOS/Underplan/MasterViewController.h"
+                  timestampString = "402434524.528783"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "31">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5190,11 +5250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
             landmarkName = "-didReceiveApiUpdate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -5222,7 +5282,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "169"
@@ -5268,11 +5328,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -6316,11 +6376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -6428,11 +6488,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "-didReceiveApiUpdate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -6444,11 +6504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "-didReceiveApiUpdate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -6632,11 +6692,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -6744,11 +6804,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7016,11 +7076,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "324"
-            endingLineNumber = "324"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7032,11 +7092,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7048,11 +7108,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7064,11 +7124,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "315"
-            endingLineNumber = "315"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7080,11 +7140,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "326"
-            endingLineNumber = "326"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7112,11 +7172,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "386"
-            endingLineNumber = "386"
+            startingLineNumber = "387"
+            endingLineNumber = "387"
             landmarkName = "-tableView:didEndDisplayingCell:forRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7176,11 +7236,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7444,11 +7504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "347"
-            endingLineNumber = "347"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7476,11 +7536,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
             landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7666,11 +7726,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/ActivityListViewController.m"
-            timestampString = "402393757.173337"
+            timestampString = "402412192.245417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "402"
-            endingLineNumber = "402"
+            startingLineNumber = "403"
+            endingLineNumber = "403"
             landmarkName = "-tableView:didEndDisplayingCell:forRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7698,11 +7758,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "-setCommentsByActivityId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7714,11 +7774,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Underplan/CommentsViewController.m"
-            timestampString = "402393858.964966"
+            timestampString = "402434396.015126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "-setCommentsByActivityId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -7832,6 +7892,70 @@
             startingLineNumber = "110"
             endingLineNumber = "110"
             landmarkName = "-didReceiveApiUpdate:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Underplan/ActivityMapViewController.m"
+            timestampString = "402412331.688989"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
+            landmarkName = "-reloadData"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Underplan/UnderplanViewController.m"
+            timestampString = "402434518.864142"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "-viewWillAppear:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Underplan/UnderplanViewController.m"
+            timestampString = "402434519.866303"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-viewWillAppear:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Underplan/UnderplanViewController.m"
+            timestampString = "402434613.767011"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

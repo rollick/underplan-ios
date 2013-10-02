@@ -108,7 +108,7 @@
     // TODO: look into the correct use of the ready, added, removed notifcations
     //       for table cells and meteor etc.
     if([[notification name] isEqualToString:@"basicActivityData_ready"]) {
-        [self reloadData];
+//        [self reloadData];
         [self zoomMapViewToFitAnnotations:_feedMapView animated:YES];
     } else if([[notification name] isEqualToString:@"activities_added"]) {
         Activity *activity = [[Activity alloc] initWithId:[notification userInfo][@"_id"]];
