@@ -22,13 +22,18 @@
 - (CLLocationCoordinate2D)coordinate;
 {
     CLLocationCoordinate2D theCoordinate;
-    if (! _activity.latitude || ! _activity.longitude)
+    if (![self validCoordinate])
         return theCoordinate;
     
     theCoordinate.latitude = [_activity.latitude doubleValue];
     theCoordinate.longitude = [_activity.longitude doubleValue];
     
     return theCoordinate;
+}
+
+- (bool)validCoordinate
+{
+    return !!_activity.latitude && !!_activity.longitude;
 }
 
 // required if you set the MKPinAnnotationView's "canShowCallout" property to YES
