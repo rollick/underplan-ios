@@ -92,7 +92,10 @@
         [self setCommentsByActivityId:_activity.remoteId];
     }
     
-    [self.tableView setContentInset:UIEdgeInsetsMake(44 + 20, 0, 0, 0)];
+    int statusHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    int navHeight = self.navigationController.navigationBar.frame.size.height;
+    int tabBarHeight = self.tabBarController.tabBar.frame.size.height;
+    [self.tableView setContentInset:UIEdgeInsetsMake(navHeight + statusHeight, 0, tabBarHeight, 0)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -145,9 +148,24 @@
         NSArray *filteredList = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
         
         // Sort by oldest to newest
-        _comments = [filteredList sortedArrayUsingComparator: ^(id a, id b) {
-            NSString *first = [[a objectForKey:@"created"] objectForKey:@"$date"];
-            NSString *second = [[b objectForKey:@"created"] objectForKey:@"$date"];
+        _comments = [filteredList sortedArrayUsingComparator: ^(id a, id b)
+        {
+            NSString *first;
+            NSString *second;
+            // FIXME:   Hack! There is some data on the server which hasn't been converted
+            //          to a date correctly. It is a string like "2012-11-10T08:21:59". It
+            //          is still good for sorting. Same hack used in activity feed controller
+            if ([[a objectForKey:@"created"] isKindOfClass:[NSString class]])
+            {
+                first = [a objectForKey:@"created"];
+                second = [b objectForKey:@"created"];
+            }
+            else
+            {
+                first = [[a objectForKey:@"created"] objectForKey:@"$date"];
+                second = [[b objectForKey:@"created"] objectForKey:@"$date"];
+            }
+            
             return [first compare:second];
         }];
         
