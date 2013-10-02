@@ -43,6 +43,16 @@
                                                      name:@"basicActivityData_ready"
                                                    object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveApiUpdate:)
+                                                     name:@"activities_added"
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveApiUpdate:)
+                                                     name:@"activities_removed"
+                                                   object:nil];
+        
         MKCoordinateRegion worldRegion = MKCoordinateRegionForMapRect(MKMapRectWorld);
         self.feedMapView.region = worldRegion;
         
@@ -100,6 +110,14 @@
     if([[notification name] isEqualToString:@"basicActivityData_ready"]) {
         [self reloadData];
         [self zoomMapViewToFitAnnotations:_feedMapView animated:YES];
+    } else if([[notification name] isEqualToString:@"activities_added"]) {
+        Activity *activity = [[Activity alloc] initWithId:[notification userInfo][@"_id"]];
+        ActivityFeedAnnotation *activityAnnotation = [[ActivityFeedAnnotation alloc] initWithActivity:activity];
+        
+        [self.feedMapView addAnnotation:activityAnnotation];
+        [self.feedMapView setCenterCoordinate:activityAnnotation.coordinate];
+
+//        [self zoomMapViewToFitAnnotations:_feedMapView animated:YES];
     }
 }
 
