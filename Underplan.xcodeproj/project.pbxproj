@@ -18,6 +18,7 @@
 		260CFC8A17B294C400FC7787 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 260CFC8917B294C400FC7787 /* Photo.m */; };
 		260CFC8C17B29F7100FC7787 /* pano_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 260CFC8B17B29F7100FC7787 /* pano_image.jpg */; };
 		261D635517FC9D3F0080ECD4 /* UnderplanActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 261D635417FC9D3F0080ECD4 /* UnderplanActivityView.m */; };
+		261D635817FCC19C0080ECD4 /* UnderplanActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 261D635717FCC19C0080ECD4 /* UnderplanActivityViewCell.m */; };
 		2621FAF917DF50EA00E20D85 /* UnderplanSlideshowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2621FAF817DF50EA00E20D85 /* UnderplanSlideshowController.m */; };
 		263DCD0217E0BF8E0077DD15 /* chevron-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 263DCCFE17E0BF8E0077DD15 /* chevron-left.png */; };
 		263DCD0317E0BF8E0077DD15 /* chevron-left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 263DCCFF17E0BF8E0077DD15 /* chevron-left@2x.png */; };
@@ -192,6 +193,8 @@
 		260CFC8B17B29F7100FC7787 /* pano_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pano_image.jpg; sourceTree = "<group>"; };
 		261D635317FC9D3F0080ECD4 /* UnderplanActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanActivityView.h; sourceTree = "<group>"; };
 		261D635417FC9D3F0080ECD4 /* UnderplanActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanActivityView.m; sourceTree = "<group>"; };
+		261D635617FCC19C0080ECD4 /* UnderplanActivityViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanActivityViewCell.h; sourceTree = "<group>"; };
+		261D635717FCC19C0080ECD4 /* UnderplanActivityViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanActivityViewCell.m; sourceTree = "<group>"; };
 		2621FAF717DF50EA00E20D85 /* UnderplanSlideshowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanSlideshowController.h; sourceTree = "<group>"; };
 		2621FAF817DF50EA00E20D85 /* UnderplanSlideshowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanSlideshowController.m; sourceTree = "<group>"; };
 		263DCCFE17E0BF8E0077DD15 /* chevron-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chevron-left.png"; sourceTree = "<group>"; };
@@ -650,6 +653,8 @@
 			children = (
 				26AAAAD017D202F800944DAC /* UnderplanTableViewCell.h */,
 				26AAAAD117D202F800944DAC /* UnderplanTableViewCell.m */,
+				261D635617FCC19C0080ECD4 /* UnderplanActivityViewCell.h */,
+				261D635717FCC19C0080ECD4 /* UnderplanActivityViewCell.m */,
 				26AAAADB17D3497000944DAC /* UnderplanShortItemCell.h */,
 				26AAAADC17D3497000944DAC /* UnderplanShortItemCell.m */,
 				26AAAAD817D347F100944DAC /* UnderplanStoryItemCell.h */,
@@ -1093,6 +1098,7 @@
 				261D635517FC9D3F0080ECD4 /* UnderplanActivityView.m in Sources */,
 				26A12C0E17C7825C006B619E /* UnderplanApiClient.m in Sources */,
 				26C0A0DE17F05077005A96FE /* UnderplanNavigationBar.m in Sources */,
+				261D635817FCC19C0080ECD4 /* UnderplanActivityViewCell.m in Sources */,
 				26659063179EE51E001EFABF /* UnderplanAppDelegate.m in Sources */,
 				26659072179EE51E001EFABF /* MasterViewController.m in Sources */,
 				26EE738217D175F20028639E /* ActivityTabBarController.m in Sources */,

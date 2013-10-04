@@ -17,6 +17,7 @@
 
 @property (copy, nonatomic) NSString *itemId;
 @property (assign, nonatomic) BOOL loaded;
+
 @property (retain, nonatomic) UIView *containerView;
 @property (retain, nonatomic) UIView *underLineView;
 

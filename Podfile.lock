@@ -12,15 +12,23 @@ PODS:
   - ASIHTTPRequest/S3 (1.8.1):
     - Reachability
   - FlatUIKit (1.2)
-  - libwebp (0.3.0-rc7):
-    - libwebp/dec
-    - libwebp/dsp
-    - libwebp/utils
-    - libwebp/webp
-  - libwebp/dec (0.3.0-rc7)
-  - libwebp/dsp (0.3.0-rc7)
-  - libwebp/utils (0.3.0-rc7)
-  - libwebp/webp (0.3.0-rc7)
+  - gtm-oauth2 (0.0.1):
+    - gtm-oauth2/Core
+    - GTMHTTPFetcher
+    - SBJson
+  - gtm-oauth2/Core (0.0.1):
+    - gtm-oauth2/Core/Mac
+    - gtm-oauth2/Core/Touch
+    - GTMHTTPFetcher
+    - SBJson
+  - gtm-oauth2/Core/Mac (0.0.1):
+    - GTMHTTPFetcher
+    - SBJson
+  - gtm-oauth2/Core/Touch (0.0.1):
+    - GTMHTTPFetcher
+    - SBJson
+  - GTMHTTPFetcher (0.0.1):
+    - SBJson
   - MBProgressHUD (0.8)
   - MosaicLayout (0.0.1):
     - AFNetworking (~> 1.3.2)
@@ -28,16 +36,15 @@ PODS:
   - Reachability (3.1.1)
   - SBJson (3.1)
   - SDWebImage (3.4):
-    - libwebp
-    - SDWebImage/MapKit
-  - SDWebImage/MapKit (3.4):
-    - libwebp
+    - SDWebImage/Core
+  - SDWebImage/Core (3.4)
   - SocketRocket (HEAD based on 0.3.1-beta2)
   - UIColor-HexString (1.0.1)
 
 DEPENDENCIES:
   - ASIHTTPRequest
   - FlatUIKit
+  - gtm-oauth2
   - MBProgressHUD
   - MosaicLayout (from `https://github.com/rollick/MosaicLayout.git`)
   - ObjectiveDDP (from `https://github.com/rollick/ObjectiveDDP.git`, commit `41b47c256c4646228680c90d4b0ed18bf4f182a5`)
@@ -55,15 +62,16 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0700ec7a58c36ad217173e167f6e4df7270df66b
-  ASIHTTPRequest: a411b8d0f006ed8fc24248be6a0c4ad2abc9b101
+  ASIHTTPRequest: 162783e0cd71bdd3ff1ceed0cd5fa9505e0116a8
   FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
-  libwebp: 40517fa1fd3716eded73b4696c45fc0b66e4b414
+  gtm-oauth2: af6d1ff3d4b14b35d3709f7f4bf2be8b43e45e62
+  GTMHTTPFetcher: b0af09f18ec87e7a5edeffcc8cb6449fdbf0e83f
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   MosaicLayout: 39425652bcc33265b42ad5ea67386800c61acb16
   ObjectiveDDP: 56839b6b9bf52d51bc533ab773ee415e46d36bf0
   Reachability: 2be6bc2fd2bd31d97f5db33e75e4b29c79e95883
   SBJson: 0c76c1e4ec7c4fbf9c9c0d9fa78cb3c5743cbe9a
-  SDWebImage: f13f791e411c632489824aa7f129e230b52bf5c4
+  SDWebImage: 366188f04c019bfd712d45e3b36aa52070f4abd8
   SocketRocket: 7ac946bcce46287a791dfff3c1f8daa692821dae
   UIColor-HexString: 8a3f512f71b6d94a2cf6bdeabcad2f3532f31b5a
 
