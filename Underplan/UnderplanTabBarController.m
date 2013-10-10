@@ -22,6 +22,8 @@
 
 @implementation UnderplanTabBarController
 
+@synthesize activity = _activity, group = _group, comments = _comments;
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if(self = [super initWithCoder:aDecoder]) {

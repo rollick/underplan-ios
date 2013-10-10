@@ -19,6 +19,8 @@
 		260CFC8C17B29F7100FC7787 /* pano_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 260CFC8B17B29F7100FC7787 /* pano_image.jpg */; };
 		261D635517FC9D3F0080ECD4 /* UnderplanActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 261D635417FC9D3F0080ECD4 /* UnderplanActivityView.m */; };
 		261D635817FCC19C0080ECD4 /* UnderplanActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 261D635717FCC19C0080ECD4 /* UnderplanActivityViewCell.m */; };
+		261D635C180015910080ECD4 /* GoogleAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 261D635B180015910080ECD4 /* GoogleAuthViewController.m */; };
+		261D635E18001A410080ECD4 /* GoogleAuthView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 261D635D18001A410080ECD4 /* GoogleAuthView.xib */; };
 		2621FAF917DF50EA00E20D85 /* UnderplanSlideshowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2621FAF817DF50EA00E20D85 /* UnderplanSlideshowController.m */; };
 		263DCD0217E0BF8E0077DD15 /* chevron-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 263DCCFE17E0BF8E0077DD15 /* chevron-left.png */; };
 		263DCD0317E0BF8E0077DD15 /* chevron-left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 263DCCFF17E0BF8E0077DD15 /* chevron-left@2x.png */; };
@@ -163,6 +165,7 @@
 		26EE732117CFC3020028639E /* Gallery.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EE732017CFC3020028639E /* Gallery.m */; };
 		26EE738217D175F20028639E /* ActivityTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EE738117D175F20028639E /* ActivityTabBarController.m */; };
 		26F9A91417AA8A81007B0CBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26F9A91317AA8A81007B0CBB /* CoreData.framework */; };
+		26FA434E180626A700367487 /* Activities.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26FA434C180626A700367487 /* Activities.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -195,6 +198,10 @@
 		261D635417FC9D3F0080ECD4 /* UnderplanActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanActivityView.m; sourceTree = "<group>"; };
 		261D635617FCC19C0080ECD4 /* UnderplanActivityViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanActivityViewCell.h; sourceTree = "<group>"; };
 		261D635717FCC19C0080ECD4 /* UnderplanActivityViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanActivityViewCell.m; sourceTree = "<group>"; };
+		261D6359180007740080ECD4 /* UnderplanAuthKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanAuthKeys.h; sourceTree = "<group>"; };
+		261D635A180015910080ECD4 /* GoogleAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAuthViewController.h; sourceTree = "<group>"; };
+		261D635B180015910080ECD4 /* GoogleAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAuthViewController.m; sourceTree = "<group>"; };
+		261D635D18001A410080ECD4 /* GoogleAuthView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoogleAuthView.xib; sourceTree = "<group>"; };
 		2621FAF717DF50EA00E20D85 /* UnderplanSlideshowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderplanSlideshowController.h; sourceTree = "<group>"; };
 		2621FAF817DF50EA00E20D85 /* UnderplanSlideshowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderplanSlideshowController.m; sourceTree = "<group>"; };
 		263DCCFE17E0BF8E0077DD15 /* chevron-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chevron-left.png"; sourceTree = "<group>"; };
@@ -389,6 +396,7 @@
 		26EE738017D175F20028639E /* ActivityTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityTabBarController.h; sourceTree = "<group>"; };
 		26EE738117D175F20028639E /* ActivityTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityTabBarController.m; sourceTree = "<group>"; };
 		26F9A91317AA8A81007B0CBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		26FA434D180626A700367487 /* Activities.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Activities.xcdatamodel; sourceTree = "<group>"; };
 		F02AD06E00CE4878A05A6AE5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		F923E2DB94994B0ABF43E5B3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -613,6 +621,7 @@
 			isa = PBXGroup;
 			children = (
 				26C0A0E817F1AD96005A96FE /* Common */,
+				26FA434C180626A700367487 /* Activities.xcdatamodeld */,
 				26C0A0D117F0463D005A96FE /* GalleryDataSource.m */,
 				26C0A0D217F0463D005A96FE /* GalleryDataSource.h */,
 				26EE731F17CFC3020028639E /* Gallery.h */,
@@ -670,6 +679,7 @@
 		26AAAAD717D32BE200944DAC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				261D635D18001A410080ECD4 /* GoogleAuthView.xib */,
 				269C091C17F8415F00B01792 /* UnderplanViewConstants.h */,
 				263DCD0617E19C5E0077DD15 /* Delegates */,
 				26018CF917CE300600D766A4 /* UnderplanItemDetailsView.h */,
@@ -737,6 +747,8 @@
 				26A1D5D717A1B5E300526060 /* CommentsViewController.m */,
 				264C85D817E9FA1300E2A09E /* WebViewController.h */,
 				264C85D917E9FA1300E2A09E /* WebViewController.m */,
+				261D635A180015910080ECD4 /* GoogleAuthViewController.h */,
+				261D635B180015910080ECD4 /* GoogleAuthViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -850,6 +862,7 @@
 		26F9A8B617A95E7B007B0CBB /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				261D6359180007740080ECD4 /* UnderplanAuthKeys.h */,
 				264C85E517EB834E00E2A09E /* SystemVersionInfo.h */,
 				26AAAACD17D1FEAB00944DAC /* UIColor+Underplan.h */,
 				26AAAACE17D1FEAB00944DAC /* UIColor+Underplan.m */,
@@ -1023,6 +1036,7 @@
 				263DCD1317E314E90077DD15 /* previous.png in Resources */,
 				26AAAAA117D1EFE200944DAC /* photos30_full.png in Resources */,
 				26AAAAB217D1F07F00944DAC /* album.png in Resources */,
+				261D635E18001A410080ECD4 /* GoogleAuthView.xib in Resources */,
 				264C85BE17E7375800E2A09E /* chevron-left-large.png in Resources */,
 				26AAAAC417D1F11900944DAC /* photos_full@2x.png in Resources */,
 			);
@@ -1090,6 +1104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2665905F179EE51E001EFABF /* main.m in Sources */,
+				26FA434E180626A700367487 /* Activities.xcdatamodeld in Sources */,
 				26AAAACF17D1FEAB00944DAC /* UIColor+Underplan.m in Sources */,
 				26A12C1417C9F852006B619E /* UIViewController+UnderplanApiNotifications.m in Sources */,
 				26C0A0EC17F1B031005A96FE /* UserItem.m in Sources */,
@@ -1124,6 +1139,7 @@
 				260CFC8117B1543800FC7787 /* Activity.m in Sources */,
 				26018D0517CECF0900D766A4 /* Comment.m in Sources */,
 				264C853A17E44E7800E2A09E /* UnderplanTabBarController.m in Sources */,
+				261D635C180015910080ECD4 /* GoogleAuthViewController.m in Sources */,
 				260CFC8417B16CC400FC7787 /* Group.m in Sources */,
 				260CFC8717B2803F00FC7787 /* MeteorModel.m in Sources */,
 				260CFC8A17B294C400FC7787 /* Photo.m in Sources */,
@@ -1407,6 +1423,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		26FA434C180626A700367487 /* Activities.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				26FA434D180626A700367487 /* Activities.xcdatamodel */,
+			);
+			currentVersion = 26FA434D180626A700367487 /* Activities.xcdatamodel */;
+			path = Activities.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 26659047179EE51D001EFABF /* Project object */;
 }

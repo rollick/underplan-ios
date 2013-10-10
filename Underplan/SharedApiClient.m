@@ -10,7 +10,7 @@
 
 @implementation SharedApiClient
 
-@synthesize client;
+@synthesize client, auth;
 
 #pragma mark Singleton Implementation
 static SharedApiClient *sharedObject;
@@ -38,4 +38,17 @@ static SharedApiClient *sharedObject;
     shared.client = client;
 }
 
++ (GTMOAuth2Authentication *)getAuth
+{
+    // Ensure we are using the shared instance
+    SharedApiClient *shared = [SharedApiClient sharedInstance];
+    return shared.auth;
+}
+
++ (void) setAuth:(GTMOAuth2Authentication *)auth
+{
+    // Ensure we are using the shared instance
+    SharedApiClient *shared = [SharedApiClient sharedInstance];
+    shared.auth = auth;
+}
 @end

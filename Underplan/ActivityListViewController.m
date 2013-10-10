@@ -127,7 +127,9 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     // Register cell classes
     [self.tableView registerClass:[UnderplanShortItemCell class] forCellReuseIdentifier:@"Short"];
     [self.tableView registerClass:[UnderplanShortItemCell class] forCellReuseIdentifier:@"ShortWithImage"];
+    
     [self.tableView registerClass:[UnderplanStoryItemCell class] forCellReuseIdentifier:@"Story"];
+    [self.tableView registerClass:[UnderplanStoryItemCell class] forCellReuseIdentifier:@"StoryWithImage"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -163,22 +165,29 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
 - (NSArray *)computedList
 {
     return [[self filteredList] sortedArrayUsingComparator: ^(id a, id b) {
-        NSString *first;
-        NSString *second;
+        NSNumber *first;
+        NSNumber *second;
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss"];
         // FIXME:   Hack! There is some data on the server which hasn't been converted
         //          to a date correctly. It is a string like "2012-11-10T08:21:59". It
         //          is still good for sorting 
         if ([[a objectForKey:@"created"] isKindOfClass:[NSString class]])
         {
-            first = [a objectForKey:@"created"];
-            second = [b objectForKey:@"created"];
+            NSDate *aDate = [df dateFromString:[a objectForKey:@"created"]];
+            first = [NSNumber numberWithDouble:aDate.timeIntervalSince1970];
         }
         else
-        {
             first = [[a objectForKey:@"created"] objectForKey:@"$date"];
-            second = [[b objectForKey:@"created"] objectForKey:@"$date"];
+        
+        if ([[b objectForKey:@"created"] isKindOfClass:[NSString class]])
+        {
+            NSDate *aDate = [df dateFromString:[b objectForKey:@"created"]];
+            second = [NSNumber numberWithDouble:aDate.timeIntervalSince1970];
         }
-            
+        else
+            second = [[b objectForKey:@"created"] objectForKey:@"$date"];
+        
         return [second compare:first];
     }];
 }
@@ -265,10 +274,17 @@ static void * const ActivityListKVOContext = (void*)&ActivityListKVOContext;
     Activity *activity = [[Activity alloc] initWithId:activityData[@"_id"]];
     
     // If activity has fully loaded
+    // FIXME: need a cleaner way to flag a fully loaded activity record
     if (activity.summaryText)
     {
         if ([activity.type isEqualToString:@"story"]) {
-            UnderplanStoryItemCell *tempCell = [[UnderplanStoryItemCell alloc] init];
+            UnderplanStoryItemCell *tempCell;
+
+            if ([activity hasTags])
+                tempCell = [[UnderplanStoryItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"StoryWithImage"];
+            else
+                tempCell = [[UnderplanStoryItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Story"];
+            
             return [tempCell cellHeight:activity.summaryText];
         }
         else

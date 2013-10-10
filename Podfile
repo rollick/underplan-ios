@@ -8,7 +8,7 @@ pod 'SBJson', '3.1'
 pod 'UIColor-HexString'
 pod 'MBProgressHUD'
 pod 'MosaicLayout', :git => 'https://github.com/rollick/MosaicLayout.git'
-pod 'gtm-oauth2'
+pod 'gtm-oauth2', :git => 'https://github.com/rollick/gtm-oauth2.git'
 
 #pod 'ShareKit/Facebook'
 #pod 'ShareKit/GooglePlus'

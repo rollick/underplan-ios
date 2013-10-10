@@ -12,5 +12,6 @@
 
 + (id)addTo:(UIView *)aView text:(NSString *)someText;
 + (void)removeFrom:(UIView *)aView;
++ (void)setHidden:(bool)hidden view:(UIView *)mainView;
 
 @end

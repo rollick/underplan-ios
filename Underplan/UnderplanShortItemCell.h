@@ -10,15 +10,10 @@
 
 #import "UnderplanItemDetailsView.h"
 #import "UnderplanActivityView.h"
+#import "UnderplanActivityViewCell.h"
 
-@interface UnderplanShortItemCell : UnderplanTableViewCell
-{
-    UnderplanActivityViewStyle _style;
-}
+@interface UnderplanShortItemCell : UnderplanActivityViewCell
 
 @property (retain, nonatomic) UnderplanActivityView *mainView;
-
-- (void)clearActivityImage;
-
 
 @end

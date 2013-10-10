@@ -30,14 +30,6 @@
     return self;
 }
 
-//- (id)initWithCoder:(NSCoder *)aDecoder
-//{
-//    if(self = [super initWithCoder:aDecoder]) {
-//        [self initView];
-//    }
-//    return self;
-//}
-
 - (void)initView
 {
     [self setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -47,7 +39,8 @@
     
     [self.contentView addSubview:self.containerView];
     [self.contentView bringSubviewToFront:self.containerView];
-    
+//    self.contentView.layer.backgroundColor = [UIColor orangeColor].CGColor;
+
     self.contentView.backgroundColor = [UIColor clearColor];
     self.backgroundView.backgroundColor = [UIColor clearColor];
     self.backgroundColor = [UIColor clearColor];
@@ -56,25 +49,29 @@
     self.underLineView.backgroundColor = [UIColor underplanPrimaryColor];
     [self.underLineView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
+//    self.containerView.layer.backgroundColor = [UIColor redColor].CGColor;
+    
     [self.containerView addSubview:self.underLineView];
 
     [self.layer setCornerRadius:2.0f];
     [self.layer setMasksToBounds:YES];
-    
-    NSDictionary *viewsDictionary = @{@"mainView": self.containerView,
+//    self.layer.backgroundColor = [UIColor blueColor].CGColor;
+
+    NSDictionary *viewsDictionary = @{@"containerView": self.containerView,
                                       @"border": self.underLineView};
     
     NSDictionary *metrics = @{@"padding": @CELL_PADDING,
-                              @"borderSize": @CELL_BORDER_SIZE};
+                              @"borderSize": @CELL_BORDER_SIZE,
+                              @"standardPadding": @STANDARD_PADDING};
     
     [self.contentView addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(padding)-[mainView]-(0)-[border(borderSize)]-(padding@500)-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(padding)-[containerView]-(0)-[border(borderSize)]-(standardPadding@500)-|"
                                              options:0
                                              metrics:metrics
                                                views:viewsDictionary]];
 
     [self.contentView addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"|-(padding)-[mainView]-(padding)-|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"|-(padding)-[containerView]-(padding)-|"
                                              options:NSLayoutFormatAlignAllTop
                                              metrics:metrics
                                                views:viewsDictionary]];

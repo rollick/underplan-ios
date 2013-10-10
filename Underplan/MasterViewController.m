@@ -9,6 +9,7 @@
 #import "MasterViewController.h"
 #import "GroupViewController.h"
 #import "WebViewController.h"
+#import "UnderplanAuthKeys.h"
 
 #import "UIViewController+UnderplanApiNotifications.h"
 #import "UIViewController+ShowHideBars.h"
@@ -17,9 +18,12 @@
 #import "SharedApiClient.h"
 #import "GroupItemViewCell.h"
 
+#import "GoogleAuthViewController.h"
+
 #import "Group.h"
 
 #import "UIColor+Underplan.h"
+#import <BSONIdGenerator.h>
 #import <MBProgressHUD.h>
 
 static NSInteger const tablePositionY = 245;
@@ -34,11 +38,14 @@ static NSInteger const btnTextHeight = 16;
 
 static NSInteger const exploreLblHeight = 16;
 
+static NSString *const kKeychainItemName = @"External Auth: Google+";
+
 @interface MasterViewController ()
 
 @property (assign, nonatomic) BOOL connectedToMeteor;
 @property (strong, nonatomic) NSMutableArray *_groups;
 @property (assign, nonatomic) UnderplanAppDelegate *appDelegate;
+@property (assign, nonatomic) NSString *apiLoginResponseId;
 
 @end
 
@@ -86,11 +93,18 @@ static NSInteger const exploreLblHeight = 16;
         self._groups = [SharedApiClient getClient].collections[@"groups"];
         [self.tableView reloadData];
     }
+    else if ([[notification name] isEqualToString:@"connected"])
+    {
+        // FIXME: just testing this here!!
+        [self setLoggedInState];
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [SharedApiClient getClient].authDelegate = self;
     
     self.view = [[UIView alloc] init];
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
@@ -114,6 +128,7 @@ static NSInteger const exploreLblHeight = 16;
     [self setupProductLabel];
     [self setupTableView];
     [self setupGroupView];
+    [self setupLoginButton];
 }
 
 - (void)setupProductLabel
@@ -273,6 +288,140 @@ static NSInteger const exploreLblHeight = 16;
     
 }
 
+- (void)setupLoginButton
+{
+    self.loginButton = [UIButton buttonWithType: UIButtonTypeSystem];
+    self.loginButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    self.loginButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+
+    [self.loginButton setTitleColor:[UIColor underplanPrimaryDarkColor] forState:UIControlStateNormal];
+
+    [self.loginButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    [self.view addSubview:self.loginButton];
+    [self.view bringSubviewToFront:self.loginButton];
+
+    NSString *format = @"H:|-(>=10)-[button]-(10)-|";
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                      options:NSLayoutFormatAlignAllCenterX
+                                                                      metrics:@{@"width": @200}
+                                                                        views:@{@"button": self.loginButton}]];
+    format = @"V:|-(5)-[button(height)]-(>=10)-|";
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+                                                                      options:NSLayoutFormatAlignAllCenterX
+                                                                      metrics:@{@"height": @20}
+                                                                        views:@{@"button": self.loginButton}]];
+}
+
+#pragma mark - DDPAuthDelegate
+
+- (void)authenticationFailed:(NSString *)reason
+{
+    // Do something here...
+}
+
+- (void)setLoggedInState
+{
+    GTMOAuth2Authentication *auth;
+    auth = [GoogleAuthViewController authForGoogleFromKeychainForName:kKeychainItemName
+                                                                 clientID:@GOOGLE_AUTH_CLIENT_ID
+                                                             clientSecret:@GOOGLE_AUTH_CLIENT_SECRET];
+    
+    [UIView animateWithDuration:0.5
+                          delay:0.5
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         if ([auth canAuthorize])
+                         {
+                             [self.loginButton setTitle:@"Sign out" forState:UIControlStateNormal];
+                             
+                             [SharedApiClient setAuth:auth];
+                             [self authenticateWithApiServer];
+                             
+                             [self.loginButton removeTarget:self action:@selector(signInGoogle:) forControlEvents:UIControlEventTouchUpInside];
+                             [self.loginButton addTarget:self action:@selector(signOutGoogle:) forControlEvents:UIControlEventTouchUpInside];
+                        }
+                         else
+                         {
+                             [self.loginButton setTitle:@"Sign in with Google" forState:UIControlStateNormal];
+                             
+                             [self.loginButton removeTarget:self action:@selector(signOutGoogle:) forControlEvents:UIControlEventTouchUpInside];
+                             [self.loginButton addTarget:self action:@selector(signInGoogle:) forControlEvents:UIControlEventTouchUpInside];
+                         }
+                     }
+                     completion:^(BOOL finished){}
+                ];
+}
+
+- (void)signInGoogle:(id)sender
+{
+    NSString *scope = @"https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"; // scope for Google+ API
+    
+    GoogleAuthViewController *viewController;
+    viewController = [[GoogleAuthViewController alloc] initWithScope:scope
+                                                                clientID:@GOOGLE_AUTH_CLIENT_ID
+                                                            clientSecret:@GOOGLE_AUTH_CLIENT_SECRET
+                                                        keychainItemName:kKeychainItemName
+                                                                delegate:self
+                                                        finishedSelector:@selector(viewController:finishedWithAuth:error:)];
+    
+    [[self navigationController] pushViewController:viewController
+                                           animated:YES];
+}
+
+- (void)signOutGoogle:(id)sender
+{
+    [GoogleAuthViewController removeAuthFromKeychainForName:kKeychainItemName];
+    
+    GTMOAuth2Authentication *auth = [SharedApiClient getAuth];
+    if (auth)
+        [GoogleAuthViewController revokeTokenForGoogleAuthentication:auth];
+    
+    // notify api server we have logged out
+    [[SharedApiClient getClient] sendWithMethodName:@"logout" parameters:nil];
+    
+    [self setLoggedInState];
+}
+
+- (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
+      finishedWithAuth:(GTMOAuth2Authentication *)auth
+                 error:(NSError *)error {
+    if (error != nil) {
+        [SharedApiClient setAuth:nil];
+    } else {
+        [SharedApiClient setAuth:auth];
+        [self authenticateWithApiServer];
+    }
+    [self setLoggedInState];
+}
+
+- (void)authenticateWithApiServer
+{
+    GTMOAuth2Authentication *auth = [SharedApiClient getAuth];
+    
+    NSString *token = auth.accessToken ? auth.accessToken : auth.refreshToken;
+    NSArray *params = @[@{@"email": auth.userEmail, @"id": auth.userID}, token];
+    self.apiLoginResponseId = [[SharedApiClient getClient] sendWithMethodName:@"loginGoogle"
+                                                                   parameters:params
+                                                             notifyOnResponse:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didAuthenticateUser:)
+                                                 name:[NSString stringWithFormat:@"response_%@", self.apiLoginResponseId]
+                                               object:nil];
+}
+
+- (void)didAuthenticateUser:(NSNotification *)notification
+{
+    NSString *userId = notification.userInfo[@"userId"];
+    if (userId)
+    {
+        [SharedApiClient getClient].userId = userId;
+    }    
+//    NSString *responseId = [NSString stringWithFormat:@"response_%@", self.apiLoginResponseId];
+//    [self removeObserver:self forKeyPath:responseId];
+}
+
 - (void)openWebURL:(id)sender
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://underplan.it/new"]];
@@ -323,12 +472,12 @@ static NSInteger const exploreLblHeight = 16;
     if (diff > proximity)
     {
         if (self.productLabel.alpha == 1.0f)
-            [self fadeOutElementWithAlpha:self.productLabel];
+            [self fadeOutElementsWithAlpha:@[self.productLabel, self.loginButton]];
     }
     else
     {
         if (self.productLabel.alpha == 0.0f)
-            [self fadeInElementWithAlpha:self.productLabel];
+            [self fadeInElementsWithAlpha:@[self.productLabel, self.loginButton]];
     }
 }
 

@@ -13,7 +13,7 @@
 
 @class GroupViewController;
 
-@interface MasterViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate>
+@interface MasterViewController : UnderplanViewController <UITableViewDataSource, UITableViewDelegate, DDPAuthDelegate>
 
 @property (strong, nonatomic) GroupViewController *groupViewController;
 @property (retain, nonatomic) UITableView *tableView;
@@ -21,5 +21,6 @@
 @property (retain, nonatomic) UILabel *connectionStatusText;
 @property (retain, nonatomic) UILabel *exploreLabel;
 @property (retain, nonatomic) UILabel *productLabel;
+@property (retain, nonatomic) UIButton *loginButton;
 
 @end

@@ -12,6 +12,15 @@
 
 @implementation UnderplanBasicLabel
 
++ (void)setHidden:(bool)hidden view:(UIView *)mainView
+{
+    for (UIView *aView in mainView.subviews) {
+		if ([aView isKindOfClass:self]) {
+			[aView setHidden:hidden];
+		}
+	}
+}
+
 + (id)addTo:(UIView *)aView text:(NSString *)someText
 {
     // First remove existing labels

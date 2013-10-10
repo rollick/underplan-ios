@@ -9,10 +9,8 @@
 #import "UnderplanTableViewCell.h"
 
 #import "UnderplanItemDetailsView.h"
-#import "UnderplanActivityView.h"
+#import "UnderplanActivityViewCell.h"
 
-@interface UnderplanStoryItemCell : UnderplanTableViewCell
-
-@property (retain, nonatomic) UnderplanActivityView *mainView;
+@interface UnderplanStoryItemCell : UnderplanActivityViewCell
 
 @end

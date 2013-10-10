@@ -12,19 +12,19 @@ PODS:
   - ASIHTTPRequest/S3 (1.8.1):
     - Reachability
   - FlatUIKit (1.2)
-  - gtm-oauth2 (0.0.1):
+  - gtm-oauth2 (0.0.2):
     - gtm-oauth2/Core
     - GTMHTTPFetcher
     - SBJson
-  - gtm-oauth2/Core (0.0.1):
+  - gtm-oauth2/Core (0.0.2):
     - gtm-oauth2/Core/Mac
     - gtm-oauth2/Core/Touch
     - GTMHTTPFetcher
     - SBJson
-  - gtm-oauth2/Core/Mac (0.0.1):
+  - gtm-oauth2/Core/Mac (0.0.2):
     - GTMHTTPFetcher
     - SBJson
-  - gtm-oauth2/Core/Touch (0.0.1):
+  - gtm-oauth2/Core/Touch (0.0.2):
     - GTMHTTPFetcher
     - SBJson
   - GTMHTTPFetcher (0.0.1):
@@ -44,7 +44,7 @@ PODS:
 DEPENDENCIES:
   - ASIHTTPRequest
   - FlatUIKit
-  - gtm-oauth2
+  - gtm-oauth2 (from `https://github.com/rollick/gtm-oauth2.git`)
   - MBProgressHUD
   - MosaicLayout (from `https://github.com/rollick/MosaicLayout.git`)
   - ObjectiveDDP (from `https://github.com/rollick/ObjectiveDDP.git`, commit `41b47c256c4646228680c90d4b0ed18bf4f182a5`)
@@ -54,6 +54,8 @@ DEPENDENCIES:
   - UIColor-HexString
 
 EXTERNAL SOURCES:
+  gtm-oauth2:
+    :git: https://github.com/rollick/gtm-oauth2.git
   MosaicLayout:
     :git: https://github.com/rollick/MosaicLayout.git
   ObjectiveDDP:
@@ -64,7 +66,7 @@ SPEC CHECKSUMS:
   AFNetworking: 0700ec7a58c36ad217173e167f6e4df7270df66b
   ASIHTTPRequest: 162783e0cd71bdd3ff1ceed0cd5fa9505e0116a8
   FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
-  gtm-oauth2: af6d1ff3d4b14b35d3709f7f4bf2be8b43e45e62
+  gtm-oauth2: 1061050b21f0131cb9ba9d7266ee80119d32d241
   GTMHTTPFetcher: b0af09f18ec87e7a5edeffcc8cb6449fdbf0e83f
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   MosaicLayout: 39425652bcc33265b42ad5ea67386800c61acb16

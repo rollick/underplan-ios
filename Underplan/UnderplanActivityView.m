@@ -29,7 +29,8 @@
     NSDictionary *viewsDictionary;
     NSDictionary *metrics = @{@"titleHeight": @18,
                               @"padding": @STANDARD_PADDING,
-                              @"smallPadding": @6};
+                              @"smallPadding": @6,
+                              @"imageHeight": @CONTENT_IMAGE_HEIGHT};
     
     if (style == StoryStyleShort || style == StoryStyleShortWithImage || style == StoryStyleLong)
     {
@@ -84,7 +85,7 @@
                                 @"detailsView": self.detailsView,
                                 @"contentImage": self.contentImage};
             
-            format = @"V:|-(padding)-[detailsView(52)]-(padding)-[mainText]-(padding)-[contentImage(150)]-(0)-|";
+            format = @"V:|-(padding)-[detailsView(52)]-(padding)-[mainText]-(padding)-[contentImage(imageHeight)]-(0)-|";
         }
         else // style == ShortStyle
         {

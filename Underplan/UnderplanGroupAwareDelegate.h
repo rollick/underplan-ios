@@ -13,6 +13,10 @@
 
 @protocol UnderplanGroupAwareDelegate <NSObject>
 
+@property (strong, nonatomic) Activity *activity;
+@property (strong, nonatomic) Group *group;
+@property (strong, nonatomic) NSArray *comments;
+
 - (Group *)currentGroup;
 - (Activity *)currentActivity;
 - (NSArray *)currentActivityComments;

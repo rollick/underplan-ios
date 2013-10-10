@@ -20,6 +20,9 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIColor+Underplan.h"
 
+#define COMMENT_HEIGHT 40
+#define COMMENT_PADDING 8
+
 @interface CommentsViewController ()
 
 @property (strong, nonatomic) NSArray *comments;
@@ -28,6 +31,10 @@
 @end
 
 @implementation CommentsViewController
+{
+    int commentYOffset;
+    int tableYOffset;
+}
 
 @synthesize tableView = _tableView;
 
@@ -86,6 +93,19 @@
     
     [self.view addSubview:self.tableView];
     
+    if ([SharedApiClient getAuth].userID) {
+        [self addCommentView];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWasShown:)
+                                                     name:UIKeyboardWillShowNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillBeHidden:)
+                                                     name:UIKeyboardWillHideNotification object:nil];
+    }
+    
     if (_delegate)
     {
         _activity = [_delegate currentActivity];
@@ -94,8 +114,140 @@
     
     int statusHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
     int navHeight = self.navigationController.navigationBar.frame.size.height;
-    int tabBarHeight = self.tabBarController.tabBar.frame.size.height;
-    [self.tableView setContentInset:UIEdgeInsetsMake(navHeight + statusHeight, 0, tabBarHeight, 0)];
+    int bottomHeight = self.tabBarController.tabBar.frame.size.height;
+    if([SharedApiClient getAuth].userID)
+        bottomHeight += COMMENT_HEIGHT;
+    [self.tableView setContentInset:UIEdgeInsetsMake(navHeight + statusHeight, 0, bottomHeight, 0)];
+}
+
+- (void)addCommentView
+{
+    self.commentView = [[UIView alloc] init];
+    self.commentView.layer.backgroundColor = [UIColor grayColor].CGColor;
+    [self.commentView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addSubview:self.commentView];
+    [self.view bringSubviewToFront:self.commentView];
+    
+    UITextField *commentBox = [[UITextField alloc] init];
+    commentBox.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    commentBox.layer.cornerRadius = 2.0f;
+    commentBox.delegate = self;
+//    commentBox.inputAccessoryView = self.commentView;
+    [commentBox setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.commentView addSubview:commentBox];
+
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    cancelBtn.titleLabel.font = [UIFont fontWithName:@"Gruppo" size:20];
+    int inset = (COMMENT_HEIGHT - COMMENT_PADDING*2 - 20) / 2;
+    cancelBtn.titleEdgeInsets = UIEdgeInsetsMake(inset, inset, inset, inset);
+//    [self.loginButton setTitleColor:[UIColor underplanPrimaryDarkColor] forState:UIControlStateNormal];
+    [cancelBtn setTitle:@"X" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor underplanDarkMenuFontColor] forState:UIControlStateNormal];
+    [cancelBtn addTarget:self action:@selector(cancelComment:) forControlEvents:UIControlEventTouchUpInside];
+//    cancelBtn.layer.backgroundColor = [UIColor greenColor].CGColor;
+    [cancelBtn setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.commentView addSubview:cancelBtn];
+    
+    NSDictionary *metrics = @{@"padding": @COMMENT_PADDING,
+                              @"height": @COMMENT_HEIGHT,
+                              @"bottomPadding": [NSNumber numberWithFloat:self.tabBarController.tabBar.frame.size.height],
+                              @"btnWidth": @(COMMENT_HEIGHT-COMMENT_PADDING-COMMENT_PADDING)};
+    
+    [self.commentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(padding)-[commentBox]-[cancelBtn(btnWidth)]-(padding)-|"
+                                                                      options:NSLayoutFormatAlignAllTop
+                                                                             metrics:metrics
+                                                                        views:@{@"commentBox": commentBox,
+                                                                                @"cancelBtn": cancelBtn}]];
+    
+    [self.commentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(padding)-[commentBox]-(padding)-|"
+                                                                             options:NSLayoutFormatAlignAllLeft|NSLayoutFormatAlignAllRight
+                                                                             metrics:metrics
+                                                                               views:@{@"commentBox": commentBox,
+                                                                                @"cancelBtn": cancelBtn}]];
+
+    [self.commentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(padding)-[cancelBtn]-(padding)-|"
+                                                                             options:NSLayoutFormatAlignAllLeft|NSLayoutFormatAlignAllRight
+                                                                             metrics:metrics
+                                                                               views:@{@"commentBox": commentBox,
+                                                                                       @"cancelBtn": cancelBtn}]];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[commentView]-0-|"
+                                                                      options:0
+                                                                      metrics:metrics
+                                                                        views:@{@"commentView": self.commentView}]];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[commentView(height)]-(bottomPadding)-|"
+                                                                      options:0
+                                                                      metrics:metrics
+                                                                        views:@{@"commentView": self.commentView}]];
+}
+
+- (void)cancelComment:(id)sender
+{
+    for (UIView *view in self.commentView.subviews)
+    {
+        if ([view respondsToSelector:@selector(resignFirstResponder)])
+            [view resignFirstResponder];
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if ([textField.text length] > 0)
+    {
+        [[SharedApiClient getClient] sendWithMethodName:@"createComment"
+                                             parameters:@[@{@"comment": textField.text,
+                                                            @"activityId": _activity.remoteId,
+                                                            @"groupId": _activity.groupId}]];
+        
+        textField.text = @"";
+        [self cancelComment:nil];
+    }
+    
+    return YES;
+}
+
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    double animationDuration = [[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    [UnderplanBasicLabel setHidden:YES view:self.view];
+    
+    [UIView animateWithDuration:animationDuration
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CALayer *layer = self.commentView.layer;
+                         commentYOffset = layer.frame.origin.y;
+                         
+                         [self.commentView setFrame:CGRectMake(layer.frame.origin.x, commentYOffset - kbSize.height + self.tabBarController.tabBar.frame.size.height, layer.frame.size.width, layer.frame.size.height)];
+                     }
+                     completion:nil];
+    
+    tableYOffset = self.tableView.contentInset.bottom;
+    [self.tableView setContentInset:UIEdgeInsetsMake(self.tableView.contentInset.top, 0, tableYOffset + kbSize.height - self.tabBarController.tabBar.frame.size.height, 0)];
+}
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    [UIView animateWithDuration:0.1
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CALayer *layer = self.commentView.layer;
+                         
+                         [self.commentView setFrame:CGRectMake(layer.frame.origin.x, commentYOffset, layer.frame.size.width, layer.frame.size.height)];
+                     }
+                     completion:^(BOOL finished) {
+                         [UnderplanBasicLabel setHidden:NO view:self.view];
+                     }];
+    
+    [self.tableView setContentInset:UIEdgeInsetsMake(self.tableView.contentInset.top, 0, tableYOffset, 0)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -110,7 +262,12 @@
 
     self.navigationItem.title = @"Comments";
     [self configureApiSubscriptions];
+    
 
+//    if (self.commentView)
+//        int commentYOffset ;
+//        [self.commentView setFrame:CGRectMake(layer.frame.origin.x, commentYOffset, layer.frame.size.width, layer.frame.size.height)];
+    
     [self.tableView registerClass:[UnderplanCommentItemCell class] forCellReuseIdentifier:@"Comment"];
 }
 
@@ -131,10 +288,14 @@
 - (void)didReceiveApiUpdate:(NSNotification *)notification
 {
     // Comment count updated
-    NSString *_id = notification.userInfo[@"activityId"];
-    if ([_id isEqualToString:_activity.remoteId])
+//    NSString *_id = notification.userInfo[@"activityId"];
+//    if ([_id isEqualToString:_activity.remoteId])
+//    {
+//        [self setCommentsByActivityId:_id];
+//    }
+    if ([[notification name] isEqualToString:@"activityComments_ready"])
     {
-        [self setCommentsByActivityId:_id];
+        [self setCommentsByActivityId:_activity.remoteId];
     }
 }
 
@@ -150,29 +311,35 @@
         // Sort by oldest to newest
         _comments = [filteredList sortedArrayUsingComparator: ^(id a, id b)
         {
-            NSString *first;
-            NSString *second;
+            NSNumber *first;
+            NSNumber *second;
+
             // FIXME:   Hack! There is some data on the server which hasn't been converted
             //          to a date correctly. It is a string like "2012-11-10T08:21:59". It
-            //          is still good for sorting. Same hack used in activity feed controller
+            //          is still good for sorting
+            NSDateFormatter *df = [[NSDateFormatter alloc] init];
+            [df setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss"];
             if ([[a objectForKey:@"created"] isKindOfClass:[NSString class]])
             {
-                first = [a objectForKey:@"created"];
-                second = [b objectForKey:@"created"];
+                NSDate *aDate = [df dateFromString:[a objectForKey:@"created"]];
+                first = [NSNumber numberWithDouble:aDate.timeIntervalSince1970];
             }
             else
-            {
                 first = [[a objectForKey:@"created"] objectForKey:@"$date"];
-                second = [[b objectForKey:@"created"] objectForKey:@"$date"];
+            
+            if ([[b objectForKey:@"created"] isKindOfClass:[NSString class]])
+            {
+                NSDate *aDate = [df dateFromString:[b objectForKey:@"created"]];
+                second = [NSNumber numberWithDouble:aDate.timeIntervalSince1970];
             }
+            else
+                second = [[b objectForKey:@"created"] objectForKey:@"$date"];
             
             return [first compare:second];
         }];
         
         // perform UI updates in the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_delegate updateBadgeCount:self count:[_comments count]];
-            
             if ([_comments count] > 0)
                 [UnderplanBasicLabel removeFrom:self.view];
             else

@@ -79,7 +79,9 @@
         }
     }
     
-    // Comment count updated
+
+    // Only update comment count if comments view controller is not active
+    // Comments view controller also updates badge count if active
     _id = notification.userInfo[@"activityId"];
     if ([_id isEqualToString:_activity.remoteId])
     {
@@ -87,6 +89,7 @@
         NSPredicate *pred = [NSPredicate predicateWithFormat:@"(activityId like %@)", _id];
         _comments = [[SharedApiClient getClient].collections[@"comments"] filteredArrayUsingPredicate:pred];
         
+        self.comments = _comments;
         [self updateBadgeCount:_commentsController count:[_comments count]];
     }
 }
